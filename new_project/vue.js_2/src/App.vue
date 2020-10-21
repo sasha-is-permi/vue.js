@@ -57,25 +57,42 @@ https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/examples/wire
 
 https://weatherless.ru/javascript/vuejs/vuetifyjs-stroim-svoe-prilozhenie-v-stile-material-design/
  
+ v-main- тег для обозначения главной части 
  
   -->
 
-<template>
-<v-app>
-  <v-navigation-drawer app>333</v-navigation-drawer>
-  <v-toolbar app></v-toolbar>
-  <v-content>
-    <v-container fluid>
-      <router-view>111</router-view>
-    </v-container>
-  </v-content>
-  <v-footer app></v-footer>
-</v-app>
 
+<template>
+<!-- App.vue -->
+
+<v-app>
+  <!-- не работает
+  <v-navigation-drawer  app>
+
+  </v-navigation-drawer> -->
+
+  <v-app-bar app>
+    <!-- -->  app-bar
+  </v-app-bar>
+
+  <!-- Sizes your content based upon application components -->
+  <v-main>
+
+    <!-- Provides the application the proper gutter -->
+    <v-container fluid>
+      container
+      <!-- If using vue-router -->
+      <router-view></router-view>
+    </v-container>
+  </v-main>
+
+  <v-footer app>
+    <!-- --> footer
+  </v-footer>
+</v-app>
 </template>
 
 <script>
-
   export default {
 
   }

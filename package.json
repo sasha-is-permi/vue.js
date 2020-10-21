@@ -6,7 +6,6 @@
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
-
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -48,5 +47,17 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "description": "```\r npm install\r ```",
+  "main": "babel.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sasha-is-permi/vue.js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sasha-is-permi/vue.js/issues"
+  },
+  "homepage": "https://github.com/sasha-is-permi/vue.js#readme"
 }
