@@ -57,38 +57,26 @@ https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/examples/wire
 
 https://weatherless.ru/javascript/vuejs/vuetifyjs-stroim-svoe-prilozhenie-v-stile-material-design/
  
- v-main- тег для обозначения главной части 
  
   -->
 
-
-
 <template>
-  <v-app>  
+<v-app>
+  <v-navigation-drawer app>333</v-navigation-drawer>
+  <v-toolbar app></v-toolbar>
   <v-content>
-    content
     <v-container fluid>
-      container
-      <router-view></router-view>
+      <router-view>111</router-view>
     </v-container>
   </v-content>
-    <v-footer app>Footer</v-footer>
-  
-  </v-app>
-  
+  <v-footer app></v-footer>
+</v-app>
+
 </template>
-
-
-
 
 <script>
 
+  export default {
 
-export default {
-  name: 'App',
-
-  data: () => ({
-    //
-  }),
-};
+  }
 </script>
