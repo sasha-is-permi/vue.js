@@ -138,6 +138,22 @@ export default {
    Белый цвет текста. 
    Если уберем директиву dark- 
    цвет текста будет белый. 
+
+
+   Список добавляем: 
+
+  <v-list>
+   <v-list-tile >
+     <v-list-tile-action>
+          <v-icon left> star </v-icon>
+     </v-list-tile-action>
+     <v-list-tile-content>
+          <v-list-tile-title v-text="'Test link'"></v-list-tile-title>
+     </v-list-tile-content>
+   </v-list-tile>
+  </v-list>
+
+
   -->
 
 
@@ -150,16 +166,52 @@ export default {
   как, например, в базовой теме.
   temporary- по-условию показывается.
   -->
-  <v-navigation-drawer app>
+
+<!-- Использование иконок из библиотеки 
+https://dev.materialdesignicons.com/getting-started/vuejs 
+
+
+  <svg-icon type="mdi" :path="path"></svg-icon>
+  <svg-icon type="mdi" :path="path1"></svg-icon>-->
+
+  <v-navigation-drawer 
+  app
+  temmporary
+  v-model="drawer"
+  >
+  <v-list>
+    <!-- перебираем массив links.
+    key- чтобы vue.js не ругался.
+    -->
+   <v-list-tile
+   v-for="link of links"
+   :key='link.title'
+   :to='link.url'
+    >
+     <v-list-tile-action>
+          <v-icon left> {{link.icon}} </v-icon>
+     </v-list-tile-action>
+     <v-list-tile-content>
+          <v-list-tile-title v-text="link.title"></v-list-tile-title>
+     </v-list-tile-content>
+   </v-list-tile>
+  </v-list>
+ 
+
+
 
   </v-navigation-drawer> 
     <v-content>
   <v-toolbar dense app dark color="primary">
       
       <!--Иконка меню-->
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+      @click="drawer=!drawer"      
+      >
+      
+      </v-app-bar-nav-icon>
       <!-- Надпись около иконки -->
-      <v-toolbar-title>Добавить</v-toolbar-title>
+      <v-toolbar-title>Add application</v-toolbar-title>
        <!-- Растягиваем расстояние между элементами (
        смещаем следующие элементы вправо  
        ) -->
@@ -167,7 +219,19 @@ export default {
 
   
     <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn flat dark color="primary">Ссылка</v-btn>
+
+  <v-btn flat dark color="primary">
+  <!-- использование иконки из библиотеки 
+    https://material.io/resources/icons 
+    (путь к библиотеке прописан в index.html)
+    -->
+         <v-icon left>mdi-magnify</v-icon>
+         First link
+  </v-btn>
+       
+ 
+
+
     </v-toolbar-items>
 
 
@@ -185,8 +249,41 @@ export default {
 </v-app>
 </template>
 
+<!-- Настройка иконок из библиотеки 
+https://dev.materialdesignicons.com/getting-started/vuejs -->
 <script>
-  export default {
+/*
+import SvgIcon from '@jamescoyle/vue-icon'
+import { mdiAirplane } from '@mdi/js'
+import { mdiAlarmPanelOutline } from '@mdi/js'
 
+export default {
+    name: "my-cool-component",
+    components: {
+        SvgIcon
+    },
+
+    data() {
+        return {
+            path: mdiAirplane,
+            path1:mdiAlarmPanelOutline
+        }
+    }
+}*/
+
+export default{
+  data () {
+    return {
+      drawer:false,
+      // title- название ссылки, 
+      // icon- название иконки
+      // url- ссылка, ведет на страницу 
+      // или элемент
+      links:[
+        {title:'Login',icon:'lock', url:'/login'}
+      ]
+    }
   }
+}
+
 </script>

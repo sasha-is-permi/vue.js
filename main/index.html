@@ -4601,6 +4601,108 @@ Toolbar
 Можно при установке vue ui зайти в plugins, 
 в поиске найти vutify
 
+2.4 Добавление ссылок и адаптация. 
+
+Иконки:
+https://v2.vuetifyjs.com/ru/components/icons/
+
+Сайт с иконками:
+https://materialdesignicons.com/
+
+В строке поиска можно искать иконку по тематике. 
+
+Щелкаем по иконке, выбираем. 
+
+
+  <v-btn flat dark color="primary">
+         <v-icon>mdi-magnify</v-icon>
+  </v-btn>
+  
+mdi-magnify- название иконки
+
+v-btn flat dark color="primary" - кнопка
+
+v-btn icon - иконка
+
+bug report -надо писать во vue bug_report. 
+
+Иконки с сайта 
+https://material.io/resources/icons
+для установленной библиотеки:
+<link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
+
+Новая большая библиотека иконок:
+https://materialdesignicons.com/
+
+Инструкция:
+https://dev.materialdesignicons.com/getting-started/vuejs
+
+В терминале:
+npm install @mdi/js --save @jamescoyle/vue-icon
+
+
+В app.vue:
+
+<template>
+  <svg-icon type="mdi" :path="path"></svg-icon>
+</template>
+
+
+<script>
+import SvgIcon from '@jamescoyle/vue-icon'
+import { mdiAccount } from '@mdi/js'
+
+export default {
+    name: "my-cool-component",
+
+    components: {
+        SvgIcon
+    },
+
+    data() {
+        return {
+            path: mdiAccount,
+        }
+    }
+}
+</script>
+
+https://v2.vuetifyjs.com/ru/components/icons/
+Иконки, api- свойства иконок.
+директива left- чтобы иконка отъехала слева 
+от текста
+
+Создание бокового меню:
+
+
+export default{
+  data () {
+    return {
+      drawer:false
+    }
+  }
+}
+
+<template>
+  <v-navigation-drawer 
+  app
+  temmporary
+  v-model="drawer"
+  >
+
+  </v-navigation-drawer> 
+    <v-content>
+  <v-toolbar dense app dark color="primary">
+      
+
+      <v-app-bar-nav-icon
+      @click="drawer=!drawer"      
+      >
+      
+      </v-app-bar-nav-icon>
+    </template>
+     
+
 -->
 
 
