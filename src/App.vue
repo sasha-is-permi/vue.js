@@ -204,9 +204,14 @@ https://dev.materialdesignicons.com/getting-started/vuejs
     <v-content>
   <v-toolbar dense app dark color="primary">
       
-      <!--Иконка меню-->
+      <!--Иконка мобильного меню
+         class="hidden-md-and-up"  -
+         скрываем иконку меню при разрешении >960 px
+      
+      -->
       <v-app-bar-nav-icon
-      @click="drawer=!drawer"      
+      @click="drawer=!drawer" 
+      class="hidden-md-and-up"     
       >
       
       </v-app-bar-nav-icon>
@@ -217,16 +222,30 @@ https://dev.materialdesignicons.com/getting-started/vuejs
        ) -->
       <v-spacer></v-spacer>
 
-  
-    <v-toolbar-items class="hidden-sm-and-down">
-
-  <v-btn flat dark color="primary">
+     <!-- скрывать правое меню
+      при разрешении ниже sm (960 px) (в vutify sm другой)-->
+    <v-toolbar-items class="hidden-sm-and-down">  
+     
+     <!-- Для создания ссылки - 
+     :to="link.url" 
+     (в адресной строке становится:)
+     http://localhost:8080/#/login
+     (поскольку url:'/login')
+      -->
+  <v-btn
+   flat dark color="primary" 
+   v-for="link in links"
+   :key="link.title"
+   :to="link.url" 
+   >
   <!-- использование иконки из библиотеки 
     https://material.io/resources/icons 
     (путь к библиотеке прописан в index.html)
+
+     <v-icon left>mdi-magnify</v-icon>
     -->
-         <v-icon left>mdi-magnify</v-icon>
-         First link
+         <v-icon left>  {{link.icon}} </v-icon>
+         {{link.title}}
   </v-btn>
        
  
@@ -279,8 +298,15 @@ export default{
       // icon- название иконки
       // url- ссылка, ведет на страницу 
       // или элемент
+      // orders- заказы
+      // New ad - добавить рекламу
+      // My ads- показать список реклам
       links:[
-        {title:'Login',icon:'lock', url:'/login'}
+        {title:'Login',icon:'lock', url:'/login'},
+        {title:'Registration',icon:'face', url:'/registration'},
+        {title:'Orders',icon:'bookmark_border', url:'/orders'},
+        {title:'New ad',icon:'note_add', url:'/new'},
+        {title:'My ads',icon:'list', url:'/list'}
       ]
     }
   }
