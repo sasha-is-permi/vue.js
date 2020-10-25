@@ -158,9 +158,14 @@ export default {
 
 
 <template>
+
+
+
 <!-- App.vue -->
 
 <v-app>
+
+ 
   <!-- не работает по умолчанию.
   Всплывающее меню, которое надо активировать
   как, например, в базовой теме.
@@ -293,6 +298,7 @@ export default {
 export default{
   data () {
     return {
+      num:3.14,
       drawer:false,
       // title- название ссылки, 
       // icon- название иконки
