@@ -8,7 +8,7 @@
    xs12 - размер div, адаптация -->   
     <v-layout row xs12>
         <v-flex>
-            <h1>Home</h1>
+            <h1>NewAd</h1>
         </v-flex>
     </v-layout>
   </v-container>

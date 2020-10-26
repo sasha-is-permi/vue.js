@@ -4747,15 +4747,49 @@ and-up - скрыть элемент на этом брекпоинте и вы�
 Задаем разметку: 
 
 <template>
-  <v-conteiner>
-    <v-layout>
-        <v-flex>
-            
-        </v-flex>
-    </v-layout>
-  </v-conteiner>
+любой элемент с такого тега начинаться будет 
+ <v-container>
+   row- Выравниваем layout по строке
+  аттрибут vuetify создает свойство 
+  flex-direction:row 
+  xs12 - размер div, адаптация  
+   <v-layout row xs12>
+       <v-flex>
+           <h1>Home</h1>
+       </v-flex>
+   </v-layout>
+ </v-container>
 </template>
 
+<script>
+
+export default {
+
+data () {
+return {}
+} 
+}
+
+
+</script>
+
+В src\components создаем папку 
+auth для компонентов авторизации. 
+
+В ней будут компоненты 
+login.vue, regisration.vue
+
+В index.js:
+mode:'history'
+чтобы работать с обычной адресной строкой,
+без "#"
+
+
+Зададим высоту toolbar: 
+  <v-toolbar dense app dark color="primary" max-height="48px">
+
+Всевозможные свойства:
+https://vuetifyjs.com/en/api/v-toolbar/
 
 
 

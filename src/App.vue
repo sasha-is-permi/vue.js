@@ -206,8 +206,8 @@ https://dev.materialdesignicons.com/getting-started/vuejs
 
 
   </v-navigation-drawer> 
-    <v-content>
-  <v-toolbar dense app dark color="primary">
+  
+  <v-toolbar dense app dark color="primary" max-height="48px">
       
       <!--Иконка мобильного меню
          class="hidden-md-and-up"  -
@@ -261,12 +261,12 @@ https://dev.materialdesignicons.com/getting-started/vuejs
 
   </v-toolbar>
 
-  </v-content>
+
 
 <!-- v-content, router-view  -  служебные теги, в которых
 выводится роутинг. Если надо просто вывести текст- 
 нужно использовать v-main. -->
-  <v-content>
+   <v-content>
       <router-view></router-view>
   </v-content>
 
@@ -298,7 +298,6 @@ export default {
 export default{
   data () {
     return {
-      num:3.14,
       drawer:false,
       // title- название ссылки, 
       // icon- название иконки
