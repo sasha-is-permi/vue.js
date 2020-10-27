@@ -4811,6 +4811,53 @@ https://v2.vuetifyjs.com/en/components/forms/
 
 :counter="6" валидация до 6-ти символов
 
+правило валидации: 
+   passwordRules: [
+        v => !!v || 'Password is required',
+        v =>( v.length >=6) || 'Name must be more 6 characters',
+      ]
+
+      <v-text-field
+                      id="password"
+                      label="Password"
+                      name="password"
+                      prepend-icon="mdi-lock"
+                      type="password"
+                      :counter="6"
+                      v-modal="password"
+                      :rules="passwordRules">
+
+
+
+Сделаем также так, чтобы   нажать на кнопку отправить 
+можно было только для валидной формы. 
+ <v-btn
+                  @click="onSubmit"
+                  color="primary"
+                  :disabled="!valid"
+                  >Login</v-btn>
+
+Только для валидной формы совершаем какие-то действия: 
+
+if (this.$refs.form.validate()) {
+    const user= {
+        email:this.email,
+        password:this.password
+    }
+    console.log(user)
+    }
+}
+
+Правильное написание: 
+ v-model="email"
+
+ 'v-content' устарел, use 'v-main' лучше использовать
+
+flat- устарел, уже не используется
+
+v-toolbar-items надо использовать вместо v-list-tile
+
+
 -->
 
 

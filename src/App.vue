@@ -140,7 +140,7 @@ export default {
    цвет текста будет белый. 
 
 
-   Список добавляем: 
+   Устаревшая версия: 
 
   <v-list>
    <v-list-tile >
@@ -152,6 +152,44 @@ export default {
      </v-list-tile-content>
    </v-list-tile>
   </v-list>
+
+
+Новая версия:
+
+<template>
+  <v-card
+    class="mx-auto"
+    max-width="400"
+    tile
+  >
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-title>Single-line item</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+
+    <v-list-item two-line>
+      <v-list-item-content>
+        <v-list-item-title>Two-line item</v-list-item-title>
+        <v-list-item-subtitle>Secondary text</v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+
+    <v-list-item three-line>
+      <v-list-item-content>
+        <v-list-item-title>Three-line item</v-list-item-title>
+        <v-list-item-subtitle>
+          Secondary line text Lorem ipsum dolor sit amet,
+        </v-list-item-subtitle>
+        <v-list-item-subtitle>
+          consectetur adipiscing elit.
+        </v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+  </v-card>
+</template>
+
+
 
 
   -->
@@ -181,33 +219,33 @@ https://dev.materialdesignicons.com/getting-started/vuejs
 
   <v-navigation-drawer 
   app
-  temmporary
+  temporary
   v-model="drawer"
   >
-  <v-list>
+  <v-card>
     <!-- перебираем массив links.
     key- чтобы vue.js не ругался.
     -->
-   <v-list-tile
+   <v-list-item
    v-for="link of links"
    :key='link.title'
    :to='link.url'
     >
-     <v-list-tile-action>
+     <v-list-item-action>
           <v-icon left> {{link.icon}} </v-icon>
-     </v-list-tile-action>
-     <v-list-tile-content>
-          <v-list-tile-title v-text="link.title"></v-list-tile-title>
-     </v-list-tile-content>
-   </v-list-tile>
-  </v-list>
+     </v-list-item-action>
+     <v-list-item-content>
+          <v-list-item-title v-text="link.title"></v-list-item-title>
+     </v-list-item-content>
+   </v-list-item>
+  </v-card>
  
 
 
 
   </v-navigation-drawer> 
   
-  <v-toolbar dense app dark color="primary" max-height="48px">
+  <v-app-bar dense app dark color="primary" max-height="48px">
       
       <!--Иконка мобильного меню
          class="hidden-md-and-up"  -
@@ -238,7 +276,7 @@ https://dev.materialdesignicons.com/getting-started/vuejs
      (поскольку url:'/login')
       -->
   <v-btn
-   flat dark color="primary" 
+   dark color="primary" 
    v-for="link in links"
    :key="link.title"
    :to="link.url" 
@@ -259,16 +297,18 @@ https://dev.materialdesignicons.com/getting-started/vuejs
     </v-toolbar-items>
 
 
-  </v-toolbar>
+  </v-app-bar>
 
 
 
 <!-- v-content, router-view  -  служебные теги, в которых
 выводится роутинг. Если надо просто вывести текст- 
-нужно использовать v-main. -->
-   <v-content>
+нужно использовать v-main.
+Лучше использовать v-main
+ -->
+   <v-main>
       <router-view></router-view>
-  </v-content>
+  </v-main>
 
 </v-app>
 </template>

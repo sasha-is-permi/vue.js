@@ -47,7 +47,7 @@ Flex центрирование формы:
                       name="email"
                       prepend-icon="mdi-account"
                       type="email"
-                      v-modal="email"
+                      v-model="email"
                       :rules="emailRules"
                     ></v-text-field>
   
@@ -58,7 +58,8 @@ Flex центрирование формы:
                       prepend-icon="mdi-lock"
                       type="password"
                       :counter="6"
-                      v-modal="password"
+                      v-model="password"
+                      :rules="passwordRules"
                     ></v-text-field>
                   </v-form>
                 </v-card-text>
@@ -71,6 +72,7 @@ Flex центрирование формы:
                   <v-btn
                   @click="onSubmit"
                   color="primary"
+                  :disabled="!valid"
                   >Login</v-btn>
                 </v-card-actions>
               </v-card>
@@ -80,6 +82,7 @@ Flex центрирование формы:
 </template>
 
 <script>
+const emailRegex =  /.+@.+/
 
 export default {
 
@@ -90,14 +93,24 @@ return {
    valid:false,
        emailRules: [
         v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid',
+        v =>emailRegex.test(v) || 'E-mail must be valid',
+      ],
+       passwordRules: [
+        v => !!v || 'Password is required',
+        v =>( v.length >=6) || 'Name must be more 6 characters',
       ]
 } 
 },
 methods: {
 onSubmit() {
 // login
-
+if (this.$refs.form.validate()) {
+    const user= {
+        email:this.email,
+        password:this.password
+    }
+    console.log(user)
+    }
 }
 }
 }
