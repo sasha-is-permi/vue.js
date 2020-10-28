@@ -52,7 +52,6 @@ Flex центрирование формы:
                     ></v-text-field>
   
                     <v-text-field
-                      id="password"
                       label="Password"
                       name="password"
                       prepend-icon="mdi-lock"

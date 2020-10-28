@@ -1,6 +1,130 @@
 <!-- Папка с файлом *.json
 Восстановить каталог node_modules
-Комманда npm install -->
+Комманда npm install 
+
+
+
+
+Для сетевых запросов из JavaScript есть широко известный термин «AJAX»
+ (аббревиатура от Asynchronous JavaScript And XML).
+  XML мы использовать не обязаны, просто термин старый, 
+  поэтому в нём есть это слово. Возможно, вы его уже где-то слышали.
+
+Есть несколько способов делать сетевые запросы
+ и получать информацию с сервера.
+
+Метод fetch() — современный и очень мощный, 
+поэтому начнём с него. Он не поддерживается старыми 
+(можно использовать полифил), но поддерживается всеми 
+современными браузерами.
+
+
+
+Получается, в современном javscript считается
+ более современным использовать метод fetch() для запросов к серверу
+
+
+Можно, конечно вручную прописывать с помощью
+  https://learn.javascript.ru/xmlhttprequest  
+   или jQuery использовать, но fetch удобнее.
+
+
+
+XMLHttpRequest – это встроенный в браузер объект, который
+ даёт возможность делать HTTP-запросы к серверу без перезагрузки страницы.
+
+Несмотря на наличие слова «XML» в названии,
+ XMLHttpRequest может работать с любыми данными,
+  а не только с XML. Мы можем загружать/скачивать файлы, 
+  отслеживать прогресс и многое другое.
+
+На сегодняшний день не обязательно использовать
+ XMLHttpRequest, так как существует другой,
+  более современный метод fetch.
+
+В современной веб-разработке XMLHttpRequest используется по трём причинам:
+
+По историческим причинам: существует много кода, использующего
+ XMLHttpRequest, который нужно поддерживать.
+Необходимость поддерживать старые браузеры и нежелание
+ использовать полифилы (например, чтобы уменьшить количество кода).
+Потребность в функциональности, которую fetch пока 
+что не может предоставить, к примеру,
+ отслеживание прогресса отправки на сервер.
+
+
+
+Про сетевые запросы:
+
+https://learn.javascript.ru/network
+
+FETCH- это  AJAX по-современному, с автоматикой :)
+  jQuery- простой, но древний способ.
+    XMLHttpRequest- "ручной" современный способ для Ajax,
+     без автоматики.  Получается 3 способа Ajax:  
+     1)Fetch 2) XMLHttpRequest 3) jQuery.  
+
+     https://learn.javascript.ru/formdata
+
+     Давайте сначала отправим простую форму.
+
+Как вы видите, код очень компактный:
+
+<form id="formElem">
+  <input type="text" name="name" value="John">
+  <input type="text" name="surname" value="Smith">
+  <input type="submit">
+</form>
+
+<script>
+  formElem.onsubmit = async (e) => {
+    e.preventDefault();
+
+    let response = await fetch('/article/formdata/post/user', {
+      method: 'POST',
+      body: new FormData(formElem)
+    });
+
+    let result = await response.json();
+
+    alert(result.message);
+  };
+</script>
+
+Отправка формы с файлом
+Объекты FormData всегда отсылаются с заголовком
+ Content-Type: form/multipart, этот способ кодировки
+  позволяет отсылать файлы.
+   Таким образом, поля <input type="file"> 
+   тоже отправляются, как это и происходит в случае обычной формы.
+
+Пример такой формы:
+
+<form id="formElem">
+  <input type="text" name="firstName" value="John">
+  Картинка: <input type="file" name="picture" accept="image/*">
+  <input type="submit">
+</form>
+
+<script>
+  formElem.onsubmit = async (e) => {
+    e.preventDefault();
+
+    let response = await fetch('/article/formdata/post/user-avatar', {
+      method: 'POST',
+      body: new FormData(formElem)
+    });
+
+    let result = await response.json();
+
+    alert(result.message);
+  };
+</script>
+
+
+
+
+-->
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -4871,6 +4995,20 @@ git checkout <commit SHA1>
 git checkout <commit SHA1> <file or directory> ...
 Снова, после того, как вы закончите, вы можете сделать 
 git checkout master <file or directory>, чтобы вернуться туда, где вы были.
+
+Иконка с мобильным меню появляется только для разрешений < md !!!
+
+2.7 Создание формы регистрации. 
+
+Копируем все из login.vue в registration.vue. 
+
+
+lazy-validation- для смягчения валидации. 
+
+2.8 Создание главной страницы. 
+
+
+
 -->
 
 

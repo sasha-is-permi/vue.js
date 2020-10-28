@@ -222,7 +222,7 @@ https://dev.materialdesignicons.com/getting-started/vuejs
   temporary
   v-model="drawer"
   >
-  <v-card>
+  <v-list>
     <!-- перебираем массив links.
     key- чтобы vue.js не ругался.
     -->
@@ -238,23 +238,23 @@ https://dev.materialdesignicons.com/getting-started/vuejs
           <v-list-item-title v-text="link.title"></v-list-item-title>
      </v-list-item-content>
    </v-list-item>
-  </v-card>
+  </v-list>
  
 
 
 
   </v-navigation-drawer> 
   
+  
   <v-app-bar dense app dark color="primary" max-height="48px">
       
       <!--Иконка мобильного меню
          class="hidden-md-and-up"  -
          скрываем иконку меню при разрешении >960 px
-      
+         убрали пока этот класс
       -->
       <v-app-bar-nav-icon
       @click="drawer=!drawer" 
-      class="hidden-md-and-up"     
       >
       
       </v-app-bar-nav-icon>
