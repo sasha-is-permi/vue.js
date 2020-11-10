@@ -5007,6 +5007,62 @@ lazy-validation- для смягчения валидации.
 
 2.8 Создание главной страницы. 
 
+  Вставляем элемент vue.js router-link  (чтобы сделать ссылку-переход на главную страницу Home
+  при нажатии Add application):
+
+  tag="span" - для красивого оформления
+
+  class="pointer" - для красивого курсора (ниже опишем).
+
+
+
+  <router-link to="/" tag="span" class="pointer">
+             Add application
+  </router-link>
+
+tag="span"
+
+
+Страницы описываются в index.js: 
+ routes: [
+      { path:'',
+    name:'home'}]
+ 
+страница по умолчанию- то, что содержится в     
+
+Оглавление библиотеки vuetify:
+https://v2.vuetifyjs.com/en/getting-started/quick-start/
+
+Компонент "карусель":
+https://v2.vuetifyjs.com/en/components/carousels/
+
+Копируем код карусели на страницу home.
+На этой страниуе 2 контейнера:
+1) Тип fluid без отступов
+2) С отступами. 
+
+Надо их оба  обернуть в один корневой элемент <div>
+
+row xs12 при любом разрешении растягивается на полную строку. 
+
+Картинки в карусели. 
+Правая кнопка мыши- посмотреть код. 
+
+Скопируем ссылки на картинки:
+
+https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg
+
+https://cdn.vuetifyjs.com/images/carousel/sky.jpg
+
+В home.vue создаем массив с картинками.
+
+Параметр в массиве ads promo: 
+Можно по нему отфильтровать- выводить картинки или нет. 
+
+Компонет vuetify cards- помогает вывести список товаров. 
+
+
+https://v2.vuetifyjs.com/en/components/cards/
 
 
 -->

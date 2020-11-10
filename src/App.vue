@@ -259,7 +259,11 @@ https://dev.materialdesignicons.com/getting-started/vuejs
       
       </v-app-bar-nav-icon>
       <!-- Надпись около иконки -->
-      <v-toolbar-title>Add application</v-toolbar-title>
+      <v-toolbar-title>
+          <router-link to="/" tag="span" class="pointer">
+             Ad application
+          </router-link>
+        </v-toolbar-title>
        <!-- Растягиваем расстояние между элементами (
        смещаем следующие элементы вправо  
        ) -->
@@ -358,3 +362,9 @@ export default{
 }
 
 </script>
+
+<style scoped>
+.pointer {
+  cursor:pointer;
+  }
+</style>
