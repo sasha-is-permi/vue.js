@@ -24,6 +24,11 @@ v-for="(item,i) in items"
               :key="ad.id"
               :src="ad.imageSrc"              
               >
+              <!--Кнопки, которые ссылаются на карточки -->
+              <div class="car-link">
+                <v-btn class="error" :to="'/ad/' + ad.id">{{ ad.title }}</v-btn>
+              </div>
+
               </v-carousel-item>
            </v-carousel>
         </v-flex>
@@ -41,8 +46,10 @@ v-for="(item,i) in items"
           v-for="ad of ads"
           :key="ad.id"
         >
+
+        <!--
           <v-card>
-            <!-- Выводим картинку-миниатюру -->
+            Выводим картинку-миниатюру 
             <v-card-media
               :src="ad.imageSrc"
               height="200px"
@@ -50,22 +57,70 @@ v-for="(item,i) in items"
             </v-card-media>
             <v-card-title primary-title>
               <div>
-                <!-- Выводим для данной картинки её title и description -->
+                Выводим для данной картинки её title и description 
                 <h3 class="headline mb-0">{{ad.title}}</h3>
                 <div>{{ad.description}}</div>
               </div>
             </v-card-title>
             <v-card-actions>
-              <!--v-spacer - пробелы слева чтобы поместить кнопочкки ниже справа
+              <v-spacer - пробелы слева чтобы поместить кнопочкки ниже справа
               Open- открываем карточку
               Buy -что-то покупаем
-               -->
+               
               <v-spacer></v-spacer>
               <v-btn flat :to="'/ad/' + ad.id">Open</v-btn>
-              <!-- class="primary" - задаем цвет кнопки -->
+               class="primary" - задаем цвет кнопки 
               <v-btn raised class="primary">Buy</v-btn>
             </v-card-actions>
           </v-card>
+          -->
+
+                  <v-card
+    class="mx-auto"
+    max-width="400"
+  >
+    <v-img
+      class="white--text align-end"
+      height="200px"
+      :src="ad.imageSrc"
+    >
+
+     <!--
+      Надпись на картинке 
+      <v-card-title>Top 10 Australian beaches</v-card-title>
+       -->
+    </v-img>
+    <!-- Подпись под картинкой
+    <v-card-subtitle class="pb-0">Number 10</v-card-subtitle> 
+    -->
+
+    <v-card-text class="text--primary center1" >
+      <div>{{ad.title}}</div>
+
+      <div>{{ad.description}}</div>
+    </v-card-text>
+
+    <!-- class="d-flex justify-center" - центрировние кнопок -->
+    <v-card-actions class="d-flex justify-center">
+      <v-btn 
+        :to="'/ad/' + ad.id"
+        color="orange"
+        text
+      >
+        Open
+      </v-btn>
+
+      <v-btn
+        class="primary"
+        text
+      >
+        Buy
+      </v-btn>
+    </v-card-actions>
+  </v-card>        
+
+
+
         </v-flex>
       </v-layout>
     </v-container>
@@ -86,12 +141,19 @@ ads: [
 description:'Белочка',
 promo: false,
 imageSrc:'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-id:'123'},
+id:'1'},
 {title:'Фото 2',
 description:'Фото неба',
 promo: true,
 imageSrc:'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-id:'123'}
+id:'2'},
+{title:'Фото 3',
+description:'Зима',
+promo: false,
+imageSrc:'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
+id:'3'}
+
+
 ]
 }
 } 
@@ -99,3 +161,21 @@ id:'123'}
 
 
 </script>
+
+<style scoped>
+/* Убрал   padding: 5px 15px; - пространстов вокруг кнопки */
+  .car-link {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    background: rgba(0, 0, 0, .5);
+    transform: translate(-50%, 0);
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+  }
+.center1 {
+  text-align:center;
+}
+
+
+</style>
