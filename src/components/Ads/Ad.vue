@@ -9,10 +9,11 @@
     <v-layout row>
         <v-flex xs12>
        
-         <v-card>
+         <v-card  class="mt-5">
             
             <v-img
-            src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg"
+           
+            :src="ad.imageSrc"
             height="300px"
             >
 
@@ -20,8 +21,8 @@
             </v-img>
 
             <v-card-text>
-              <h1 class="text--primary"> Заголовок </h1>
-              <p> Текст заголовка </p>
+              <h2 class="text--primary mb-2"> {{ad.title}} </h2>
+              <p class="description"> {{ ad.description }}</p>
 
             </v-card-text>
 
@@ -41,11 +42,32 @@
 <script>
 
 export default {
+props:['id'],
 
-data () {
-return {}
-} 
+computed: {
+ 
+ ad () {
+
+  // Получаем элемент из массива по id
+  // Используем store vuex
+
+  const id =this.id;
+  return this.$store.getters.adById(id)
+
+  }
+
+}
+
+
 }
 
 
 </script>
+
+<style scoped>
+
+.description {
+  font-size:16px;
+}
+
+</style>

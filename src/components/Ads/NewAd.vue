@@ -45,7 +45,7 @@
              <v-layout row mt-3 ml-1> 
                <v-flex xs12> 
      
-                    <img src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg" height="100px"/> 
+                 <!--  <img src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg" height="100px"/>  -->
                
                </v-flex>
              </v-layout>   
@@ -56,7 +56,7 @@
                   <v-switch
                      color="primary"
                      label="Ad to promo?"
-                     v-model="switch1">
+                     v-model="promo">
                   </v-switch>               
                </v-flex>
              </v-layout>   
@@ -96,9 +96,15 @@ createAd() {
       const ad= {
          title: this.title,
          description: this.description,
-         promo: this.promo  
+         promo: this.promo,
+         imageSrc: 'https://cdn-images-1.medium.com/max/850/1*nq9cdMxtdhQ0ZGL8OuSCUQ.jpeg'
       }
-      console.log(ad)
+     // Добавляем данное объявление в общий список
+     // Метод createAd из Ads.js
+     
+     this.$store.dispatch('createAd', ad)
+
+
   }
 }
 }

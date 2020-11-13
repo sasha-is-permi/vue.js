@@ -20,7 +20,7 @@ v-for="(item,i) in items"
            <v-carousel  hide-delimiters        
             >
              <v-carousel-item
-             v-for="ad in ads"
+             v-for="ad in promoAds"
               :key="ad.id"
               :src="ad.imageSrc"              
               >
@@ -46,34 +46,6 @@ v-for="(item,i) in items"
           v-for="ad of ads"
           :key="ad.id"
         >
-
-        <!--
-          <v-card>
-            Выводим картинку-миниатюру 
-            <v-card-media
-              :src="ad.imageSrc"
-              height="200px"
-            >
-            </v-card-media>
-            <v-card-title primary-title>
-              <div>
-                Выводим для данной картинки её title и description 
-                <h3 class="headline mb-0">{{ad.title}}</h3>
-                <div>{{ad.description}}</div>
-              </div>
-            </v-card-title>
-            <v-card-actions>
-              <v-spacer - пробелы слева чтобы поместить кнопочкки ниже справа
-              Open- открываем карточку
-              Buy -что-то покупаем
-               
-              <v-spacer></v-spacer>
-              <v-btn flat :to="'/ad/' + ad.id">Open</v-btn>
-               class="primary" - задаем цвет кнопки 
-              <v-btn raised class="primary">Buy</v-btn>
-            </v-card-actions>
-          </v-card>
-          -->
 
                   <v-card
     class="mx-auto"
@@ -134,6 +106,10 @@ v-for="(item,i) in items"
 
 export default {
 
+/*
+Перенесли данные в Ads.js в state, который передается в store index.js
+(используем store vuex)
+
 data () {
 return {
 ads: [
@@ -152,11 +128,23 @@ description:'Зима',
 promo: false,
 imageSrc:'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
 id:'3'}
-
-
 ]
 }
-} 
+} */
+
+computed:{
+  
+  promoAds(){
+      // Обратимся к геттеру (функции) - получаем с помощью него карточки с promo = true
+      return this.$store.getters.promoAds
+  },
+
+  ads() {  
+    // Обратимся к геттеру (функции) - получаем с помощью него все карточки
+     return this.$store.getters.ads
+  }
+}
+
 }
 
 

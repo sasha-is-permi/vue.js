@@ -15,7 +15,7 @@
 <!-- elevation-10 - тень -->
   <v-card
   class="elevation-10 mb-5"
-  v-for="ad in ads"
+  v-for="ad in myAds"
   :key="ad.id"
   >
   <v-layout row >
@@ -58,7 +58,7 @@
 <script>
 
 export default {
-
+/*
 data () {
 return {
   ads: [
@@ -82,6 +82,16 @@ return {
 
 }
 } 
+*/
+computed:{
+  
+  myAds() {  
+    // Обратимся к геттеру (функции) - получаем с помощью него карточки пользователя
+     return this.$store.getters.myAds
+  }
+}
+
+
 }
 
 
