@@ -5,7 +5,10 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
 
-import * as fb from 'firebase'
+// Подключаем firebase
+import fb from 'firebase/app';
+require('firebase/auth');
+
 
 // добавлено из каталога node_modules/vuetify/dist/
 import 'vuetify/dist/vuetify.min.css'

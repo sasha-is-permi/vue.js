@@ -24,7 +24,6 @@
   <!--  <v-subheader>Hangout notifications</v-subheader> -->
 
       <v-list-item-group 
-        v-model="settings"
         multiple
         v-for="order in orders"
         :key = "order.id"
@@ -48,10 +47,10 @@
               <v-list-item-title>{{order.name}}</v-list-item-title>
               <v-list-item-subtitle>{{order.phone}}</v-list-item-subtitle>
             </v-list-item-content>
-
+  <!-- :to="'/ad/' + order.adId"-->
           <v-list-item-action>
                   <v-btn 
-                  :to="'/ad/' + order.adId"
+           
                   class="primary"> Open </v-btn>     
             </v-list-item-action>
 
@@ -87,8 +86,8 @@ orders: [
    name: 'Alexandr',
    phone:'8-902-79-495-39',
    adId: '123',
-   done: false
-
+   done: false,
+  
 }
 
 ]

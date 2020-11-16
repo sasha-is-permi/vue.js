@@ -67,7 +67,7 @@ Flex центрирование формы:
                       prepend-icon="mdi-lock"
                       type="password"
                       :counter="6"
-                      v-model="ConfirmPassword"
+                      v-model="confirmPassword"
                       :rules="confirmPasswordRules"
                     ></v-text-field>
 
@@ -93,6 +93,8 @@ Flex центрирование формы:
 </template>
 
 <script>
+
+
 const emailRegex =  /.+@.+/
 
 export default {
@@ -135,7 +137,7 @@ if (this.$refs.form.validate()) {
    // console.log(user)
    // Вызываем action registerUser из store/index.js ,
    // передаем туда введенный логин и пароль чтобы записать их в базу firebase
-   this.$store.dispatch('registerUser',user)
+          this.$store.dispatch('registerUser', user)
     }
 }
 }

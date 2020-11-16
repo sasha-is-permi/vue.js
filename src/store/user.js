@@ -1,5 +1,6 @@
 // Подключаем firebase
-import * as fb from 'firebase'
+import fb from 'firebase/app';
+require('firebase/auth');
 
 
 class User {
@@ -26,7 +27,7 @@ export default {
    registerUser({commit}, {email,password}) {
    // Создаем нового пользователя
    // Метод возвращает promise, который мы обрабатываем через then:
-   fb.auth().createUserWithEmailAndPassword(email,password)
+  fb.auth().createUserWithEmailAndPassword(email, password)
    .then(user => {
      // uid
      // Вызываем мутацию setUser
