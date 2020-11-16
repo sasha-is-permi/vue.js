@@ -132,7 +132,10 @@ if (this.$refs.form.validate()) {
         email:this.email,
         password:this.password
     }
-    console.log(user)
+   // console.log(user)
+   // Вызываем action registerUser из store/index.js ,
+   // передаем туда введенный логин и пароль чтобы записать их в базу firebase
+   this.$store.dispatch('registerUser',user)
     }
 }
 }

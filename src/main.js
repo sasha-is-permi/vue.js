@@ -5,6 +5,8 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
 
+import * as fb from 'firebase'
+
 // добавлено из каталога node_modules/vuetify/dist/
 import 'vuetify/dist/vuetify.min.css'
 
@@ -20,6 +22,17 @@ new Vue({
   router,
  store,
   vuetify,
+  created (){
+    fb.initializeApp({
+      apiKey: 'AIzaSyBDqoN9eh3atwLcYFpRjj-5HeN_UWxQARo',
+      authDomain: 'itc-ads-9fe8e.firebaseapp.com',
+      databaseURL: 'https://itc-ads-9fe8e.firebaseio.com',
+      projectId: 'itc-ads-9fe8e',
+      storageBucket: 'itc-ads-9fe8e.appspot.com',
+      messagingSenderId: '474540697157',
+      appId: '1:474540697157:web:26b494af5749f7240d252c'
+    })
+  },
   render: h => h(App)
 }).$mount('#app')
 
