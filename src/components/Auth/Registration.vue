@@ -77,13 +77,22 @@ Flex центрирование формы:
                 <!-- Под формой- для отправки формы. 
                 v-spacer кнопочку Login перемещает вправо.
                 При клике на кнопочку "Login"- 
-                вызываем метод onSubmit  -->
+                вызываем метод onSubmit
+                
+                :loading="loading"
+                Вызываем computed-свойство loading
+
+                :disabled="!valid || loading"
+                Кнопка выключена если форма не валидна
+                или loading=true 
+                  -->
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn
                   @click="onSubmit"
                   color="primary"
-                  :disabled="!valid"
+                  :loading="loading"
+                  :disabled="!valid || loading"
                   >Create account</v-btn>
                 </v-card-actions>
               </v-card>
@@ -126,6 +135,11 @@ return {
 
 } 
 },
+ computed: {
+      loading () {
+        return this.$store.getters.loading
+      }
+ },
 methods: {
 onSubmit() {
 // login
@@ -137,7 +151,14 @@ if (this.$refs.form.validate()) {
    // console.log(user)
    // Вызываем action registerUser из store/index.js ,
    // передаем туда введенный логин и пароль чтобы записать их в базу firebase
+   // Получем в ответ promise, поэтому можем использовать 
+   // then и catch:
           this.$store.dispatch('registerUser', user)
+          .then(()=>{
+            // Переходим на главную страницу
+            this.$router.push('/')
+          })
+          .catch(err=>console.log(err))
     }
 }
 }

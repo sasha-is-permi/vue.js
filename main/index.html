@@ -5332,6 +5332,8 @@ https://console.firebase.google.com/project/itc-ads-9fe8e/authentication/users
 Ошибка- не работает firebase.auth
 Установка firebase:
 
+npm install firebase --save
+npm install firebase-admin --save
 
 // Подключаем firebase:
 import fb from 'firebase/app';
@@ -5346,6 +5348,56 @@ require('firebase/auth');
 require('firebase/auth');
 
 **************************************
+
+Создаем специальный store, который выводит либо ошибки
+либо то, что происходит с сервером.
+
+В store создаем новый файл shared.js
+Регистрируем его в store/index.js
+
+Пишем actions в share.js => используем их в 
+actions user.js => используем их чтобы показать 
+загрузку или ошибку в regisration.vue
+
+Обратить внимание:
+в множемтвенном числе пишутся компоненты store
+Например, actions.
+
+По завершению работы с сервером сделаем
+переход на новую страницу. 
+
+В user.js используем методы async...await 
+
+Меняем также registration.vue
+
+2.17 
+Логин пользователей
+
+В user.js создаем action:
+loginUser
+
+Копируем логику из registerUser
+Логинимся с помощью метода
+signInWithEmailAndPassword()
+
+Затем изменяем login.vue- 
+вызываем метод  loginUser()
+
+Если залогинились- переходим 
+на главную страницу.
+
+В login.vue 
+добавляем computed-свойство 
+чтобы показать процесс лоадинга
+
+Добавляем также для кнопки:
+:loading="loading"
+:disabled="!valid || loading"
+
+
+2.18
+Вывод ошибок.
+
 
 
 -->

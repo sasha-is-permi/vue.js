@@ -71,7 +71,8 @@ Flex центрирование формы:
                   <v-btn
                   @click="onSubmit"
                   color="primary"
-                  :disabled="!valid"
+                  :loading="loading"
+                  :disabled="!valid || loading"
                   >Login</v-btn>
                 </v-card-actions>
               </v-card>
@@ -100,6 +101,12 @@ return {
       ]
 } 
 },
+ computed: {
+      loading () {
+        return this.$store.getters.loading
+      }
+ },
+
 methods: {
 onSubmit() {
 // login
@@ -108,7 +115,12 @@ if (this.$refs.form.validate()) {
         email:this.email,
         password:this.password
     }
-    console.log(user)
+      this.$store.dispatch('loginUser',user)
+         .then(()=>{
+            // Переходим на главную страницу
+            this.$router.push('/')
+          })
+          .catch(err=>console.log(err))
     }
 }
 }
