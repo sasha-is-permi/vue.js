@@ -5556,7 +5556,90 @@ https://v2.vuetifyjs.com/en/components/snackbars/
     2.20 Защита роутов
     (чтобы не мог неавторизованный пользователь попасть на внутреннюю 
     страницу сайта с помощью ссылки в url-адресе).
+    
+    В папке router создаем файл:
+    auth-guard.js 
+    это javascript-функция, которая защищает определенные роуты
+    Передаем ей get-параметр об ошибке. 
 
+
+      // импортируем store чтобы понять-
+// какое состояние у user (включает файл store/index.js)
+import store from '../store'
+
+export default function(to, from, next) {
+  // Если залогинены
+    if(store.getters.user) {
+        next() //переходим на запрашиваемую страницу
+} else {
+    // переходим на страницу логина
+    // Передаем get-параметр loginError=true
+    // (сработает сообщение об ошибке)
+    next('/login?loginError=true')
+}
+
+
+}
+
+
+    В routes/index.js применяем данную защиту роутов.
+    
+    import Router from 'vue-router'
+
+    
+// AuthGuard- обычная функция.
+// Описываем beforeEnter, передаем как значение AuthGuard
+// для странички list
+export default new Router ({
+   routes: [
+      { path:'',
+    name:'home',
+    component: Home},
+      { path:'/ad/:id',
+      props:true,
+    name:'ad',
+    component:Ad},
+    { path:'/list',
+    name:'list',
+    component:AdList,
+    beforeEnter:AuthGuard
+    },
+    { path:'/new',
+    name:'newAd',
+    component:NewAd,
+    beforeEnter:AuthGuard
+    },
+    { path:'/login',
+    name:'login',
+    component:Login},
+    { path:'/registration',
+    name:'reg',
+    component:Registration},
+    { path:'/orders',
+    name:'orders',
+    component:Orders,
+    beforeEnter:AuthGuard
+  }   
+   ],mode:'history'
+})
+
+    В случае ошибки переадресуем на страницу логина-
+    там и обработаем ошибку (login.vue). 
+     
+    created(){
+// обращаемся к текущему роуту 
+// (текущей странице)
+// Если в запросе передался параметр  loginError
+if (this.$route.query['loginError']){
+  // вызываем action setError() из store
+  this.$store.dispatch('setError','Please log in to access this page')
+}
+
+}
+
+2.21
+Создание объявления в firebase
+    
 -->
 
 

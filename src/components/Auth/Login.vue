@@ -124,6 +124,16 @@ if (this.$refs.form.validate()) {
         //  .catch(err=>console.log(err))
     }
 }
+},
+created(){
+// обращаемся к текущему роуту 
+// (текущей странице)
+// Если в запросе передался параметр  loginError
+if (this.$route.query['loginError']){
+  // вызываем action setError() из store
+  this.$store.dispatch('setError','Please log in to access this page')
+}
+
 }
 }
 

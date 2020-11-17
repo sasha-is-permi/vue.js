@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import AuthGuard from './auth-guard'
 // @- значит, нужно смотреть из корня каталога/папочка src
 // файл Home.vue
 //
@@ -15,6 +16,10 @@ import Orders from '@/components/Users/Orders'
 Vue.use(Router)
 // Компонент ad определяем по id
 // path- путь в адресной строке у странички какой будет
+
+// AuthGuard- обычная функция.
+// Описываем beforeEnter, передаем как значение AuthGuard
+// для странички list
 export default new Router ({
    routes: [
       { path:'',
@@ -26,10 +31,14 @@ export default new Router ({
     component:Ad},
     { path:'/list',
     name:'list',
-    component:AdList},
+    component:AdList,
+    beforeEnter:AuthGuard
+    },
     { path:'/new',
     name:'newAd',
-    component:NewAd},
+    component:NewAd,
+    beforeEnter:AuthGuard
+    },
     { path:'/login',
     name:'login',
     component:Login},
@@ -38,6 +47,8 @@ export default new Router ({
     component:Registration},
     { path:'/orders',
     name:'orders',
-    component:Orders}   
+    component:Orders,
+    beforeEnter:AuthGuard
+  }   
    ],mode:'history'
 })
