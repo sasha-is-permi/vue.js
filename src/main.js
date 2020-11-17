@@ -35,6 +35,18 @@ new Vue({
       messagingSenderId: '474540697157',
       appId: '1:474540697157:web:26b494af5749f7240d252c'
     })
+
+    // Решаем проблему потери авторизации при перезагрузке страницы
+    fb.auth().onAuthStateChanged( user => {
+    // Если в user что-то храниться- разрешаем пользоваиелю быть 
+    // залогиненым 
+      if(user) {
+       this.$store.dispatch('autoLoginUser',user)
+     }
+
+    })
+
+
   },
   render: h => h(App)
 }).$mount('#app')

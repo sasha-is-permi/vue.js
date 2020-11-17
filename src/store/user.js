@@ -82,13 +82,30 @@ export default {
      commit('setError',error.message)
      throw error
      }
+    },
+    
+    autoLoginUser({commit},payload) {       
+    // Вызываем setUser
+    commit('setUser', new User(payload.uid))
+
+    },
+    logoutUser({commit}){
+      // Разлогинимся
+      fb.auth().signOut()
+      // Вызываем mutation setUser со значением null
+      // (очищаем User)
+      commit('setUser',null)
+
+
     }
   },
   getters:{
     user(state){
         return state.user
+    },
+    isUserLoggedIn (state) {
+      // Проверяем- зарегистрирован ли пользователь
+      return state.user !== null 
     }
-
-
   }
 }

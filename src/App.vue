@@ -238,6 +238,23 @@ https://dev.materialdesignicons.com/getting-started/vuejs
           <v-list-item-title v-text="link.title"></v-list-item-title>
      </v-list-item-content>
    </v-list-item>
+
+   <!-- Для кнопки Logout 
+   Показываем только если пользователь залогинен:-->
+   <v-list-item
+   @click="onLogout"
+   v-if="isUserLoggedIn"
+   >
+     <v-list-item-action>
+          <v-icon left> exit_to_app </v-icon>
+     </v-list-item-action>
+     <v-list-item-content>
+          <v-list-item-title v-text="'Logout'"></v-list-item-title>
+     </v-list-item-content>
+   </v-list-item>
+
+
+
   </v-list>
  
 
@@ -279,6 +296,8 @@ https://dev.materialdesignicons.com/getting-started/vuejs
      http://localhost:8080/#/login
      (поскольку url:'/login')
       -->
+
+   <!--Боковое меню (drawer) -->   
   <v-btn
    dark color="primary" 
    v-for="link in links"
@@ -296,6 +315,16 @@ https://dev.materialdesignicons.com/getting-started/vuejs
   </v-btn>
        
  
+    <v-btn
+   dark color="primary" 
+   @click="onLogout"
+   v-if="isUserLoggedIn" 
+    >
+        <v-icon left>  exit_to_app </v-icon>
+        Logout
+  </v-btn>
+
+
 
 
     </v-toolbar-items>
@@ -365,7 +394,18 @@ export default {
 export default{
   data () {
     return {
-      drawer:false,
+      drawer:false
+     }
+  },
+  computed: {
+   error() {  
+     // Обращаемся к геттеру с ошибками  
+    return this.$store.getters.error    
+   },
+   isUserLoggedIn () {
+    return this.$store.getters.isUserLoggedIn
+   },
+  links() {
       // title- название ссылки, 
       // icon- название иконки
       // url- ссылка, ведет на страницу 
@@ -373,25 +413,35 @@ export default{
       // orders- заказы
       // New ad - добавить рекламу
       // My ads- показать список реклам
-      links:[
-        {title:'Login',icon:'lock', url:'/login'},
-        {title:'Registration',icon:'face', url:'/registration'},
-        {title:'Orders',icon:'bookmark_border', url:'/orders'},
+
+    // Если пользователь вошел в систему- у него
+    // 3 ссылки в меню
+
+      if (this.isUserLoggedIn){
+        return [
+         {title:'Orders',icon:'bookmark_border', url:'/orders'},
         {title:'New ad',icon:'note_add', url:'/new'},
-        {title:'My ads',icon:'list', url:'/list'}
+        {title:'My ads',icon:'list', url:'/list'} 
+        ]
+      }
+      // если пока не в системе- у него 2 ссылки в меню
+      return [
+      {title:'Login',icon:'lock', url:'/login'},
+        {title:'Registration',icon:'face', url:'/registration'},
       ]
+
     }
-  },
-  computed: {
-   error() {  
-     // Обращаемся к геттеру с ошибками  
-    return this.$store.getters.error    
-   }
   },
   methods: {
     closeError () {
      // Очищаем ошибки при закрытии окна с ошибками
      this.$store.dispatch('clearError')
+
+    },
+    onLogout() {
+     this.$store.dispatch('logoutUser')
+     // переходим на главную страницу раз разлогинились
+     this.$router.push('/')
 
     }
   }

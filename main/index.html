@@ -5436,8 +5436,126 @@ https://v2.vuetifyjs.com/en/components/snackbars/
    Показываем меню в соответствии- залогинен пользователь или нет. 
 
    В user.js в store создаем новый метод в getters: 
+       isUserLoggedIn (state) {
+      // Проверяем- зарегистрирован ли пользователь
+      return state.user !== null 
+    }
 
+   В app.vue создаем новое computed-свойство:
+
+   isUserLoggedIn () {
+    return this.$store.getters.isUserLoggedIn
+   }
  
+    Задаем еще одно computed-свойство links:
+
+    links() {
+      // title- название ссылки, 
+      // icon- название иконки
+      // url- ссылка, ведет на страницу 
+      // или элемент
+      // orders- заказы
+      // New ad - добавить рекламу
+      // My ads- показать список реклам
+
+    // Если пользователь вошел в систему- у него
+    // 3 ссылки в меню
+
+      if (this.isUserLoggedIn){
+        return [
+         {title:'Orders',icon:'bookmark_border', url:'/orders'},
+        {title:'New ad',icon:'note_add', url:'/new'},
+        {title:'My ads',icon:'list', url:'/list'} 
+        ]
+      }
+      // если пока не в системе- у него 2 ссылки в меню
+      return [
+      {title:'Login',icon:'lock', url:'/login'},
+        {title:'Registration',icon:'face', url:'/registration'},
+      ]
+
+    }
+  }
+
+   2 проблемы остается:
+   
+   1) При перезагрузке страницы пользователь теряет авторизацию. 
+   2) Нужно предусмотреть возможность разлогиниться. 
+
+   1) В main.js: 
+
+       // Решаем проблему потери авторизации при перезагрузке страницы
+    fb.auth().onAuthStateChanged( user => {
+    // Если в user что-то храниться- разрешаем пользоваиелю быть 
+    // залогиненым 
+      if(user) {
+       this.$store.dispatch('autoLoginUser',user)
+     }
+
+    })
+
+ Создадим action autoLoginUser в user.js
+
+     autoLoginUser({commit},payload) {       
+    // Вызываем setUser
+    commit('setUser', new User(payload.uid))
+    }
+  }
+
+  2. Реализуем Log out 
+   
+  В app.vue: 
+  В главное меню кнопку добавляем:
+
+  Для кнопки Logout 
+   Показываем только если пользователь залогинен:
+   <v-list-item
+   @click="onLogout"
+   v-if="isUserLoggedIn"
+   >
+        <v-icon left>  exit_to_app </v-icon>
+        Logout
+  </v-btn>
+  
+  В боковое меню drawer кнопку добавляем:
+
+   <v-list-item
+   @click="onLogout"
+   v-if="isUserLoggedIn" 
+   >
+     <v-list-item-action>
+          <v-icon left> exit_to_app </v-icon>
+     </v-list-item-action>
+     <v-list-item-content>
+          <v-list-item-title v-text="'Logout'"></v-list-item-title>
+     </v-list-item-content>
+   </v-list-item>
+
+
+
+   Метод onLogout:
+     onLogout() {
+     this.$store.dispatch('logoutUser')
+     // переходим на главную страницу раз разлогинились
+     this.$router.push('/')
+
+    }
+   В user.js: 
+   Создаем метод logoutUser
+
+       logoutUser({commit}){
+      // Разлогинимся
+      fb.auth().signOut()
+      // Вызываем mutation setUser со значением null
+      // (очищаем User)
+      commit('setUser',null)
+
+
+    }
+
+    2.20 Защита роутов
+    (чтобы не мог неавторизованный пользователь попасть на внутреннюю 
+    страницу сайта с помощью ссылки в url-адресе).
 
 -->
 
