@@ -5398,6 +5398,45 @@ signInWithEmailAndPassword()
 2.18
 Вывод ошибок.
 
+Создаем компонент, который обрабатывает ошибки в приложении. 
+
+Элемент vutify snackbars
+(окошечко с сообщением об ошибке)
+
+https://v2.vuetifyjs.com/en/components/snackbars/
+
+<v-snackbar
+      v-model="snackbar"
+      :bottom="y === 'bottom'"
+      :color="color"
+      :left="x === 'left'"
+      :multi-line="mode === 'multi-line'"
+      :right="x === 'right'"
+      :timeout="timeout"
+      :top="y === 'top'"
+      :vertical="mode === 'vertical'"
+    >
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          dark
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+
+    Вставляем этот кусочек в app.vue после v-main. 
+
+   19. Поддержание сессии пользователя. 
+   Показываем меню в соответствии- залогинен пользователь или нет. 
+
+   В user.js в store создаем новый метод в getters: 
+   
 
 
 -->

@@ -1,4 +1,4 @@
-
+template
 
   <!-- Директива app - свойство, которое говорит vuetify
   о том как правильно следить за поведением элементов 
@@ -314,6 +314,29 @@ https://dev.materialdesignicons.com/getting-started/vuejs
       <router-view></router-view>
   </v-main>
 
+<!-- Показываем сообщение только если есть ошибка -->
+  <template v-if="error">
+  <v-snackbar
+      :multi-line="true"
+      :timeout="5000"
+      color="error"
+      @input="closeError"
+      :value="true"
+    >
+      {{ error }}
+
+
+        <v-btn
+          flat
+          dark
+          @click.native="closeError"
+        >
+          Close
+        </v-btn>
+
+    </v-snackbar>
+    </template>
+
 </v-app>
 </template>
 
@@ -357,6 +380,19 @@ export default{
         {title:'New ad',icon:'note_add', url:'/new'},
         {title:'My ads',icon:'list', url:'/list'}
       ]
+    }
+  },
+  computed: {
+   error() {  
+     // Обращаемся к геттеру с ошибками  
+    return this.$store.getters.error    
+   }
+  },
+  methods: {
+    closeError () {
+     // Очищаем ошибки при закрытии окна с ошибками
+     this.$store.dispatch('clearError')
+
     }
   }
 }

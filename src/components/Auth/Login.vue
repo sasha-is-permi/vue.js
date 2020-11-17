@@ -120,7 +120,8 @@ if (this.$refs.form.validate()) {
             // Переходим на главную страницу
             this.$router.push('/')
           })
-          .catch(err=>console.log(err))
+        .catch(()=>{})
+        //  .catch(err=>console.log(err))
     }
 }
 }
