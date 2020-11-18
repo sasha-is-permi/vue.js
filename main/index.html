@@ -5639,7 +5639,55 @@ if (this.$route.query['loginError']){
 
 2.21
 Создание объявления в firebase
-    
+  
+Нужно связать добавляемые обьявления с базой данных,
+которая уже есть.
+
+Пока данные содержатся  коде, а не в базе данных. 
+
+Для создания базы данных на firebase:
+https://console.firebase.google.com/project/itc-ads-9fe8e/database
+
+В дальнейшем
+Upload в нашей программе будет паботать с хранилищем storage в firebase. 
+
+NewAd.vue вызывает (dispatch()) actions  createAd() из store/ads.js
+В ads.js подключим firebase для работы с базой данных. 
+
+В newAd.vue добавляем computed-свойство loading. 
+
+Добавляем для кнопочки "createAd" условие: 
+:loading = "loading"
+:disabled="!valid || loading"
+
+
+Еще добавляем:
+   // После того как создаем элемент переходим на страницу 
+     // "list", где можем видеть этот элемент
+     this.$store.dispatch('createAd', ad)
+     .then( () => {
+        this.$router.push('/list')
+     })
+     .catch( () => {} ) // Если ошибка- она выведется визуально (это ранее предусмотрено), 
+     // а на новую страницу переходить не будем
+
+Новое обьявление добавляется на страницу и в базу данных. 
+Но, после перезагрузки страницы остается только в базе данных- 
+со страницы исчезает.
+Сделаем так, чтобы подгружалась информация с базы данных на страницу-
+в следующем уроке.  
+
+Чтобы обращаться к объекту firebase database в ads.js
+нужно подключить его
+ 
+// Подключаем firebase
+import fb from 'firebase/app';
+require('firebase/auth');
+require('firebase/database');
+
+
+
+
 -->
 
 

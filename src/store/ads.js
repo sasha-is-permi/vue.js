@@ -1,3 +1,21 @@
+// Подключаем firebase
+import fb from 'firebase/app';
+require('firebase/auth');
+require('firebase/database');
+
+// Для добавления обьявления
+// ownerId- кто именно создавал данное обьявление
+class Ad {
+     constructor(title, description, ownerId, imageSrc='', promo=false,id=null) {
+        this.title = title
+        this.description = description
+        this.ownerId = ownerId
+        this.imageSrc = imageSrc
+        this.promo = promo
+        this.id = id
+     }
+}
+
 // Первый геттер- работает для всех объявлений
 // promoAds- возвращает только те объявления,
 // у которых promo=true
@@ -28,10 +46,55 @@ export default {
     },
     actions: {
         // Вместо payload- используем объект ad
-        createAd({commit},payload) {
-        payload.id = Math.random().toString();
+        // createAd({commit},payload) {
+        // payload.id = Math.random().toString();
+        // commit('createAd',payload)
+        // }
 
-        commit('createAd',payload)
+        // Раз createAd() работает с базой данных- это async метод
+        // с помощью getters можем получить id текущего пользователя
+        async createAd({commit,getters},payload) {
+        // Вызываем методы из store/actions share.js    
+        commit('clearError') 
+        commit('setLoading',true)
+          
+        // Работаем с асинхронными событиями
+        // Знаем что пользователь зарегистрирован, поэтому получаем 
+        // getters.user.id
+        try {
+            // payload- данные, переданные из формы.
+            // ownerId = getters.user.id - пользователь
+            // id- по умолчанию null, но получим из firebase key
+            const newAd = new Ad(
+                payload.title,
+                payload.description,
+                getters.user.id,
+                payload.imageSrc,
+                payload.promo)
+            // ref('ads') - подключаемся к базе данных с имененм ads
+            // push- добавление элемента в базу данных.
+          const ad = await fb.database().ref('ads').push(newAd)
+          // используем mutation createAd()- создание в базе данных новой записи
+          // ...newAd -развернем полученный объект 
+          // (разложим по полям)
+          // добавим поле id, включает ключ создаваемой записи из firebase
+          // (из базы уже получили id)
+
+         commit('setLoading',false)   // окончание загрузки
+
+          commit('createAd', {
+            ...newAd,
+            id: ad.key
+          })     
+
+        
+        } catch (error){
+          commit('setError',error.message)
+          commit('setLoading',false)  
+          throw error // выкинем ошибку чтобы обработать ее в промисе                 
+        }
+
+
         }
     },    
     getters: {
