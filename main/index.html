@@ -5679,13 +5679,34 @@ NewAd.vue вызывает (dispatch()) actions  createAd() из store/ads.js
 
 Чтобы обращаться к объекту firebase database в ads.js
 нужно подключить его
- 
+
 // Подключаем firebase
 import fb from 'firebase/app';
 require('firebase/auth');
 require('firebase/database');
 
+2.22
+Загрузка обьявлений по умолчанию. 
+В store/ads удаляем объекты из массива ads.
+Будем хранить информацию не в программе а в базе данных. 
 
+В main.js вызываем action fetchAds
+
+В ads.js создаем async action:
+
+fetchAds
+
+В базе данных firebase есть правила. 
+До какого-то числа есть разрешение
+{
+  "rules": {
+    ".read": "now < 1608231600000",  // 2020-12-18
+    ".write": "now < 1608231600000",  // 2020-12-18
+  }
+}
+
+"auth!=null" - можем что-то делать только авторизованным пользователям. 
+"true" - можно в любом случае выполнять операции. 
 
 
 -->

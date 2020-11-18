@@ -21,6 +21,7 @@ class Ad {
 // у которых promo=true
 export default {
     state: {  
+    /*    
         ads: [
             {title:'Фото 1',
             description:'Белочка',
@@ -37,7 +38,9 @@ export default {
             promo: true,
             imageSrc:'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
             id:'3'}
-            ]   
+            ]   */
+
+            ads: [] 
     },
     mutations: {
        createAd (state, payload) {
@@ -93,6 +96,29 @@ export default {
           commit('setLoading',false)  
           throw error // выкинем ошибку чтобы обработать ее в промисе                 
         }
+
+
+        },
+
+
+        async fetchAds({commit}) {
+            commit('clearError') // Очищаем ошибки
+            commit('setLoading',true) // установка лоадинга
+
+            try {
+            // Считываем все данные (once('value')) из таблицы firebase   
+            // данная конструкция возвращает promise
+            const fbVal = await fb.database().ref('ads').once('value')
+            const ads = fbVal.val() // ключ будет являться id нужного ad
+            console.log(ads)
+
+
+            commit('setLoading',false) // уже что-то загрузили
+            } catch(error) {
+             commit('setError',error.message)   // устанавливаем ошибку  
+             commit('setLoading',false) // уже что-то загрузили
+             throw error //выкидываем ошибку
+            }
 
 
         }
