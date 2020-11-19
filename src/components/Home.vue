@@ -5,7 +5,9 @@ v-for="(item,i) in items"
               :src="item.src"
  -->
 
-  <div> 
+<!-- Если загружена информация из базы данных- процесс лоадинга закончен -->
+  <div v-if="!loading">
+
   <v-container fluid>
    <!-- row- Выравниваем layout по строке
    аттрибут vuetify создает свойство 
@@ -34,7 +36,6 @@ v-for="(item,i) in items"
         </v-flex>
     </v-layout>
   </v-container>
-
 
  <v-container grid-list-lg>
       <v-layout row wrap>
@@ -99,6 +100,33 @@ v-for="(item,i) in items"
 
 </div>
 
+<!-- Если еще происходит процесс загрузки из базы данных -->
+
+<!-- *********************************************************************************  
+
+центрирование: class="text-sm-center"
+
+**************************************************************************************-->
+
+<div v-else>
+   <v-container>
+     <v-layout row>
+       <v-flex xs12 class="text-sm-center" pt-5>
+              <v-progress-circular
+              indeterminate
+              :size="100"
+              :width="4"
+              color="purple"
+              >
+                
+              </v-progress-circular>         
+       </v-flex>
+     </v-layout> 
+   </v-container>  
+</div> 
+
+
+
 
 </template>
 
@@ -142,6 +170,9 @@ computed:{
   ads() {  
     // Обратимся к геттеру (функции) - получаем с помощью него все карточки
      return this.$store.getters.ads
+  },
+  loading(){
+    return this.$store.getters.loading
   }
 }
 

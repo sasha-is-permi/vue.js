@@ -45,6 +45,12 @@ export default {
     mutations: {
        createAd (state, payload) {
             state.ads.push(payload)                 
+       },
+       // В данный метод (мутацию) надо передать массив готовых объявлений.
+       // payload- будет готовый массив c сервера принимаемый
+       // state.ads- в нашем приложении массив объявлений  
+       loadAds(state,payload) {
+          state.ads = payload
        }
     },
     actions: {
@@ -105,13 +111,28 @@ export default {
             commit('clearError') // Очищаем ошибки
             commit('setLoading',true) // установка лоадинга
 
+            // Результирующий массив обьявлений, загруженный с сервера 
+            const resultAds =[]
+
             try {
             // Считываем все данные (once('value')) из таблицы firebase   
             // данная конструкция возвращает promise
-            const fbVal = await fb.database().ref('ads').once('value')
-            const ads = fbVal.val() // ключ будет являться id нужного ad
-            console.log(ads)
+            const fbVal = await fb.database().ref('ads').once('value') // массив объявлений + много служебной информации
+            const ads = fbVal.val() // принятый с сервера массив объявлений частично со служебной информации
+           
+            
+            Object.keys(ads).forEach(key =>{
+                const ad = ads[key] // элемент массива (каждый элемент массива перебираем)
+                // Заполняем результирующий массив обьявлений resultAds с помощью класса Ad
+                // key - это id нужного нам ad
+                resultAds.push(
+                    new Ad(ad.title,ad.description,ad.ownerId,ad.imageSrc, ad.promo, key)
+                )
+            })
 
+            // Передаем   с помощью mutation loadAds скачанный с сервера и приведенный в нужный вид
+            // массив обьявлений resultAds в store/ads (массив store: ads)
+            commit('loadAds',resultAds)
 
             commit('setLoading',false) // уже что-то загрузили
             } catch(error) {
