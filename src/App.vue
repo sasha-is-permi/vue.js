@@ -356,7 +356,6 @@ https://dev.materialdesignicons.com/getting-started/vuejs
 
 
         <v-btn
-          flat
           dark
           @click.native="closeError"
         >

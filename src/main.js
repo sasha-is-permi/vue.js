@@ -7,9 +7,10 @@ import vuetify from './plugins/vuetify';
 
 // Подключаем firebase
 import fb from 'firebase/app';
-require('firebase/auth');
-
-
+import('firebase/auth');
+import('firebase/database');
+import('firebase/storage');
+import 'firebase/firestore';
 // добавлено из каталога node_modules/vuetify/dist/
 import 'vuetify/dist/vuetify.min.css'
 

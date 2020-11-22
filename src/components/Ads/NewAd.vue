@@ -35,17 +35,43 @@
 
              <v-layout row ml-1> 
                <v-flex xs12> 
-                   <v-btn class="warning">
+
+                 <!--При щелчке на кнопке- вызываем 
+                 метод triggerUpload, в котором прописана                  
+                 функция клика 
+                 (обращаемся к указателям refs, находим 
+                 fileInput (присвоен input), м вызываем его click())
+                 this.$refs.fileInput.click()-->
+                   <v-btn class="warning" @click="triggerUpload">
                        Upload
                    <v-icon right dark>mdi-cloud-upload</v-icon>
                     </v-btn>
+                    <!-- При нажатии на кнопку Upload будем вызывать 
+                    input. Окно выбора файла должен вызываться при нажатии кнопочки upload,
+                    а не новой кнопочки
+                    accept="imafe/*" - выбираем только картинки
+                    (png, jpg и т.д.)
+                    ref="fileInput" - ссылку такую делаем для input
+                    @change="onFileChange" - при выборе файла в окошке выбора-
+                    вызываем метод onFileChange
+
+                     -->
+                    <input
+                     ref="fileInput"
+                     type="file" 
+                     style="display:none;"
+                     accept="image/*"
+                     @change="onFileChange"
+                     >
+
+
             </v-flex>
              </v-layout>    
 
              <v-layout row mt-3 ml-1> 
                <v-flex xs12> 
-     
-                 <!--  <img src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg" height="100px"/>  -->
+     <!-- Если переменная imageSrc заданна- передаем этот путь в данный тег-->
+                 <img :src="imageSrc" height="100px" v-if="imageSrc"/>  
                
                </v-flex>
              </v-layout>   
@@ -65,9 +91,13 @@
               <v-layout row mt-3 ml-1> 
                <v-flex xs12> 
                   <v-spacer></v-spacer>  
+                  <!--  отключена кнопочка пока картинка не выбрана
+                  и пока не валидна форма 
+                 
+                  -->
                   <v-btn 
                   :loading = "loading"
-                  :disabled="!valid || loading"
+                  :disabled="(!valid  ||  !image) || loading"
                   class="success"
                   @click="createAd"
                   > Create ad </v-btn>
@@ -88,7 +118,9 @@ return {
    title:'',
    description:'',
    promo:false,
-   valid:false
+   valid:false,
+   image:null,
+   imageSrc:''
 }
 },
 computed: {
@@ -98,12 +130,14 @@ computed: {
 },
 methods: {
 createAd() {
-  if(this.$refs.form.validate()){
+  // Если есть картинка- выполняем определенный метод
+  if(this.$refs.form.validate() && this.image){
       const ad= {
          title: this.title,
          description: this.description,
          promo: this.promo,
-         imageSrc: 'https://cdn-images-1.medium.com/max/850/1*nq9cdMxtdhQ0ZGL8OuSCUQ.jpeg'
+         // Будем посылать на сервер загруженный файл
+         image: this.image
       }
      // Добавляем данное объявление в общий список
      // Метод createAd из Ads.js
@@ -119,7 +153,31 @@ createAd() {
 
 
   }
+},
+triggerUpload () {
+
+  this.$refs.fileInput.click()
+},
+// При выборе файла- загружаем его
+onFileChange(event){
+  // В file хранится то изображение, которое будем загружать
+  const file = event.target.files[0]
+
+  // Переменная reader является экземпляром класса 
+  // FileReader
+  const reader = new FileReader()
+  
+  reader.onload = e => {
+    console.log(e)
+    this.imageSrc = reader.result
+  }
+  // Читаем файл
+  reader.readAsDataURL(file)
+  this.image = file
+
 }
+
+
 }
 }
 

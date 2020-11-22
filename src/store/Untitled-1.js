@@ -1,14 +1,13 @@
 // Подключаем firebase
 import fb from 'firebase/app';
-import('firebase/auth');
-import 'firebase/firestore';
-import('firebase/database');
-import('firebase/storage');
+require('firebase/auth');
+require('firebase/database');
+require('firebase/storage');
 
 // Для добавления обьявления
 // ownerId- кто именно создавал данное обьявление
 class Ad {
-     constructor(title, description, ownerId='KaZxIP7qKIMqdZPTRrP9IFxCXX73', imageSrc='', promo=false,id=null) {
+     constructor(title, description, ownerId, imageSrc='', promo=false,id=null) {
         this.title = title
         this.description = description
         this.ownerId = ownerId
@@ -72,8 +71,8 @@ export default {
 
         // Загруженная картинка
         // payload- переданный из формы массив данных
-        const image = payload.image
-       console.log('image',image)   
+      //  const image = payload.image
+
           
         // Работаем с асинхронными событиями
         // Знаем что пользователь зарегистрирован, поэтому получаем 
@@ -86,43 +85,29 @@ export default {
                 payload.title,
                 payload.description,
                 getters.user.id,
-                payload.imageSrc,
-               //'',
+               // payload.imageSrc,
+               '',
                 payload.promo)
             // ref('ads') - подключаемся к базе данных с именем ads
             // push- добавление элемента в базу данных.
             const ad = await fb.database().ref('ads').push(newAd)
              
             // Тут будет храниться расширение картинки
-           // const imageExt = image.name.slice(image.name.lastIndexOf('.')).trim()
-           // console.log('imageExt:',imageExt) 
+        //    const imageExt = image.name.slice(image.name.lastIndexOf('.'))
+
           // fb.storage- сохраняем элементы
           // в базе данных
-
-          const fileData = await fb.storage().ref(image.name).put(image)
-          //const fileData = await fb.storage().ref(`ads/${ad.key}.${imageExt}`).put(image)
-         
-        //  const fileData = await fb.storage().ref(`ads/${ad.key}.${imageExt}`).put(image)
-        // const imageSrc = await fileData.ref.getDownloadURL()
-
-
-          console.log('fileData')
-          // ссылка на файл. Так как грузим 1 файл- забираем
+     //     const fileData = await fb.storage().ref(`ads/${ad.key}.${imageExt}`).put(image)
+           // ссылка на файл. Так как грузим 1 файл- забираем
           // ссылку на 1 файл 
-         const imageSrc = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
-
-          //await fb.database().ref('ads/' + ad.key).set({
-          //   ...newPost,
-          //   imageSrc: imageSrc
-          //})
-
+      //    const imageSrc = fileData.metadata.getDownloadURLs[0]
   
-         console.log('imageSrc',imageSrc)
+         
         
 
           // Меняем ссылку на картинку в базе данных
           await fb.database().ref('ads').child(ad.key).update({
-            imageSrc
+      //      imageSrc
           })
 
           // используем mutation createAd()- создание в базе данных новой записи
@@ -143,8 +128,8 @@ export default {
           commit('createAd', {
             ...newAd,
             id: ad.key,
-          //  imageSrc:"/image" 
-            imageSrc:imageSrc // imageSrc заменяем на imageSrc, 
+            imageSrc:"/image" 
+         //   imageSrc:imageSrc // imageSrc заменяем на imageSrc, 
             // полученный с сервера
 
           })     
@@ -231,3 +216,5 @@ export default {
 
     }
 }
+
+*/

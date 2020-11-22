@@ -1,7 +1,7 @@
 // Подключаем firebase
 import fb from 'firebase/app';
 require('firebase/auth');
-
+require('firebase/database');
 
 class User {
    constructor (id) {

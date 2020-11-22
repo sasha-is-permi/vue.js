@@ -19,7 +19,6 @@
           <v-list
       subheader
       two-line
-      flat
     >
   <!--  <v-subheader>Hangout notifications</v-subheader> -->
 
