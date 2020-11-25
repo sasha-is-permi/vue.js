@@ -86,6 +86,7 @@ export default {
 
         Object.keys(ads).forEach(key => {
           const ad = ads[key]
+      
           resultAds.push(
             new Ad(ad.title, ad.description, ad.ownerId, ad.imageSrc, ad.promo, key)
           )

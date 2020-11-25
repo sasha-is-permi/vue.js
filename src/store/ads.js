@@ -11,7 +11,7 @@ class Ad {
   constructor (title, description, ownerId, imageSrc = '', promo = false, id = null) {
     this.title = title
     this.description = description
-    this.ownerId = ownerId
+    this.ownerId = ownerId //='KaZxIP7qKIMqdZPTRrP9IFxCXX73'
     this.imageSrc = imageSrc
     this.promo = promo
     this.id = id
@@ -43,7 +43,8 @@ export default {
             id:'3'}
             ]   */
 
-            ads: [] 
+            ads: [],
+            id:"" 
     },
     mutations: {
        createAd (state, payload) {
@@ -69,6 +70,14 @@ export default {
     }
     },
     actions: {
+      AfterAuth({state}){
+      fb.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          const id0 = user.uid;
+          state.id = id0;
+        
+        }  });
+      },
         // Вместо payload- используем объект ad
         // createAd({commit},payload) {
         // payload.id = Math.random().toString();
@@ -77,7 +86,7 @@ export default {
 
         // Раз createAd() работает с базой данных- это async метод
         // с помощью getters можем получить id текущего пользователя
-        async createAd({commit,getters},payload) {
+        async createAd({commit,getters,state},payload) {
         // Вызываем методы из store/actions share.js    
         commit('clearError') 
         commit('setLoading',true)
@@ -85,8 +94,14 @@ export default {
         // Загруженная картинка
         // payload- переданный из формы массив данных
         const image = payload.image
-       console.log('image',image)   
-          
+        console.log('image',image)   
+         
+     
+ 
+        
+         
+     
+         console.log(getters)
         // Работаем с асинхронными событиями
         // Знаем что пользователь зарегистрирован, поэтому получаем 
         // getters.user.id
@@ -94,16 +109,18 @@ export default {
             // payload- данные, переданные из формы.
             // ownerId = getters.user.id - пользователь
             // id- по умолчанию null, но получим из firebase key
+   
             const newAd = new Ad(
                 payload.title,
                 payload.description,
-                getters.user.id,
+                state.id,
                 '',
                 payload.promo)
             // ref('ads') - подключаемся к базе данных с именем ads
             // push- добавление элемента в базу данных.
+            console.log('id')   
             const ad = await fb.database().ref('ads').push(newAd)
-             
+             console.log('id2')   
             // Тут будет храниться расширение картинки
            // const imageExt = image.name.slice(image.name.lastIndexOf('.')).trim()
            // console.log('imageExt:',imageExt) 
@@ -189,6 +206,8 @@ export default {
                 const ad = ads[key] // элемент массива (каждый элемент массива перебираем)
                 // Заполняем результирующий массив обьявлений resultAds с помощью класса Ad
                 // key - это id нужного нам ad
+                console.log("ad",ad)    
+
                 resultAds.push(
                     new Ad(ad.title,ad.description,ad.ownerId,ad.imageSrc, ad.promo, key)
                 )
@@ -243,11 +262,17 @@ export default {
          },
 
             // Фильтруем- оставляем только наши объявления. 
-            myAds (state, getters) {
-              return state.ads.filter(ad => {
-                return ad.ownerId === getters.user.id
-              })
-            },
+           myAds (state,getters) {
+        
+            return state.ads.filter(ad => {
+                 console.log('getters.user',getters.user)            
+                return ad.ownerId === state.id
+               
+             }
+             
+             );
+         
+           },
          // Чтобы передать id в геттер используем замыкания
          // Используем стрелочную функцию adId:
          // Функция фозвращает только нужные Id
@@ -259,5 +284,5 @@ export default {
               }      
          }
 
-    }
+    },
 }

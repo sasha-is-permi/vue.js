@@ -117,6 +117,7 @@ if (this.$refs.form.validate()) {
     }
       this.$store.dispatch('loginUser',user)
          .then(()=>{
+            this.$store.dispatch('AfterAuth',user)
             // Переходим на главную страницу
             this.$router.push('/')
           })
