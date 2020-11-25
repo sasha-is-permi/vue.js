@@ -5986,6 +5986,43 @@ color="purple"
 
 2.25 Редактирование обьявления. 
 
+Добавляем в store/ ads.js новый action: 
+
+    async updateAd ({commit}, {title, description, id}) {
+      commit('clearError')
+      commit('setLoading', true)
+
+      try {
+        await fb.database().ref('ads').child(id).update({
+          title, description
+        })
+        commit('updateAd', {
+          title, description, id
+        })
+        commit('setLoading', false)
+      } catch (error) {
+        commit('setError', error.message)
+        commit('setLoading', false)
+        throw error
+      }
+    }
+
+    (записываем в базу данных сделанные изменения)
+
+    и mutation: 
+    
+    // изменяем информацию по объявлению в базе данных
+    updateAd (state, {title, description, id}) {
+      const ad = state.ads.find(a => {
+        return a.id === id
+      })
+
+      ad.title = title
+      ad.description = description
+    }
+
+
+
 
 -->
 

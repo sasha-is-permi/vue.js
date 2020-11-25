@@ -54,7 +54,16 @@ export default {
        // state.ads- в нашем приложении массив объявлений  
        loadAds(state,payload) {
           state.ads = payload
-       }
+       },
+       // изменяем информацию по объявлению в базе данных
+    updateAd (state, {title, description, id}) {
+      const ad = state.ads.find(a => {
+        return a.id === id
+      })
+
+      ad.title = title
+      ad.description = description
+    }
     },
     actions: {
         // Вместо payload- используем объект ad
@@ -195,7 +204,26 @@ export default {
             }
 
 
-        }
+        },
+        // (записываем в базу данных сделанные изменения)
+    async updateAd ({commit}, {title, description, id}) {
+      commit('clearError')
+      commit('setLoading', true)
+
+      try {
+        await fb.database().ref('ads').child(id).update({
+          title, description
+        })
+        commit('updateAd', {
+          title, description, id
+        })
+        commit('setLoading', false)
+      } catch (error) {
+        commit('setError', error.message)
+        commit('setLoading', false)
+        throw error
+      }
+    }
 
     },    
     getters: {

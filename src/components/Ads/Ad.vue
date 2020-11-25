@@ -37,7 +37,7 @@
 
          </v-card>
        
-        <div v-else class="text-xs-center"> 
+        <div v-else class="text-sm-center"> 
             <!-- крутящееся колечко ожидания -->
               <v-progress-circular
               indeterminate
