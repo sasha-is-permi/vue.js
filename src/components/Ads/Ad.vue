@@ -9,7 +9,7 @@
     <v-layout row>
         <v-flex xs12>
        
-         <v-card  class="mt-5">
+           <v-card v-if="!loading" class="mt-5">
             
             <v-img
            
@@ -28,18 +28,36 @@
 
             <v-card-actions>
                  <v-spacer>  </v-spacer>                
-                 <v-btn class="warning"> Edit  </v-btn>
-                 <v-btn class="success"> Buy   </v-btn>
+                <!-- <v-btn class="warning"> Edit  </v-btn> 
+                получаем computed-свойство ad (характеристики обьявления из stote). 
+                Передаем параметром в компонент это свойство-->
+              <addEditAdModal :ad="ad"></addEditAdModal>
+                      <v-btn class="success"> Buy   </v-btn>
             </v-card-actions>
 
          </v-card>
-
+       
+        <div v-else class="text-xs-center"> 
+            <!-- крутящееся колечко ожидания -->
+              <v-progress-circular
+              indeterminate
+              :size="100"
+              :width="4"
+              color="green"
+              >
+                
+              </v-progress-circular>      
+        </div>  
+       
         </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+
+import EditAdModal from './EditAdModal'
+
 
 export default {
 props:['id'],
@@ -54,9 +72,15 @@ computed: {
   const id =this.id;
   return this.$store.getters.adById(id)
 
-  }
+  },
+    loading () {
+      return this.$store.getters.loading
+    }
 
-}
+},
+  components: {
+    addEditAdModal: EditAdModal
+  }
 
 
 }

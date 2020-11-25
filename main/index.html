@@ -5910,6 +5910,83 @@ new Vue({
 Или использовать вместо него "текст"
 
 
+2.24
+Создание модального окна редактирования. 
+Нужно доделать страницу orders. 
+Еще кнопочки Edit и Buy.
+Начнем с задействования кнопочки Edit. 
+Используем для этого Vutify\Dilogs. 
+
+https://v2.vuetifyjs.com/en/components/dialogs/ 
+
+Редактируем обьявление на страничке ad.vue. 
+
+В каталоге Ads создаем файл 
+EditAdModal.vue. 
+
+В ad.vue  его регистрируем. 
+(import, components)
+и вместо кнопочки Edit его помещаем. 
+
+Из компонента addEdidAdModal вставляется вместо кнопочки Edit
+его содержимое из <template>, подключается javascript и style. 
+
+Edit: содержимое заключается в <v-dilog>
+Внутри:
+        <template v-slot:activator="{ on }">
+        <v-btn
+          class="warning mr10"
+          v-on="on"
+        >
+         Edit
+        </v-btn>
+      </template>
+Само содержимое всплывающего диалогового окна: 
+в <v-card> 
+
+
+
+  
+
+Вносимые измения в базу данных:
+ссылаются на store/ads
+action: updateAd
+
+Еще допишем данный action. 
+
+
+*******************
+Для создания многострокого поля редактирования: 
+
+В v-text-field атрибут multi-line больше не работает,
+надо пользоваться 
+
+v-textarea. 
+
+
+*******************
+Для устранения ошибок: 
+в ad.vue добавляем computed-свойство:
+
+    loading () {
+      return this.$store.getters.loading
+    }
+
+Добавляем в v-card для loading:
+v-if, v-else. 
+
+Также в v-else добавляем progress loader: 
+
+<v-progress-circular
+indeterminate
+:size="100"
+:width="4"
+color="purple"
+></v-progress-circular>
+
+2.25 Редактирование обьявления. 
+
+
 -->
 
 

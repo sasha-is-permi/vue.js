@@ -196,6 +196,7 @@ export default {
 
 
         }
+
     },    
     getters: {
          ads(state) {
