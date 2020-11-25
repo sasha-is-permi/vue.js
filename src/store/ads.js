@@ -8,16 +8,16 @@ import('firebase/storage');
 // Для добавления обьявления
 // ownerId- кто именно создавал данное обьявление
 class Ad {
-     constructor(title, description, ownerId='KaZxIP7qKIMqdZPTRrP9IFxCXX73', imageSrc='', promo=false,id=null) {
-        this.title = title
-        this.description = description
-        this.ownerId = ownerId
-        this.imageSrc = imageSrc
-        this.promo = promo
-        this.id = id
-        console.log(ownerId)
-     }
+  constructor (title, description, ownerId, imageSrc = '', promo = false, id = null) {
+    this.title = title
+    this.description = description
+    this.ownerId = ownerId
+    this.imageSrc = imageSrc
+    this.promo = promo
+    this.id = id
+  }
 }
+
 
 // Первый геттер- работает для всех объявлений
 // promoAds- возвращает только те объявления,
@@ -47,7 +47,7 @@ export default {
     },
     mutations: {
        createAd (state, payload) {
-            state.ads.push(payload)                 
+         state.ads.push(payload)
        },
        // В данный метод (мутацию) надо передать массив готовых объявлений.
        // payload- будет готовый массив c сервера принимаемый
@@ -57,6 +57,9 @@ export default {
        },
        // изменяем информацию по объявлению в базе данных
     updateAd (state, {title, description, id}) {
+      // обновляем элемент в массиве ads
+      // find находит элементы по условию. Берет первый попавшийся.
+      // Поскольку id уникален- можно так.
       const ad = state.ads.find(a => {
         return a.id === id
       })
@@ -95,8 +98,7 @@ export default {
                 payload.title,
                 payload.description,
                 getters.user.id,
-                payload.imageSrc,
-               //'',
+                '',
                 payload.promo)
             // ref('ads') - подключаемся к базе данных с именем ads
             // push- добавление элемента в базу данных.
@@ -212,13 +214,13 @@ export default {
 
       try {
         await fb.database().ref('ads').child(id).update({
-          title, description
+          title, description // изменяем в базе данных поля title и description
         })
         commit('updateAd', {
-          title, description, id
+          title, description, id // вызываем mutation updateAd
         })
         commit('setLoading', false)
-      } catch (error) {
+      } catch (error) { // при ошибке- сообщаем об ошибке
         commit('setError', error.message)
         commit('setLoading', false)
         throw error
@@ -240,13 +242,12 @@ export default {
                 )
          },
 
-         myAds(state){
-            // Фильтруем- оставляем только наши объявления 
-            // (еще допишем). Когда заведем user- оставим только объявления,
-            // которые принадлежат данному user 
-           return state.ads
-         },  
-
+            // Фильтруем- оставляем только наши объявления. 
+            myAds (state, getters) {
+              return state.ads.filter(ad => {
+                return ad.ownerId === getters.user.id
+              })
+            },
          // Чтобы передать id в геттер используем замыкания
          // Используем стрелочную функцию adId:
          // Функция фозвращает только нужные Id

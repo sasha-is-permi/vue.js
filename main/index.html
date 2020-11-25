@@ -6022,7 +6022,19 @@ color="purple"
     }
 
 
+    Обьявление привязанно к конкретному пользователю.
+    Если это не наше обьявление- не должны его показывать. 
+    
+    ads.js геттер myAds. 
+    Нужно сделать фильтр обьявлений по id пользователя. 
 
+    myAds (state, getters) {
+      return state.ads.filter(ad => {
+        return ad.ownerId === getters.user.id
+      })
+    }
+
+    
 
 -->
 
