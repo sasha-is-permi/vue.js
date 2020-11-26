@@ -5,6 +5,8 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
 
+import BuyModalComponent from '@/components/Shared/BuyModal'
+
 // Подключаем firebase
 import fb from 'firebase/app';
 import('firebase/auth');
@@ -15,7 +17,7 @@ import 'firebase/firestore';
 import 'vuetify/dist/vuetify.min.css'
 
 
-
+Vue.component('app-buy-modal',BuyModalComponent)
 
 
 Vue.config.productionTip = false

@@ -31,8 +31,8 @@
                 <!-- <v-btn class="warning"> Edit  </v-btn> 
                 получаем computed-свойство ad (характеристики обьявления из stote). 
                 Передаем параметром в компонент это свойство-->
-              <addEditAdModal :ad="ad"></addEditAdModal>
-                      <v-btn class="success"> Buy   </v-btn>
+              <addEditAdModal :ad="ad" v-if="isOwner"></addEditAdModal>
+                      <app-buy-modal :ad="ad"> Buy </app-buy-modal>
             </v-card-actions>
 
          </v-card>
@@ -59,6 +59,8 @@
 import EditAdModal from './EditAdModal'
 
 
+
+
 export default {
 props:['id'],
 
@@ -75,6 +77,14 @@ computed: {
   },
     loading () {
       return this.$store.getters.loading
+    },
+    isOwner () {
+      // Если id пользователя в обьявлении совпадаеи с 
+      // id текущего пользователя в store
+      // Тогда этот метод возвращает true.
+      console.log('this.ad.ownerId',this.ad.ownerId)
+      console.log('this.$store.getters.userId',this.$store.getters.userId)
+      return this.ad.ownerId === this.$store.getters.userId
     }
 
 },

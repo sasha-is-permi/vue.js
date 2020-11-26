@@ -6034,7 +6034,153 @@ color="purple"
       })
     }
 
+
+
+
+    ads.js: не работает getters.user.id 
+     
+    Добавили в state id: 
+
+        state: {  
+                ads: [],
+            id:"" 
+    },
+    Добавим новый actions: 
+
+          AfterAuth({state}){
+      fb.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          const id0 = user.uid;
+          state.id = id0;
+        
+        }  });
+      }
+
+      Из login.vue вызываем его 
+      чтобы занести в state id залогиненого пользователя 
+      после авторизации:
+
+            this.$store.dispatch('loginUser',user)
+         .then(()=>{
+            this.$store.dispatch('AfterAuth',user)
+            // Переходим на главную страницу
+            this.$router.push('/')
+          })
+        .catch(()=>{})
+        //  .catch(err=>console.log(err))
+    }
+
+    А в ads.js используем state.id в 2 местах: 
+      
+    // Фильтруем- оставляем только наши объявления. 
+           myAds (state,getters) {
+        
+            return state.ads.filter(ad => {
+                 console.log('getters.user',getters.user)            
+                return ad.ownerId === state.id
+               
+             }
+             
+             );
+         
+           }
+
+       и в async createAd({commit,getters,state},payload) 
+       
+        const newAd = new Ad(
+                payload.title,
+                payload.description,
+                state.id,
+                '',
+                payload.promo)
+
+
+   Если перейдем на страничку- все ещё можем её редактировать.
+   Заведем в ad.vue computed-свойство:              
+   
+    isOwner () {
+      // Если id пользователя в обьявлении совпадаеи с 
+      // id текущего пользователя в store
+      // Тогда этот метод возвращает true.
+      console.log('this.ad.ownerId',this.ad.ownerId)
+      console.log('this.$store.getters.userId',this.$store.getters.userId)
+      return this.ad.ownerId === this.$store.getters.userId
+    }
     
+   Показывать кнопку Edit только в данном случае:   
+   <addEditAdModal :ad="ad" v-if="isOwner"></addEditAdModal>
+
+   В ad.vue из store получить данные лучше с помощью геттера: 
+   this.$store.getters.userId
+
+   В store/ads.js: 
+     
+   userId(state){
+              console.log('state.id',state.id)
+              return state.id}
+
+  (если пишем в user.js геттер-  будет недоступен state Из ads.js
+  Видимо, если все таки потребуется- надо провести импорт
+  
+  Редактируем шапку списка. 
+  AdList.vue: 
+  пока грузится информация- делаем loading: 
+
+  loading () {
+
+  return this.$store.getters.loading
+}
+
+В adList.vue показываем разные тексты в зависимости от того-
+есть обьявления или нет.
+База данных firebase:
+https://console.firebase.google.com/project/itc-ads-9fe8e/database
+
+Если выкидывает со страницы при загрузке- проверить есть ли защита на роут
+(страницу).
+Возможно, не успеваем авторизавться, а уже доступ к странице- ошибка. 
+
+2.26
+Создание окна покупки. 
+
+При клике на кнопочку Buy- вылезает модальное окно, 
+позволяющее пользователю оставить контакт и свое имя. 
+
+Потом обработаем заказы и выведем на страничке orders. 
+
+Папку Shared создаем, там новый компонент BuyModal.vue
+
+Будем использовать данное модальное окно в компоненте Home,
+при нажатии на кнопку Buy, а также в компоненте Ad. 
+
+Переносим всю информацию из EditAdModal.vue 
+в BuyAdModal.vue. 
+
+Для использования данного компонента в нескольких других-
+зарегистрируем его глобально в main.js. 
+
+import BuyModalComponent from '@/components/Shared/BuyModal'
+Vue.component('app-buy-modal',BuyModalComponent) 
+
+<app-buy-modal> можем использовать всместо кнопки Buy- 
+  вставится содержимое BuyModal.vue. 
+
+В home.vue и ad.vue вместо кнопки buy: 
+
+<app-buy-modal> Buy </app-buy-modal>
+
+ центрирование: добавить класс  text-sm-center
+
+
+ Создаем в store файл orders.js
+
+ Регистрируем orders.js в store/index.js
+
+ 2.27
+
+ Создание и обработка заказов. 
+
+ 
 
 -->
 

@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import ads from './ads'
 import user from './user'
 import shared from './shared'
+import orders from './orders'
 
 
 // Подключение vuex к vue
@@ -12,6 +13,6 @@ Vue.use(Vuex)
 // Экспортируем данные vuex в другие компоненты
 export default new Vuex.Store({
   modules: {
-    ads, user, shared
+    ads, user, shared, orders
   }
 })

@@ -101,18 +101,11 @@ export default {
   },
   getters:{
     user(state){
-      console.log('state.user.id',state.user.id)
+     
         return state.user
        
     },
-    userId(){
-      var id;
-      id = fb.auth().User.id
-
-      return id
-
-  },
-
+ 
     isUserLoggedIn (state) {
       // Проверяем- зарегистрирован ли пользователь
       return state.user !== null 

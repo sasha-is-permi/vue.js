@@ -1,7 +1,8 @@
   <template>
-<!-- любой элемент с такого тега начинаться будет 
- -->
-  <v-container>
+<!-- Если массив карточек подгрузился и внем что-то есть - 
+  показываем нащи карточки
+  -->
+  <v-container v-if="!loading && myAds.length!=0">
    <!-- row- Выравниваем layout по строке
    аттрибут vuetify создает свойство 
    flex-direction:row 
@@ -18,6 +19,7 @@
   v-for="ad in myAds"
   :key="ad.id"
   >
+  
   <v-layout row >
     
       <v-flex xs4>
@@ -44,15 +46,48 @@
               class="info mr-3"
               :to="'ad/' + ad.id"
               >  Open </v-btn> 
+              <!--
+               <v-btn
+              class="warning mr-3"
+               > Delete </v-btn> 
+              -->
+
           </v-card-actions> 
       </v-flex>
 
-     
+  
+
   </v-layout>
+
+   
+
+
+
   </v-card>
 
   </v-flex>
   </v-container>
+
+
+<!-- Если прошла загрузка но обьявлений не найдено -->
+  <v-container  v-else-if="!loading && myAds.length === 0">
+       <v-flex xs12 class="text-xs-center">
+         <h1 class="text--primary"> You have no ads </h1> 
+       </v-flex>    
+  </v-container>
+      
+   <!-- Иначе- пока идет загрузка -->   
+   <div  v-else class="text-xs-center">
+      <v-progress-circular
+        indeterminate
+        :size="100"
+        :width="4"
+        color="yellow"
+      ></v-progress-circular>
+
+  </div>    
+
+
   </template>
 
 <script>
@@ -89,6 +124,10 @@ computed:{
     // Обратимся к геттеру (функции) - получаем с помощью него карточки пользователя
      return this.$store.getters.myAds
   }
+}, 
+loading () {
+
+  return this.$store.getters.loading
 }
 
 

@@ -83,12 +83,8 @@ v-for="(item,i) in items"
         Open
       </v-btn>
 
-      <v-btn
-        class="primary"
-        text
-      >
-        Buy
-      </v-btn>
+     <app-buy-modal :ad="ad"> Buy </app-buy-modal>
+
     </v-card-actions>
   </v-card>        
 

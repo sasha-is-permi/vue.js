@@ -273,6 +273,11 @@ export default {
              );
          
            },
+
+             userId(state){
+              console.log('state.id',state.id)
+              return state.id},
+        
          // Чтобы передать id в геттер используем замыкания
          // Используем стрелочную функцию adId:
          // Функция фозвращает только нужные Id
