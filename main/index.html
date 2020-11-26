@@ -6180,7 +6180,236 @@ Vue.component('app-buy-modal',BuyModalComponent)
 
  Создание и обработка заказов. 
 
- 
+ 2.28.
+ Управление цветами. 
+ Использовали базовую цветовую гамму vutify.
+
+ primary- синий, error-  красный. 
+ success - зеленый
+ warning- желтый 
+
+ Пакеты цветовых гамм vutify:
+
+ https://v2.vuetifyjs.com/en/styles/colors/
+
+Можно наглядно посмотреть весь набор цветов material design 
+(снизу страницы).
+Их можно использовать сразу через class:
+
+class="purple lighten-3"
+
+ Или мы можем переопределить цветовую палитру. 
+ Это можно сделать двумя способами:
+
+1)
+
+// src/plugins/vuetify.js
+
+import Vue from 'vue'
+import Vuetify from 'vuetify/lib'
+
+import colors from 'vuetify/lib/util/colors'
+
+Vue.use(Vuetify)
+
+export default new Vuetify({
+  theme: {
+    themes: {
+      light: {
+       // переопределение цвета primary
+       // Все что было в проекте цветом primary- 
+       // будет сейчас другим цветом
+
+        primary: colors.red.darken1, // #E53935
+        secondary: colors.red.lighten4, // #FFCDD2
+        accent: colors.indigo.base, // #3F51B5
+      },
+    },
+  },
+})
+
+2) Через SASS. 
+
+
+Темы:
+https://v2.vuetifyjs.com/en/customization/theme/
+
+Генератор тем:
+https://theme-generator.vuetifyjs.com/
+
+
+29. Подключение предпроцессоров. 
+
+Предпроцессор позволяет писать свои собственные стили. 
+
+В ссылке на цветовые пакеты:
+https://v2.vuetifyjs.com/en/styles/colors/
+
+Полключение scss по-старому. 
+
+Sass color pack
+
+Есть еще цветовой пакет styles-loader:
+
+https://github.com/webpack-contrib/style-loader
+
+Подключаем 2 пакета: styles и styles-loader
+
+npm install  style-loader styles --save-dev
+
+/*
+style.css
+
+body {
+  background: green;
+}
+component.js
+
+import './style.css';
+
+
+webpack.config.js
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+};
+
+
+component-with-css-modules.js
+
+import styles from './styles.css';
+
+
+
+const divElement = document.createElement('div');
+divElement.className = styles['my-class'];
+
+*/
+
+Создаем в корне проекта папку stylus
+и файл main.styl. 
+
+В папке main.js: 
+
+import './stylus/main.styl'
+
+Установленный loader читает данное расширение 
+
+В style компонента указываем предпроцессор
+
+<style scoped lang="stylus">
+ //  Пишем scss синтаксис  
+.car-link
+left:50%;
+</style>
+
+
+
+***********************
+Новый вариант- предлагается sass-loader: 
+
+
+https://github.com/webpack-contrib/sass-loader
+
+sass-loader
+Loads a Sass/SCSS file and compiles it to CSS.
+
+Getting Started
+To begin, you'll need to install sass-loader:
+
+// подключаем 2 пакета:
+sass и sass-loader
+
+npm install sass-loader sass webpack --save-dev
+
+Требуется:
+npm install node-sass (или можно установть dart-sass )
+
+app.js
+
+Импортируем scss файл с классами
+import "./style.scss";
+
+
+style.scss
+// настраиваем класс новый. 
+// Этот файл заменяет css файл
+$body-color: red;
+
+// применяем класс в компоненте
+(без class="color:$body-color"- просто  color: $body-color;)
+body {
+  color: $body-color;
+}
+
+Настройка webpack для использования scss.
+Если уже используем vue-cli template-
+не нужно допольнительных настроек в webpack.config.js-
+просто при установке пакета указываем, что будем использовать scss.
+
+https://v2.vuetifyjs.com/en/getting-started/quick-start/#vue-cli-install
+
+webpack.config.js
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          "style-loader",
+          // Translates CSS into CommonJS
+          "css-loader",
+          // Compiles Sass to CSS
+          "sass-loader",
+        ],
+      },
+    ],
+  },
+};
+
+Создание файла scss:
+Современный вариант в vutify:
+
+// src/sass/main.scss
+
+$color-pack: false;
+
+@import '~vuetify/src/styles/main.sass';
+Your created main.sass file will
+ then need to be included in your project.
+
+// src/index.js
+
+import './src/sass/main.scss'
+// OR
+require('./src/sass/main.scss')
+You must configure your webpack setup to use sass. 
+If you are using a pre-made template this will already be done for you.
+
+This can also be done within your main App.vue file.
+ Keep in mind, depending on your project setup, this will 
+ increase build times as every time your entry file is updated,
+  the Sass files will be re-generated.
+
+  Варианты использования языка sass в теге <style>:
+  прямое включение и импорт готового файла:
+<style lang="sass">
+  $color-pack: false;
+
+  @import '~vuetify/src/styles/main.sass';
+</style>
+
+30. Заключение.
+
 
 -->
 
