@@ -41,7 +41,7 @@ Flex центрирование формы:
                                   
                 </v-toolbar>
                 <v-card-text>
-                  <v-form v-model="valid" ref="form" validation>
+                      <v-form >
                     <v-text-field
                       label="Email"
                       name="email"
