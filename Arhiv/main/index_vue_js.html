@@ -1,0 +1,6522 @@
+npm run <!-- Папка с файлом *.json
+Восстановить каталог node_modules
+Комманда npm install 
+
+
+
+
+Для сетевых запросов из JavaScript есть широко известный термин «AJAX»
+ (аббревиатура от Asynchronous JavaScript And XML).
+  XML мы использовать не обязаны, просто термин старый, 
+  поэтому в нём есть это слово. Возможно, вы его уже где-то слышали.
+
+Есть несколько способов делать сетевые запросы
+ и получать информацию с сервера.
+
+Метод fetch() — современный и очень мощный, 
+поэтому начнём с него. Он не поддерживается старыми 
+(можно использовать полифил), но поддерживается всеми 
+современными браузерами.
+
+
+
+Получается, в современном javscript считается
+ более современным использовать метод fetch() для запросов к серверу
+
+
+Можно, конечно вручную прописывать с помощью
+  https://learn.javascript.ru/xmlhttprequest  
+   или jQuery использовать, но fetch удобнее.
+
+
+
+XMLHttpRequest – это встроенный в браузер объект, который
+ даёт возможность делать HTTP-запросы к серверу без перезагрузки страницы.
+
+Несмотря на наличие слова «XML» в названии,
+ XMLHttpRequest может работать с любыми данными,
+  а не только с XML. Мы можем загружать/скачивать файлы, 
+  отслеживать прогресс и многое другое.
+
+На сегодняшний день не обязательно использовать
+ XMLHttpRequest, так как существует другой,
+  более современный метод fetch.
+
+В современной веб-разработке XMLHttpRequest используется по трём причинам:
+
+По историческим причинам: существует много кода, использующего
+ XMLHttpRequest, который нужно поддерживать.
+Необходимость поддерживать старые браузеры и нежелание
+ использовать полифилы (например, чтобы уменьшить количество кода).
+Потребность в функциональности, которую fetch пока 
+что не может предоставить, к примеру,
+ отслеживание прогресса отправки на сервер.
+
+
+
+Про сетевые запросы:
+
+https://learn.javascript.ru/network
+
+FETCH- это  AJAX по-современному, с автоматикой :)
+  jQuery- простой, но древний способ.
+    XMLHttpRequest- "ручной" современный способ для Ajax,
+     без автоматики.  Получается 3 способа Ajax:  
+     1)Fetch 2) XMLHttpRequest 3) jQuery.  
+
+     https://learn.javascript.ru/formdata
+
+     Давайте сначала отправим простую форму.
+
+Как вы видите, код очень компактный:
+
+<form id="formElem">
+  <input type="text" name="name" value="John">
+  <input type="text" name="surname" value="Smith">
+  <input type="submit">
+</form>
+
+<script>
+  formElem.onsubmit = async (e) => {
+    e.preventDefault();
+
+    let response = await fetch('/article/formdata/post/user', {
+      method: 'POST',
+      body: new FormData(formElem)
+    });
+
+    let result = await response.json();
+
+    alert(result.message);
+  };
+</script>
+
+Отправка формы с файлом
+Объекты FormData всегда отсылаются с заголовком
+ Content-Type: form/multipart, этот способ кодировки
+  позволяет отсылать файлы.
+   Таким образом, поля <input type="file"> 
+   тоже отправляются, как это и происходит в случае обычной формы.
+
+Пример такой формы:
+
+<form id="formElem">
+  <input type="text" name="firstName" value="John">
+  Картинка: <input type="file" name="picture" accept="image/*">
+  <input type="submit">
+</form>
+
+<script>
+  formElem.onsubmit = async (e) => {
+    e.preventDefault();
+
+    let response = await fetch('/article/formdata/post/user-avatar', {
+      method: 'POST',
+      body: new FormData(formElem)
+    });
+
+    let result = await response.json();
+
+    alert(result.message);
+  };
+</script>
+
+Сохранить объект в localstorage:
+Чтобы сохранить объект как пару ключ/значение, необходимо, также как и массив, закодировать объект в строку JSON.
+ И при извлечении нужно декодировать его обратно в объект.
+
+Вот пример:
+  var object = {
+   x: 12,
+   y: 56
+  }
+
+  localStorage.setItem ("object", JSON.stringify(object));
+  object = JSON.parse (localStorage.getItem ("object"));
+
+  console.log(typeof object); // объект
+  console.log(object); // Объект {x: 12, y: 56}
+
+localstorage
+// Два варианта добавления данных
+localStorage.userName = "Петя";
+localStorage.setItem("favoriteColor", "чёрный");
+
+// После добавления в localStorage, они будут там
+// до тех пор, пока их явно не удалить
+alert(`${localStorage.userName} предпочитает ${localStorage.favoriteColor} цвет.`);
+
+// А теперь удалим данные из хранилища
+localStorage.removeItem("userName");
+localStorage.removeItem("favoriteColor");
+
+// Интерполяция в scss
+$var: 'awesome';
+.#{$var}-selector {
+	display: flex;
+}
+// CSS код после компиляции
+.awesome-selector {
+	display: flex;
+} 
+
+Интерполяция в JavaScript работает схожим образом. В строке создаётся конструкция ${...}, 
+внутри которой вы можете поместить любую переменную или выражение:
+
+var age = 25;
+console.log(`I am ${age} years old`); // I am 25 years old
+
+// Эквивалентно
+console.log('I am ' + age + 'years old'); // I am 25 years old
+
+Важно: строки, созданные с помощью обычных кавычек (' и ") не поддерживают интерполяцию.
+ Для поддержки интерполяции следует использовать обратную кавычку ` (клавиша ё на клавиатуре):
+
+
+    // Перебор уже существующих значений в localStorage 
+    // В localstorage могут находиться и не JSON-значения,
+    // которые при распарсивании вызовут ошибку
+     
+    // Поэтому мужно провести проверку:
+    function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
+    for(let i=0; i<localStorage.length; i++) {
+                  let key = localStorage.key(i);
+    alert(`${key}: ${localStorage.getItem(key)}`);
+    }
+
+
+Работа с localStorage
+https://learn.javascript.ru/localstorage
+    
+
+Метод onSubmit: 
+
+onSubmit () {
+     // Добавление данных в локальное хранилище localStorage
+     // В окне консоли- вкладка Applications (или Resources)
+     // Там можно увидеть сохраненные данные через localStorage
+     
+     // Объект для дальнейшей записи в localStorage
+     // Авторизация идет по e-mail и password
+     let User= {
+     name: this.name,
+     password:this.password,
+     email:this.email
+     }
+
+    // существует ли email, который заводится из формы, в localStorage 
+    let emailExist   = false;
+    let passwordTrue = false;
+
+    // Перебор уже существующих значений в localStorage 
+    for(let i=0; i<localStorage.length; i++) {
+ 
+    // Получаем по ключу записанный в localStorage объект
+    let userLocalStorage0 = localStorage.getItem ( localStorage.key(i) );
+    
+    
+
+    console.log('User',User);
+
+    console.log('userLocalStorage0',userLocalStorage0); 
+
+    console.log('TypeofuserLocalStorage0',typeof(userLocalStorage0)); 
+
+    let isJSON = true;
+
+   
+   try {
+     JSON.parse(userLocalStorage0);
+    } catch (e) {
+      console.log('строка не в формате JSON:',userLocalStorage0);
+      isJSON = false;
+    }  
+
+   // Если строка их хранища не в формате JSON- 
+   // переходим на начало цикла, пропускаем данное значение
+   if  (isJSON === false) continue;
+      
+      // А если в формате JSON- применяем функцию parse
+    let   userLocalStorage = JSON.parse(userLocalStorage0);
+   
+   // Если уже существует такой пользователь в localStorage- 
+     // ставим флаг "не добавлять пользователя"
+     if (userLocalStorage.email === User.email) {
+        emailExist = true; console.log("email true")
+     if (User.password === userLocalStorage.password)  {
+                   passwordTrue = true;  console.log("password true")
+          }       
+        
+        }
+
+    }     
+    
+        // Нового пользователя сохраняем localStorage
+    if (emailExist === false) {      
+     // Сохраняем введенный объект в формате JSON 
+     // Ключ уникальности в localStorage-  по  email 
+    localStorage.setItem(User.email,JSON.stringify(User))
+    alert('Объект сохранен в localStorage***')
+    }
+      else {
+    // Если введен правильный e-mail, но не правильный пароль  
+    if ((emailExist) && (!passwordTrue)) {
+       alert('для пользователя был введен неправильный пароль!')
+    }
+    
+    // Если введен правильный e-mail, и правильный пароль  
+    if ((emailExist) && (passwordTrue)) {
+      alert('Переходим на главную станицу')
+      // Переход на главную страницу
+      // Передадим туда объект User
+    }
+           }
+
+  }
+  },
+  validations: {
+    email: {
+      required,
+      email,      
+      uniqEmail: function(newEmail) {
+        if (newEmail === '') return true
+        return newEmail !=='test@mail.ru'
+
+      }
+    },
+    password: {
+      minLength: minLength(8)
+    },
+    name: {
+      minLength: minLength(3),
+      maxLength: maxLength(15)
+    }
+  }
+
+}
+
+
+Метод вызывается в шапке тега формы:
+ <form 
+ @submit.prevent="onSubmit"
+ name="form"
+ action="#"
+ method="post"
+ enctype="multipart/form-data"
+    >
+
+ prevent- без перезагрузки формы
+ (отменяется стандартное поведение формы)   
+
+ Можно было событие добавит на кнопочку submit, но в данном 
+ случае в заголовке формы событие отправки описанно. 
+
+ Валидация полей:
+ https://htmlacademy.ru/blog/boost/frontend/form-validation-techniques
+
+
+-->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js</title>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>    
+
+<!-- 1.2.10. Работа с классами css -->
+    <style>
+        .circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 1px solid black;
+            display: inline-block;
+            margin: 40px;
+        }
+
+        .red {background: red;}
+        .blue {background: blue;}
+        .green {background: green;}
+    </style>
+<!-- ****************************  -->
+</head>
+<body>
+
+<!-- Часть 1. Блок 1. Знакомство с vue. Блок 2. Основы vue-->
+<div id="app">
+ 
+ <!-- Ставим прослушку события на изменение данного input 
+Слушаем событие: input (ввод текста) 
+changeName() - метод, который вызывается при описываемом событии. -->   
+
+ 
+<input type="text" v-on:input="changeName">    
+<h1> String: {{ name }}</h1>
+<!-- 1.2.1 Интерполяция. В фигурных скобках - можно писать javascript- выражения, которые вычислятся
+в браузере.
+-->
+<h1> {{30 + 40}} </h1>
+<!-- Можно в фигурных скобках использовать методы, определенные в объекте vue -->
+<h1> method: {{ sayHello()}}</h1>  
+<!-- В скобках можно писать простые тернарные выражения 
+isOK- переменная, определенная в объекте Vue-->
+<h1> statement: {{ isOK ? 'I am OK' : 'I am not OK' }} </h1>
+<!-- Применяем функцию к переменной string, определенной в объекте Vue
+split('') - разделить строку, к которой применяется функция, на массив, состоящий из букв,
+reverse - изменить направление элементов в массиве
+join('') - опять соединить элементы из массива в строку
+ -->
+
+<h1> {{ string.split('').reverse().join('') }}</h1>
+
+<!-- 1.2.2  Динамические атрибуты 
+Задана переменная url в объекте vue
+Надо вывести её в атрибут
+-->
+
+<h2>
+<!-- Выводим динамическую ссылку 
+Пишем директиву v-bind (связывание). 
+К аттрибуту href привязываем javscript (переменную url. Без {{}} в данном случае пишем)
+<a v-bind:href="url"> {{ url }}  </a> 
+v-bind можно не писать- поставить просто : - аналогично будет.
+
+-->
+<a :href="url"> {{ url }}  </a> 
+
+</h2>
+
+
+
+
+<!-- 1.2.3  Вывод html-кода
+Чтобы преобразовать переменную, в которй html- чтобы выводился именно результат выполнения html
+а не сам исходный html- текст.
+Для этого используем директиву v-html
+Указываем link- переменную, в которой хранится html-код
+Использовать с большой осторожностью- злоумышленники могут подставить 
+внутри html-кода вирус-скрипт
+-->
+<h2 v-html="link"> </h2>
+
+<!-- 1.2.4 Добавление событий -->
+
+<h2> Счетчик = {{counter}} </h2>
+
+<!-- При клике на данную кнопку- увеличиваем счетчик - переменную counter
+Используем директиву v-on - 
+При клике на кнопку выполняем метод- riseCounter 
+<button v-on:click="riseCounter"> Увеличить  </button>
+Можно вместо v-on: написать @ - аналогичная конструкция будет
+-->
+<button @click="riseCounter"> Увеличить  </button>
+   
+<!-- h2 v-on:mouseover - при наведении на заголовок h2- происходит событие
+mouseleave - когда курсор покидает h2- цвет возвращается.
+Можно написать mouseout 
+
+once -выполнить событие только один раз
+
+v-on: можно заменить на @
+--> 
+<h2 v-on:mouseover.once="onHover" @mouseleave="onLeave"> Счетчик2 = {{counter2}} </h2>
+
+<!-- Другой метод- сразу увеличиваем переменную counter2 
+Т.е. можем писать javascript код внутри v-on:click="" -->
+<button v-on:click="counter2++"> Увеличить  </button>   
+   
+
+<!-- 
+Привязать стиль, связать с переменной
+При наведении мышкой- вызывается функция из объекта vue  changebgcolor, при оставлении- originalcolor
+<div v-bind:style = "styleobj" v-on:mouseover = "changebgcolor" v-on:mouseout = "originalcolor"></div>
+
+changebgcolor : function() {
+   this.styleobj.backgroundColor = "green";
+}
+
+originalcolor : function() {
+   this.styleobj.backgroundColor = "red";
+}
+-->   
+   
+   
+<!-- 1.2.5 Передача параметров -->
+
+<h2> {{title}} {{counter3}} </h2>
+
+<!-- $event- передаем нативный элемент "событие" в нашу функцию  -->
+<button v-on:click="riseCounter3(5,'Счетчик изменен на 5. Итого счетчик =',$event)"> Увеличить на 5 </button>      
+<button v-on:click="riseCounter3(10,'Счетчик изменен на 10. Итого счетчик = ',$event)"> Увеличить на 10 </button>      
+   
+
+
+<!-- 1.2.6  Модификаторы событий -->
+
+<h2>   
+<!-- При клике на ссылку выполняется метод clickOnGoogle. Будет другое поведение, нестандартное. 
+<a href="http://google.com" target="_blank" v-on:click="clickOnGoogle"> Google </a> -->
+
+<!-- То же самое, что выше- отменить стандартное поведение ссылки, только с помощью vue.js
+Используем модификатор доступа prevent.
+Обработчик события click, его модификатор prevent
+-->
+<a href="http://google.com" target="_blank" v-on:click.prevent=""> Google </a>
+
+
+</h2>
+
+<!-- При наведении мыши на заголовок (событие- движение мыши): вызывается метод handleMouseMove()-->
+    <h2 v-on:mousemove="handleMouseMove">
+        X: {{ x }} \ Y: {{ y }}
+
+<!-- директива v-on:  прослушиваем событие: mousemove. Модификатор события: stop
+При попадании на данный span- останавливается отслеживание мыши по процедуре handleMouseMove()
+Данный модификатор отвечает за событие stopPropagation, которое также присутствует
+у стандартного объекта событий event.
+Метод stopPropagation() объекта Event прекращает дальнейшую передачу текущего события
+(метод предотвращает всплытие по дереву DOM)
+
+
+ -->
+        <span v-on:mousemove.stop="">Не изменять</span>
+    </h2>
+	
+	
+	
+<!-- 1.2.7  Модификаторы событий клавиатуры -->	
+
+<!-- -->
+<hr>
+
+<!-- При вводе с клавиатуры в данный input- вызывается метод alertValue()
+Через точку моем указывать любое количество модификаторов.
+v-on - директива vue.js
+keyup - событие
+enter, space - модификаторы событий.
+
+Документация по модификаторам доступа.
+https://vuejs.org/v2/guide/events.html#Key-Modifiers
+
+
+Есть стандартные keyCode
+.enter, .tab, .delete, .esc, .space, .up, .down, .left, right.
+
+Кроме того- можно завести собственный keycode:
+
+
+// enable v-on:keyup.f1
+// Заводим ноаую переменную которую также можем потом использовать.
+Vue.config.keyCodes.f1=112;
+
+
+ -->
+
+<input type="text" v-on:keyup.enter.space="alertValue">
+
+
+<!-- 1.2.8  Ярлыки для директив 
+Вместо v-bind: можно писать :
+Вместо v-on:  можно писать  @
+-->	
+
+<!-- 1.2.9 Модель для работы с формами -->
+
+<!-- Хотим чтобы при вводе в input менялся h2 
+@input   :   v-on:input   - директива v-on при вводе input
+inputValue - переменная, описанная в объекте vue
+$event - нативный элемент "событие"
+target - элемент, с которым происходит событие (поле input)
+value - значение,введенное в поле input
+
+Работает двухстороннее связывание (по английски: toWeyBiding)
+
+:value  v-bind:value  - связываем значение поле input с переменной inputValue
+
+@input  :   v-on:input
+-->
+
+<!-- 1 способ двухстороннего связывания -->
+
+ <br> 
+<input type="text" @input="inputValue =$event.target.value"  :value="inputValue"  />
+
+<h2> {{ inputValue }} </h2>
+ <br> 
+<!-- -->
+ 
+ 
+<!-- 2 способ двухстороннего связывания ]
+toWeyBiding
+v-model - двухстороннее связывание данного input и переменной inputValue2
+lazy - модификатор доступа. Чтобы после убирания фокуса только (Enter или щелчок вне поля)
+вносились изменения в переменную.
+-->
+ <br> 
+<input type="text" v-model.lazy="inputValue2"  />
+
+<h2> {{ inputValue2 }} </h2>
+ <br> 
+
+
+<!--  1.2.10 Работа с CSS классами-->
+<!-- При клике на данный элемент- булевская переменная isActive1 меняет--
+свое значение
+:class=""  - v-bind:class=""  Привязываем класс.
+Этот класс добавится к классу circle
+
+Если isActive= true - class='red' добавится к данному элементу.
+class={'red':isActive1} - это объект для класса css
+Если значение одного из значений объекта равно true- класс добавляется.
+Можем добавить еще ключ/значение для объекта
+
+Класс green включается когда isActive1= false
+// :class="{'red':isActive1,'green':!isActive1}"
+// Сократим эту запись- опишем объект в функкии  объекта vue getCssClases()
+(она будет возвращать данный объект)
+Вызываем метод getCssClases()- он выполняется, по return- возвращает результат.
+Чтобы не вызывать на выполнение каждый раз- опишем функцию в разделе computed,
+она заранее вычислится и её можно будет тут указать как переменную: getCssClases.
+
+ -->
+<div class="circle"
+ @click='isActive1=!isActive1'
+ :class="getCssClases"
+ >
+ </div>           
+<!-- v-bind Связываем класс (говорим, что будет кусочек javascript в кавычках,
+использующий переменные и методы объекта vue).
+:class="color" - добавляется класс, который пользователь введет в input (он преносится
+в переменную color с помощью v-model)
+Можем передавать не только переменную, но и массив
+
+Сначала ставится цвет из input (переменная color).
+Но если она пуста- работает второй элемент массива. 
+Если isActive2 = true - выбирается красный цвет длля круга 
+
+
+
+-->			
+<div class="circle" 
+@click='isActive2=!isActive2'
+:class="[color,{'red':isActive2}]"></div>
+
+<!-- Связываем значение вводимое с строковой переменной color -->
+<input type="text" v-model="color">
+
+<!--  1.2.11. Динамические стили -->			
+
+<hr>
+	
+<!-- То, что вводится в input- передается в color2,
+а затем тут задается стиль:  background:color2  
+В переменную color2 в inpit вводим значение css-свойства background
+Фактически, например:  v-bind:style={"'background':'yellow' ,'height':'100px'"}
+Т.е. для фигуры ранее задали ширину, высоту, радиус скругления.
+Переопределяем высоту тут
+
+<div class="circle" :style="{'background':color2,'height':height + 'px' }">   </div> 
+
+Перенесем данные свойства в функцию circleClasses, заданную в computed:
+Только для доступа к свойствам из функции используем ключевое слово this
+
+ -->	
+
+
+<div class="circle" :style="circleClases">   </div> 
+<!-- Все свойства, заданные в массиве, применяются
+Изменяем так же ширину- делаем её такой же как и высоту -->
+<div class="circle" :style="[circleClases,{'width': height + 'px'}]">   </div> 
+
+<hr>
+
+<!-- ctrl D - дублировать строчку -->
+<input type="text" v-model="color2">
+<input type="text" v-model="height">
+
+
+<!-- Урок 12.  Управление отображением элементов -->
+
+<!-- Показывать или не показывать элемент- директива v-if
+v-if="true" или v-if= "false"
+v-else - иначе
+ -->
+<h2 v-if="isVisible"> I am visible </h2>
+<h2 v-else> No I am not </h2>
+
+<!-- Меняем isVisible при клике на кнопку на противоположное значение -->
+<button @click="isVisible=!isVisible"> Заголовок  </button>
+
+<!-- В данной конструкции, когда много строк нужно использовать--
+v-else-if, иначе v-else привяжется к последнему if -->
+
+<h2 v-if=" type === 'a'"> A </h2>
+<h2 v-else-if=" type === 'b'"> B </h2>
+<h2 v-else-if=" type === 'c'"> C </h2>
+<h2 v-else> not match </h2>
+
+<hr>
+
+<!-- Введенное в input значение передается в свойство объекта vue  type и наоборот -->
+<input type="text" v-model="type">
+
+<hr>
+
+<!-- Тег из html5 template. Группирует теги. -->
+<template v-if="isVisible2" >
+   <h2> Title </h2>
+   <p>  Text  </p>
+</template>
+
+<template v-else>
+   <h2 style="color:red"> Title </h2>
+   <p style="color:blue">  Text  </p>
+</template>
+
+<hr>
+<!-- Меняем isVisible2 при клике на кнопку на противоположное значение -->
+<button @click="isVisible2=!isVisible2"> Заголовок  </button>
+
+<!-- 13.  Директива v-show vs v-if
+
+
+v-if/v-else :
+Полностью стирает тег из DOM-дерева если не может его показать.
+
+ -->
+
+   <h1 v-if="isVisible3"> I am visible  </h1>
+   <h2 v-else> Yoy can't see me </h2>
+
+<hr>
+    
+	<button @click="isVisible3=!isVisible3"> Показать  </button>
+ 
+<!-- При использовании директивы v-show остаются в DOM- дереве и h1 и h2.
+Если h1 виден- у h2 style="display:none" -->
+ <h1 v-show="isVisible4"> I am visible  </h1>
+   <h2 v-show="!isVisible4"> Yoy can't see me </h2>
+
+<hr>
+    
+	<button @click="isVisible4=!isVisible4"> Показать  </button>
+
+
+<!-- Урок 14.  Работа со списками -->
+
+<!-- 1) Вариант перечисления  -->
+   <ul>
+      <li> {{ people[0]}} </li>
+      <li> {{ people[1]}} </li>
+	  <li> {{ people[2]}} </li>	   
+   </ul>
+<!-- 2) Через цикл   
+На каждой иттерации переопределяется переменная person- 
+перебирается массив people
+Person  можно воспользоваться как обычной переменной vue.js- 
+например, вывести в шаблон.
+
+ -->
+    <hr>
+ 
+    <ul>
+       <!--   <li v-for="person in people">  {{person}} </li>    
+	   Если хотим получить ещё индекс - от 0 начинается
+	   Используем интерполяцию (включение переменных в строки вывода)
+	   Интерполяция js: `My old is ${age}`
+	   В vue.js : My old is {{age}}
+	   -->
+	   <li v-for="(person,index) in people"> {{index + 1}} {{person}} </li>
+	   
+    </ul>	
+  
+
+    <ul>
+	<!-- Или person.name, person.age
+	in можно заменить на of
+	-->
+   	   <li v-for="(person,index) of people2"> {{index + 1}}. {{person['name']}} - <b>{{person['age']}} лет </li>
+	   
+    </ul>	
+	
+	<hr>
+	
+	<!-- Нумерованный список
+    Если указываем число- на каждой иттерации будем получать числа от 1-10
+	
+	
+	-->
+	<ol>
+	   <li v-for="(num,index) of 10"> {{index + 1 }} - {{ num }}   </li>
+	
+	</ol>
+	
+	<hr>
+	
+	<ul>
+	<!-- Выведет значение полей объекта- без ключей -->
+	 <li v-for = "value in person10">    {{ value}}             </li>
+	<!-- Выведет значение полей объекта- с ключами (2-м параметром указываем что ключ надо,
+	а в 3 параметр можно записывать индекс- номер текущей иттерации- от 0 начинается)
+	Индекс нужной иттерации- от 0 начинается, до количество циклов - 1
+	-->
+	
+	<hr>
+	 <li v-for = "(value,key,index) in person10"> <em> {{index}} </em> {{key}} - {{ value}}   </li>
+	</ul>
+	
+	<!-- Оптимизация приложения с computed
+     Добавляем в объект vue переменную counter
+	-->
+	
+	<h2> Counter {{  counter }} \ {{ counter2 }}   <h2>
+<!--	<h3> {{condition}}  </h3> -->
+ <!-- Вызовем метод vue.js, который вернет определенную строку 
+ Строки с переменной condition закомментируем (в объекте vue тоже) -->   
+	<h3> result {{ result() }}  </h3>
+	<h3> computedResult {{ computedResult }}  </h3>
+	
+	<!-- add, sub- функции объекта vue -->
+	<button @click="add"> Add </button>  <!-- Добавляем единицу к counter -->
+	
+	<button @click="sub"> Sub </button>  <!-- Вычитаем единицу из counter -->
+	
+	<br> <br>
+	
+	<!-- При щелчке на кнопку- страница обновляется, вызывается опять 
+    функция result() которая выводит информацию в консоль	
+	чтобы функция не обновлялась, не пересчитывалась- её в объекте vue 
+	надо поместить в раздел computed (вычисленное)
+	Вычисленная функция будет выводится как переменная в {{}} (без круглых скобок вызова):
+    {{computedResult}}	
+	
+	при изменении переменной counter- пересчитываются все функции, связанные с ней.
+	В том числе и вычесленные в computed: computedResult.
+	Но если изменяемая переменная не входит в эту функцию и функция не вызывается на страничке
+	через () (уже вычислена в computed) -  функция не пересчитывется.
+	
+	Функция внутри computed() пересчитывается только если изменяются переменные внутри неё.
+	
+	computed-методы. Используются как переменные.
+	возвращают что-то что можно привести к строке.
+	
+	-->
+	<button @click="counter2++">  Add counter2 </button> <!-- Добавляем 1 к counter2 -->
+	
+    <!-- 16. Отслеживание изменений с watch -->
+	
+	<!-- 17. Связывание разных приложений. Инстанс vue.
+    Можем заводить любое количество Vue приложений (Vue объектов)
+	Они различаются по id <div>,с которым они связанны.
+	Если хотим при клике на кнопку из 2-го приложения изменять 
+	что-то в первом приложении
+	Если меняем переменную- динамичксуи меняется все связанное с этой переменной.
+
+	-->
+	   
+	   <h2> {{title2}} </h2>
+	   
+	    <h2>  {{newField}} </h2>
+	   
+	   <button @click="title2='Updated title'"> Update title </button>
+	   
+
+	   
+	   
+	   
+ </div>
+
+<hr/>
+
+<div id="app2">
+ 
+ <h2>  {{title2}} </h2>
+ 
+
+ <button @click="updateFirstTitle">  Update first title   </button>
+ 
+ 
+	 
+	 
+	 <!-- 18. Доступ к DOM-элементам -->  
+	 
+ <hr ref="horLine" id="hr1"/>
+<!-- Для данного тега делаем референсию (назначем имя для h2- "heading", чтобы
+получить к нему доступ в объекте Vue)-->
+ <h2 ref="heading">  {{title3}} </h2>
+ 
+
+ <button @click="updateTitle">  Update title   </button>
+
+
+
+<!-- Урок 19. Свойство Template. -->
+
+
+
+   <hr>
+
+ 
+
+
+
+
+
+</div>
+
+
+<div id="app3">
+  
+  <br/>
+
+ <h2> {{title5}} <h2/>
+  
+  <br/> <br/> <br/>
+  
+</div>
+
+
+<!-- Урок 20. Жизненный цикл. 
+
+-->
+
+<div id="app4">
+
+<br/>
+
+<h2>  {{title6}} </h2>
+
+<!-- При клике на кнопку-  изменяется переменная объекта vue title6, которая выводится выше -->
+<button @click="title6='changed title'">  Change  </button>
+<button @click="doDestroy"> Destroy </button>
+
+<br/> <br/> <br/>
+
+</div>
+
+<!-- 3.1  Зачем нужен  CLI 
+vue-cli. Создает готовый проект с множеством функций.
+Сначала нужно установить node.js:  https://nodejs.org/en/
+Устанавливаем Curent (текущую версию) 
+В дополнении к ней идет пакет npm-  с помощью него можно установить дополнительные пакеты
+
+    3.2 Установка CLI и создание проекта
+	https://github.com/vuejs/vue-cli/tree/master
+	1) вариант скачиваем CLI. Переключаемся на master-ветку.
+	Code\Download zip
+	2) вариант. Можно не скачивать а установить с помощью npm.
+	npm install -g vue-cli
+	(копируем команду, вставляем и запускаем из terminal в visual studio code
+    в текущем каталоге	)
+	После установки- будут доступны новые команды.
+	vue init <template-name> <project-name>
+	<project-name> - имя нашего проекта
+	<template-name> - по какому шаблону генерировать проект.
+	webpack
+	webpack- simple добавляет базовую конфигурацию webpack и vue-loader чтобы все было готово
+	к программированию. Поначалу будем использовать этот шаблон.
+	browserify  предназначен для другого сборщика, не webpack
+	browserify-simple
+	pwa
+	simple (самый простой проект)
+	
+	( на сайте: предлагается
+	npm install -g @vue/cli
+	vue create my-project )
+	
+	Переходим в папку где будет находится проекты.
+	создаем проект командой из терминала VSCode:
+    vue init webpack-simple vue-project
+    Вопросы:  
+    Project-name: Enter- как указали в команде
+	Project description: (для package.json) Enter
+    Autor: Alexandr
+	License: Enter
+	Use Sass: N Enter (в данном случае не используем)
+ 	
+	Для старта проекта:
+	
+    cd vue-project
+    npm install
+    npm run dev
+	
+	/*****************************************
+	Последующий старт:
+	
+	npm run dev
+	
+	или 
+	
+	npm run build
+	
+	стартует в браузере на порту localhost:8080
+	
+	/******************************************
+	
+	 3.3 Обзор структуры проекта
+	 
+	 package.json- в этом файле описанно какие модули нужно устанавливать npm
+	 В этом файле разделы:
+	 dependensies - основной разработчик vue
+	 devDependensies- переводчик- типа babel, loader, webpack
+	 /src/babelrc - отвечает за компиляцию ES6
+	 какие правила нужно учитывать при компиляции.
+	 .editirconfig- стили для редактирования проекта
+	 .gitignore- какие файлы не надо включать в систему контроля версий
+	 
+	<div id="app"></div>  - главный элемент
+    <script src="/dist/build.js"></script> - тут будет собираться приложение при сборке
+	 
+	 webpackconfig.js - настройка webpack
+	 
+	 ключи dev - для промежуточной разработки,
+	 build- для окончательной, чтобы лишнее не входило в проект.
+	 
+	 // main.js
+	 // Создаем объект Vue на основе библиотеки vue
+	 // импортиуем главный компонент (из App.vue - объект будет называться App)
+	 import Vue from 'vue'
+     import App from './App.vue'
+ 
+    // инициализируем приложение. говорим что главный div - с id="#app"
+    new Vue({
+    el: '#app',
+	// вызываем render, где рендерим (проверяем врзможные изменения) в нашем компоненте App
+    render: h => h(App)
+    })
+    
+	assets/longo.png - значок vue
+	App.vue -  - главный компонент, где описанна логика приложения 
+	
+	Расширение vue- специальное расширение для разработке в freimwork vue
+	
+	Тут хранится код всего приложения обязательный тег template (html):
+	
+	<template>
+  <div id="app">
+    <img src="./assets/logo.png">
+    <h1>{{ msg }}</h1>
+    <h2>Essential Links</h2>
+    <ul>
+      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
+      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
+      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
+      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
+    </ul>
+    <h2>Ecosystem</h2>
+    <ul>
+      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
+      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
+      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
+      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
+    </ul>
+  </div>
+</template>
+
+
+    Следующая секция- хранит javascript-код приложения.
+<script>
+export default {
+  name: 'app',
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App'
+    }
+  }
+}
+</script>
+
+
+    Следующая секция 
+    <style> - описываем разные стили для компонента.
+
+
+    Консоль.
+	cd vue-project
+	В папке проекта.
+	npm run dev - запуск приложения в режиме разработки
+	Можно посмотреть по адрему:
+	localhost:8080
+	Код, который выводится совпадает с файлом App.vue	
+	
+	npm run build - запуск приложения в режиме готового приложения
+
+    В App.vue убираем лишний код 
+	И добавляем тег, использующий переменную, описанную в javascript-блоке:
+	msg
+	
+	<template>
+       <h1> {{msg}}  </h1>
+    </template>
+
+    Очищаем стили. name - переменная, тоже не понадобится.
+	Раньше было:
+	data: {}
+	Сейчас data используем как функцию.
+	Она не является объектом, но она возвращает объект который мы можем использовать.
+	
+	data () {
+    return {
+      msg: 'Welcome to Your Vue.js App'
+    }
+  }
+	
+  3.4 Как запускается приложение.
+  
+  Файл main.js
+  
+  Основной файл котрый запускает приложение
+  
+  import Vue from 'vue' // Подключаем с помощью синтаксиса ES6 библиотеку Vue.
+ // можно будет с ней оперировать с помощью объекта Vue
+  
+  
+  
+  import App from './App.vue' // импортируем. App.vue под именем App
+
+  // новый объект vue
+  new Vue({
+    el: '#app', // Нас интересует div id="app"
+	
+	// Это обычная функция которая принимает новую функцию.
+	// render- функция конфигурации Vue, которая позволяет рендерить (запускать)
+	// наше приложение
+	// Перепишем это в старом формате:
+	// render: function(h) { 
+	// return h(App)}  // Передаем объект импортированный с нашим приложением в функцию h()
+	// Вызываем функцию render объекта Vue, которая в свою очередь вызывает функцию h,
+	// параметр h - корневой элемент нашего приложения.
+	// В App.vue прописанн 
+		export default {
+          data () {
+          return {
+          msg: 'Welcome to Your Vue.js App'
+                 }
+                   }  
+  }
+	 Это значит когда мы импортируем App.Vue и называем это App
+     webpack при импорте соединяет функцию data и шаблон <template>
+	 Затем рендерим div id="app"  и запускаем приложение.
+	
+    render: h => h(App)
+  })
+
+  4.1. Зачем нужны компоненты.
+  
+  Компоненты- элементы сайта, которые работают независимо друг от друга
+  и могут быть использованны не один раз.
+  
+-->
+
+
+<div id="app5">
+
+<!--
+<div style="border:1px solid black; padding:10px ">
+<h2>  counter: {{ counter}}     </h2>
+<button @click="counter++"> Add to counter </button>
+</div>
+
+< 2-й независимый counter >
+<div style="border:1px solid black; padding:10px ">
+<h2>  counter: {{ counter2}}     </h2>
+<button @click="counter2++"> Add to counter </button>
+</div>
+-->
+
+<!-- 
+
+
+Чтобы не писать одно и то же несколько раз:
+В JS создаем компонент
+
+// функция component объекта Vue
+// Регистрируем компонент до инициализации приложения
+// 1 параметр- имя создаваемого тега для html который будем использовать в <div id="app5">
+// Фактически с помощью vue.js создаем компаненты- новые теги 
+// вставляемый в <div id="app5">
+// Текст тега (обязательно):
+// template: `текст в html-формате`
+// затем через , можно использовать
+// любые другие поля объекта vue
+// data- переменные там хранятся
+// в данном случае это должна быть функция , со словом return внутри
+
+
+// Зарегистрировали компонент глобально.
+// Можно использовать в разных <div id="">  с разными id
+
+// 4.2- попробуем возвращать из data заранее созданный объект
+// Создаем глобальную переменную с помощью var
+// ( Если let написать- у каждого компонента будет свой counter)
+var dataObj = {
+	counter:0	
+}
+
+
+
+Vue.component('my-counter', {
+	template:`
+<div style="border:1px solid black; padding:10px ">
+<h2>  counter: {{ counter}}     </h2>
+<button @click="add"> Add to counter </button>
+</div>	
+	
+
+`,
+data: function(){
+// 4.2 Если используем объект с одной переменной глобальной- у компонентов всех она одна и таже
+//return dataObj
+
+// функция data позволяет замыкать переменную в компоненте- у каждого компонента свой counter
+return {
+counter:0
+}  
+},
+methods: {
+	add: function() {
+		this.counter++;
+	}
+}
+
+});
+
+new Vue({
+el:"#app5"
+});	
+
+В html Продублируем компоненты- получим 3 независимых компонента,
+у каждой из которых счет counter свой
+
+
+ -->
+<my-counter>     </my-counter>
+<my-counter>     </my-counter>
+<my-counter>     </my-counter>
+
+<!-- Создаем еще 2 компонента в цикле -->
+<my-counter v-for='c in 2'>     </my-counter>
+
+<h2> Локальный компонент </h2>
+<my-counter1>     </my-counter1>
+
+
+<!-- 4.2 Метод data -->
+
+
+</div>
+
+<!--
+4.3  Локальная и глобальная регистрация
+
+Глобальная регистрация компонента
+
+Создать 2 разных приложения.
+В Html 
+<div id="app5"> <my-counter1>     </my-counter1> </div>
+<div id="app6"> <my-counter1>     </my-counter1>  </div>
+
+В JS:
+
+// Зарегистрировали компонент глобально.
+// Можно использовать в разных <div id="">  с разными id
+
+Vue.component('my-counter', {
+	template:`
+<div style="border:1px solid black; padding:10px ">
+<h2>  counter: {{ counter}}     </h2>
+<button @click="add"> Add to counter </button>
+</div>	
+	
+
+
+new Vue({
+el:"#app5"
+});	
+
+new Vue({
+el:"#app6"
+});	
+
+Локальная регистрация компонента
+
+В HTML:
+используем каждый тег-компонент только в своём id="app"
+
+
+div id="app5">
+<h2> 1 Локальный компонент </h2>
+<my-counter1>     </my-counter1>
+</div>
+
+
+
+<div id="app6">
+<h2> 2-й локальный компонент </h2>
+<myСounter2>     </myСounter2>
+</div>
+
+
+
+
+
+// В JS
+
+
+// Создаем объект чтобы локально зарегистрировать его
+// как компонент объекта vue
+// Лучше писать прямо в объекте vue- без var.
+// С let тоже работает
+
+var component1 = {
+	template:`
+<div style="border:1px solid black; padding:10px ">
+<h2>  counter: {{ counter}}     </h2>
+<button @click="add"> Add to counter </button>
+</div>	
+`,
+data: function(){
+return {
+counter:0
+}  
+},
+methods: {
+	add: function() {
+		this.counter++;
+	}
+}
+
+}	
+
+
+var component2 = {
+	template:`
+<div style="border:1px solid black; padding:10px ">
+<h2>  counter: {{ counter}}     </h2>
+<button @click="add"> Add to counter </button>
+</div>	
+`,
+data: function(){
+
+return {
+counter:0
+}  
+},
+methods: {
+	add: function() {
+		this.counter++;
+	}
+}
+
+}	
+		
+// Регистрируем компоненты в объектах Vue
+// 
+
+// Регистрируем 1 компонент
+new Vue({
+el:"#app5",
+// опишем локальный компонент - можно будет использовать 
+// только в div id="app5" 
+// (можно component прямо тут описать)
+components: {
+	'my-counter1': component1
+}
+
+
+});	
+
+
+// Регистрируем 2 компонент
+
+
+// Этот объект отличается от прошлого id (el:"#app6")
+new Vue({
+el:"#app6",
+components: {
+	// Даем имя в стиле camel case (каждое новое слово с большой буквы)
+	// Строка в имени не содержит дефисы- удаляем кавычки.
+	myСounter2: component2
+}
+
+});	
+
+
+// 4.4
+В components (выше) пишем 
+myСounter2: component2 вместо 'my-counter2': component2
+vue.js поймет, что это имя тега и в html можно использовать тег
+<myСounter2> или <my-counter2>
+
+
+
+если хотим использовать компонент из прошлого объекта vue  в этом-
+дальше об этом 
+
+// 4.5 Работаем с проектом.
+
+
+
+
+
+ -->
+
+<div id="app6">
+
+<h2> id="app6" </h2>
+<my-counter>     </my-counter>
+<h2> 2-й локальный компонент </h2>
+<myСounter2>     </myСounter2>
+</div>
+
+
+<!--  4.5 Регистрация компонентов (из файлов-имеем в виду в данном случае)
+	 в .vue 
+
+main.js:
+
+
+
+
+// 1. Глобальная регистрация компонента
+// В main.js
+
+
+import Vue from 'vue'
+// Импортируем из app.vue экспортную функцию, описанную там,
+// с прикрепленным шаблоном и стилем
+import App from './App.vue'
+// Подключаем компонент  car.vue  
+// (для глобальной регистрации компонента)
+// import Car from './car.vue'
+
+//******************
+// Из car.vue  подтягивается содержимое <template>,
+// <script>, <style>  
+//	Car- это компонент (тот html, который описан в <temlate>,
+	+  <script>, <style>  )
+
+// Регистрируем компонент глобально
+// Имя желательно не одиночное- типа app-car
+// Теперь мы можем везде использовать компонент (тег) <app-car>
+// (в файлах *.vue в template и в *.html)
+
+// Vue.component('app-car',Car)
+//**********************
+// Обязательно подключаем компонент до инициализации Vue
+// (до new Vue)
+
+
+new Vue({
+  el: '#app',
+  // рендерим div id="app"
+  // В старом синтаксисе
+  // render: function(h) {
+  // return h(App)	  
+  //}
+  render: h => h(App)
+})
+
+
+
+//**************
+// В car.vue
+// template- в нем содержится сам компонент в html,
+// из <script> берется переменный и функции для компонента,
+// из <style>- стили
+
+// Компонент <app-car>, создан в car.vue,
+// глобально зарегистрирован в main.js, 
+// теперь его можно тут использовать, в других файлах *.vue,
+// например, в App.vue 
+// только все теги должны быть в корневом <div>
+
+// В app.vue
+
+<template>
+    <div class="car">
+		<app-car>  </app-car>
+        <h3> Name: {{ carName }} \ {{ reverseName}}  </h3>
+        <p>  Year: {{ carYear }} </p>
+    </div>
+</template>
+ 
+ <script>
+ export default {
+   data() {
+   return{
+	 carName:Ford,
+	 carYear:2015
+        }
+   }
+ } 
+
+
+ </script>
+ 
+ <style>
+ 
+ </style>
+
+
+//*************************************************
+Локальная регистрация компонента из car.vue
+
+В main.js убираем глобальную регистрацию компонента
+
+// import Car from './car.vue'
+// Vue.component('app-car',Car)
+
+В App.vue добавляем локальную регистрацию компонента из 
+car.vue
+
+Импортируем в теге <script> App.vue
+
+
+<script>
+// Подключаем компонент локально
+import Car from './Car.vue'
+
+// ниже описываем еще  components:
+
+// Экспортируем содержимое этой компоненты (<template> + подключенный javascript код и CSS)
+// Чтобы main.js приняла информацию и вывела её:
+export default {
+  name: 'app',
+  data () {
+    return {
+    carName: 'Ford',
+    carYear: 2018,
+    counter:0
+    }
+  },
+// Описываем компонент дочерний Car- связываем его с тегом ,<appCar>,
+// который присутствует выше 
+// (выше размещаем теги этого и дочерних компонентов)
+  components:{
+     appCar:Car
+}
+
+}
+</script>
+
+
+
+Теперь в app.vue в template можно использовать компонент-тег
+<appCar>  (или <app-car> - vue.js поймет)
+
+
+В файлах *.vue комментарии пишутся так:
+
+В шаблоне <template> и за ним- по правилам html
+В <script> - по правилам javascript /**/ или //
+В <style> по правилам css  /**/
+
+    4.6.  Передача параметров компоненту
+	
+	Два компонента- App и Car
+    App- корневой, в нем регистрируем компонент car
+ 
+    В App в <template> пишем:
+
+	<appCar	v-bind:carName="carName">   </appCar> 
+
+	Т.е. из app.vue в car.vue (зарегистрирован как тег <appCar> )
+	передаем параметр carName, значение которого определено  
+	в app.vue (чтобы "carName" была не строкой а значением из carName: 'Ford'
+	используем v-bind: (:)
+	)
+	export default {
+    data () {
+	return {    carName: 'Ford' } 
+                   }   
+
+
+	
+	В car.vue указываем имя входящего параметра:
+
+   export default {
+     // имя входящего параметра который должен поступить в дочерний компонент
+     props:['carName']
+                   }
+
+	Передаем 2 параметра:
+	В app.vue:
+
+	<appCar
+	:carName="carName"
+	:carYear="carYear"
+	>
+
+   export default {
+   data () { 	return {    carName: 'Ford',    carYear: 2018 }   }
+                  }
+	
+
+
+	
+    В car.vue:
+
+    export default {
+	props:['carName','carYear']
+	               }
+
+	Можем создать еще 
+	<appCar>, только передать туда другие параметры- 
+	будет другая машина.	
+
+
+	4.7 Валидация входящих параметров
+	  
+	В car.vue: 
+	computed: { 
+           reverseName() {return this.carName.split("").reverse().join("");}
+	          }  
+    И выводим в <template>
+	<h3> Name: {{ carName }} \ {{ reverseName}}  </h3>
+	(reverseName пишем не как функцию а как переменную, потому что она
+	вычисленная в computed. если бы она была в methods- надо было бы
+	писать её как функцию )
+	 Но split() может быть применима только к строке
+	 Чтобы указать что carName должна быть строкой: переписываем props
+
+	  props: {
+       carName : {
+	   type:String,
+	   // required:true, // (обязательное поле)
+       default:'Mersedes'
+       },
+      carYear: Number,
+      changeFunc: Function,
+      counter:Number
+	  }
+	  
+	  (также указываем значение по умолчанию default- если параметр
+	  не будет передан)
+
+	  Если передадим строку вместо числа:
+	  будет ошибка invalid prop: exoected Number
+
+
+	
+	4.8 Передача параметров от дочернего компонента
+	В car.vue: 
+	в <template>:
+	<button @click="changeName"> Change car name  </button>
+	
+	В methods:
+	changeName() {
+        this.carName = 'Mazda'
+				 }
+	Изменяем имя машины на 'Mazda'
+	carName в компоненте Car изменили на 'Mazda', 
+	но в родительском компоненте не изменили.		 
+	Надо передать и в родительский App.vue
+	(уведомить родительский коспонент чтр carName изменилась)
+	this.$emit('nameChanged')				 
+    Создаем прослушку изменений carName- событие называем 
+	nameChanged (оно случается при изменении данной переменной)
+	Уведомляем компоненты что экспортируем такое событие
+	(в export default находится) 
+
+    В app.vue: слушаем событие nameChanged из Car:
+    ( с помощью v-on:   (@))
+	и меняем carName на то значение, которое пришло из Car:
+	 
+	<appCar	
+	@nameChanged="carName=$event" >
+ 
+	В результате с вамом компоненте App.vue тоже изменится значение
+	переменной:
+
+	<h1> Parent: {{carName}}  </h1>
+
+	4.9 Передача функции как параметр
+	
+	Заводим функцию в app.vue:  
+	Она изменяет имя машины
+	   methods: {
+           changeNameToAudy() {
+           this.carName = 'Audi'
+							  }  
+	Мы передаем в Car эту функцию
+	В app.vue:  						  
+    <appCar
+	:changeFunc = "changeNameToAudy">
+	(передаем параметр changeFunc.
+	Благодаря v-bind передается именно функция changeNameToAudy а не строка)
+
+	В car.vue: 
+    Принимаем функцию 
+	props: {   changeFunc: Function }
+	
+	Создаем в <template> кнопку- при клике на неё запускается
+	полученная функция	
+    <button @click="changeFunc()"> Change from parent  </button>
+	
+	При нажатии на кнопку- вызывается функция. 
+	Сначала она вызывается в родительском компоненте-
+	поскольку это родтельская функция
+	Меняется значение carName в родительском компоненте. 
+
+	А затем поскольку функция передается в компонент car- 
+	carName применяется и к дочернему компоненту<div class="">
+
+	</div>
+
+	
+	4.10 Связь дочерних компонентов
+	 
+	Связываем 2 дочерних компонента между собой. 
+	Создаем counter.vue
+
+   <template>
+
+    <h1> Counter: {{counter}} </h1>
+
+
+   </template>
+
+
+   <script>
+    export default {
+    // Принимаем преременную counter как параметр из другого компонента
+   props: ['counter']
+                   }
+   </script>
+
+   В app.vue подключаем новый компонент counter (<appCounter>):
+  
+   import Counter from './Counter.vue' // начало импорта компонента (п.1)
+
+   //     appCounter:counter // продолжение регистрации к-та (п.2) 
+  components:{
+     appCar:Car, 
+     appCounter:Counter 
+}
+
+    Затем используем компонент в app.vue в <template>
+
+     <appCounter :counter="counter"></appCounter>
+
+	 (передаем в компонент counter.vue 
+	 параметр counter, заданный в app.vue:
+	   data () {
+    return {
+    counter:0
+    }
+	 
+	 
+	 ) 
+
+
+	 Передаем переменную counter в компоненту car (appCar)
+	<appCar
+	 :counter="counter"
+	 >
+
+
+      
+
+
+car.vue:
+<templates>
+ Из компонента car.vue- взаимодействуем с компонентом counter	 
+ При клике увеличиваем счетчик 
+<button @click="updateCounter"> Update counter  </button>
+
+В methods:
+updateCounter() {
+// Передаем по событию counterUpdated (слушаем его из других компонентов)
+// увеличенную переменную counter++
+this.$emit('counterUpdated',this.counter + 1)
+}
+
+Принимаем counter из другой компоненты
+props: {
+counter:Number
+}
+
+В app.vue: прослушиваем событие увеличения counter из компоненты Car:
+	<appCar
+  @counterUpdated="counter=$event"
+	>
+
+
+
+	vetur- отображать *.vue файлы правильно
+	
+	Можно связывать компоненты фактически через главный.
+	Есть другой вариант- шина событий
+	Создаем в main.js
+
+   4.11 Использование шины событий для связывания двух компонентов
+   без обращения к главному компоненту.
+  
+   В main.js создаем константу новую, назовём её например eventEmitter
+   Она будет равна новому элементу vue
+
+	export const eventEmitter = new Vue()
+	
+	(эта строка должна стоять до инициализации приложения-
+	до new vue)
+   
+	В car.vue:
+   
+	В <template>:
+
+	При клике увеличиваем счетчик 
+    <button @click="updateCounter"> Update counter  </button>
+
+	В <script>:
+	
+	// импортируем объект vue eventEmitter из main.js
+	при этом проводим декомпозицию объекта.
+	import {eventEmitter} from './main'
+
+
+   При вызове функции 	updateCounter передаем в другие компоненты 
+   событие counterUpdated и параметр '3'
+
+   updateCounter() {
+    eventEmitter.$emit('counterUpdated',3)
+   }
+
+
+     Убираем лишнее:
+	(	В компоненте Car:
+	переменная counter больше не нужна 
+	//counter:Number
+
+   В app.vue:
+   не передаем counter в компонент car
+   и не создаем такую переменную в app.vue.  
+   
+   убираем counter из свойств в связи с другим методом изменения counter
+  <appCounter></appCounter>
+   
+  и в counter.vue оставляем только:
+  props: ['counter'] )
+
+  В main.js создали объект
+ из car.vue отправляем событие, в counter.vue его ловим. 
+ У события есть жизненный цикл. 
+ Используем функцию created(){}
+ (компонент создан, но еще не заложен в dom-дерево)
+
+В counter.vue: 
+
+<template> <h1> Counter: {{counter}} </h1></template>
+
+<script>
+// импортируем объект vue eventEmitter из main.js
+import {eventEmitter} from './main'
+
+export default {
+
+// created - компонент создан, но еще не заложен в dom-дерево,
+// слушаем событие для объекта eventEmitter при наступлении ($on)
+// события counterUpdated
+// 2 параметр- стрелочная функция. Говорим- что будем делать.
+// Увеличиваем counter на 1.
+// num- переданный параметр (3)
+
+data() {
+    return {
+        counter:0
+    }    
+},
+created(){
+
+   eventEmitter.$on('counterUpdated',(num) => {
+     this.counter+= num
+   })
+    }
+
+}
+</script>
+
+
+	4.12 Изолированные стили
+
+	В car.vue задаем стили в теге <style>
+     div { border: 1px solid black;}
+	Рамка распространилась и на counter.vue и общая рамка у родителя-
+	app.vue (объединяет эти компоненты).
+	Вывод- стили глобальны- действуют сразу на все компоненты
+	(если div присвоить какой-то класс и задать свойства для этого класса-
+	подействует только на этот класс) 
+
+	В counter.vue:   
+    <style scoped>
+         h2 {color:green;}
+    </style> 
+	
+	Применили аттрибут scoped- зеленый цвет только заголовки 
+	h2 в counter.vue, на заголовки h2 в car.vue это не распространяется.
+
+	 Получается изолированный стиль h2:  
+	 Если посмотреть код html: 
+	 <div data-v-be4ddc>
+	   <h2 data-v-be4ddc> Counter</h2> 
+	 
+	   В css:
+	   h2[data-v-be4ddc] {
+		   color:green;
+	   }
+		
+	   vue.js добавляет аттрибут для тегов этого компонента,
+	   и для них действуют свои стили
+
+	  Для car.vue
+
+	  <style scoped>
+	  div { border: 1px solid black; padding: 10px;}
+      </style>
+	  
+      (рамка будет действовать только для компонента car)
+
+	4.13 Передача HTML компоненту
+
+	В app.vue, <template>
+			<appCar>   <h5> html </h5>     </appCar>
+	</template>
+	
+	Передаем в компонент appCar (car) html  строки 
+	внутри <appCar>:
+	<h5> html </h5>
+	(можно несколько строчек перечислить, не обрамляя их корневым элементом)
+	
+	В car.vue в <template> с помощью тегов <slot> </slot>
+	указываем место куда нужно вставить переданный html
+	
+	Можно в app.vue в <script> задать:
+  
+	carName1: 'Honda'
+
+    и затем в <template> написать:
+
+	<appCar>	
+  <h2> {{carName1}}</h2>  
+   </appCar>
+
+   Значение в {{carName1}} вставится и готовая строка передастся в 
+   <appCar>,и там выведется там где указан тег <slot> </slot>
+
+	Сделали изолированный стиль- 
+	<style scoped>
+  h2 {
+    color:red
+  }
+</style>
+
+   он применился в app.vue, только потом все передалось в car.vue
+   А можно в car.vue в <style scoped> задать стиль для <h2>- 
+   он тоже применится правильно.
+
+   Хотим поместить передаваемый текст в разные места. 
+   Нужны разные слоты
+
+ В car.vue:
+
+<slot name="title"> </slot>
+  <hr>
+  <hr>
+<slot name="text"> </slot> 
+
+В app.vue: 
+<appCar>  
+  <h2 slot="title"> {{carName1}}</h2>
+  <h3 slot="text"> This is a good machine </h3>
+</appCar>
+
+5.1 Создание своей директивы. 
+Директивы- специальные атрибуты, которые можем использовать внутри html-
+шаблона (template) чтобы взаимодействовать с элементами dom-дерева
+(html-тегами).
+
+v-on (@), v-bind (:)
+Начинаются с v-  (в полном варианте- есть сокращенный вариант)
+
+Создаем свою директиву. 
+Создаем файл (например, color.js)
+
+В нем экспорт по умолчанию настроим
+export default {}
+
+а в main.js настроим прием
+import ColorDirective from './color'
+
+5.2 Взаимодействие с элементом. 
+
+Директива из color.js- обычный объект
+
+Напишем директиву в color.js:
+
+export default {
+// bind вызывается тогда когда директива инициализируется
+// Она в этот момент привязывается к элементу внутри виртуального DOM 
+// el- тот элемент, к которому привязывается директива.
+// bindings (можно и по другому назвать) - в нем содержатся все основные
+// свойства которые передаем внутрь директивы  
+// vnode- в нем хранится объект виртуального дерева где будет
+// храниться наша директива
+// 2,3 параметр- read only 
+// В ES5: bind: function() {}
+// В ES6:    
+bind(el,bindings,vnode) {
+  // изменяем цвет элемента  
+  el.style.color = 'blue'
+}
+}
+
+
+// Используем созданную нами директиву чтобы изменить цвет текста 
+<p v-colored> машины </p> 
+
+5.3 Жизненный цикл директивы. 
+
+Жизненные этапы директивы.
+1) bind. На этом этапе инициализируем директиву. 
+Она связывается с элементом внутри virtual dom
+Но пока директива не находится в реальном dom-дереве
+
+
+bind(el,bindings,vnode) {
+  consile.log('bind')  
+  // изменяем цвет элемента  
+  el.style.color = 'blue'
+},
+// В ES5: inserted: function() {}
+// Когда директива находится уже в DOM-дереве
+inserted(el,bindings,vnode) {
+ console.log('inserted')
+  },
+ // Когда внутри DOM-дерева что-то изменяется
+ // что затрагивает нашу директиву
+ // Вызывается когда обновился родительский 
+ // компонент но не обновлялись дочерние компоненты
+ // в oldVnote хранится старый виртуальный
+ // элемент который был до update
+  update(el,bindings,vnode,oldVnote) {
+    console.log('update')
+     },
+// сразу после updated вызывается но если обновились
+// дочерние элементы
+ componentUpdated(el,bindings,vnode,oldVnote) {
+    console.log('componentUpdated') 
+ },
+ // когда директива заканчивает свое существование 
+ // и убирается из dom-дерева
+unbind(el,bindings,vnode,oldVnote) {
+    console.log('unbind') 
+ }
+
+Вызываем программу. 
+Получаем bind - директива была связанна с данным элементом
+inserted - обновленный элемент был вставлен в dom-дерево
+
+Хотим посмотреть когда вызываются другие этапы.
+В app.vue: 
+В <template>:
+<button @click="visible=!visible"> Показать / скрыть </button>
+В <script>:
+	visible:true
+Сделали кнопку которая меняет флаг visible
+
+Показываем параграф если visible="true"
+   <p v-colored v-if='visible'> машины </p> 
+
+Вызываем программу- получаем unbind
+Возвращаем директиву на место (visible включаем- элемент опять добавляется)-
+опять выводится
+bind
+inserted
+
+
+Еще рассмотрим:
+
+В app.vue
+
+   <p> {{title}} </p>
+
+
+   Меняем переменную title по кнопке 
+    При нажатии получаем методы update и componentUpdated
+    (меняется тег <p>, связанный с title)
+
+	<button @click="title='new Title'"> change title </button>
+
+ Вызываются методы
+ 
+ update
+ componentUpdate
+
+ 5.4 Параметры в директивах
+
+ В app.vue:
+ Передаем параметр (цвет) в дериктиву- на какой цвет нужно изменить стиль
+ <p v-colored="'green'" v-if='visible'> машины </p> 
+
+
+В директиве в color.js:
+ // Получаем параметр из шаблона для директивы 
+ // Это цвет. Меняем цвет для элемента, к которому применена директива
+ el.style.color = bindings.value
+
+5.5  Аргументы в директивах
+Пример аргумента. 
+Для кнопки прослушиваем событие- нажатие на кнопку.
+v-on:click  
+click- это аргумент для директивы v-on
+
+В app.vue:
+
+
+// Передаем в директиву аргумент- color- цвет элемента  
+<p v-colored:color="'green'" v-if='visible'>машины1</p>
+// Передаем в директиву аргумент- background- цвет фона
+<p v-colored:background="'blue'" v-if='visible' > машины2 </p>
+// Передаем в директиву 2 аргумента-color и background 
+p v-colored:color="'green'"  v-colored:background="'yellow'" v-if='visible' > машины3 </p>
+
+
+ // В arg передаются как цвет фона так и цвет элемента
+ // (2 аргумента)
+ const arg = bindings.arg
+ // Применяем полученные свойства к элементам или фону
+ el.style[arg] = bindings.value
+
+Передаем в директиву либо параметр, либо аргументы. 
+Можно ли передавать одновременно- надо изучить. 
+
+5.6 Модификаторы.
+Модификаторы- это параметры которые передаем через точку. 
+Можем их передавать директивам. 
+
+Про модификаторы- в этом файле п. 1.2.6, 1.2.7 и в файле
+modif.txt
+
+В app.vue:
+    Передаем в директиву аргумент- background- цвет фона
+    а также модификатор font- чтобы изменить размер шрифта
+	(название сами придумали) 
+	<p v-colored:background.font="'blue'" v-if='visible' > машины4 </p>
+
+В color.js: 
+ // В modifiers хранятся те модификаторы которые передаем внутрь директивы
+ // В случае написания bindings.modifiers.font есть небольшая вероятность ошибки.
+const fontModifier = bindings.modifiers['font'];
+// fontModifier - true или false
+if(fontModifier) {
+ el.style.fontSize= '30px';  
+}	
+
+Можем передавать любое количество модификаторов. 
+
+    В app.vue:
+
+     Передаем в директиву модификатор delay
+    (название сами придумали)
+	<p v-colored:color.delay="'green'" v-if='visible' > машины5 </p>
+
+  Используем 2 модификатора: delay и font
+  <p v-colored:color.delay.font="'green'" v-if='visible' > машины6 </p>
+
+В color.js: 
+// По умолчанию стили задаются моментально
+let delay= 0;
+
+// Получаем модификатор delay из шаблона (app.vue/<template>)
+const delayModifier = bindings.modifiers['delay'];
+
+// Если задан данный модификатор будем задавать стили с задержкой
+// по временному промежутку (на delay мс) .
+if(delayModifier) {  
+   delay = 2000;
+}
+
+setTimeout( () => {
+  const arg = bindings.arg
+  // Применяем полученные свойства к элементам или фону
+  el.style[arg] = bindings.value
+},delay)
+
+5.7  Локальная регистрация. 
+
+Глобальная ренистрация (в main.js):
+регистрируем директиву для всех компонентов. 
+Vue.directive('colored',ColorDirective)
+
+Локальная регистрация.
+В app.vue в <script> export default{}
+создаем поле directives
+	
+
+directives:{ 
+// можно так тоже 'font'
+// Можем импортировать объект или прямо тут описать его
+font : {
+  bind(el,bindings,vnode) {
+  el.style.fontSize = '40px';
+  }
+}
+
+В <template>
+
+  используем локально зарегистрированную директиву v-font
+  Она зарегистрированна локально, недоступна в других компонентах. 
+  <p v-font > машины7 </p>	
+
+6. Фильтры и миксины. 
+6.1 Создание простых фильтров. 
+
+ Фильтр- это то же самое что pipe в angular
+ Фильтр- это трансформер, который позволяет преобразовывать какие-то 
+ строки, элементы внутри шаблона. 
+ Можем получить какую-то строку из нашего шаблона и каким-то
+ образом её преобразовать. 
+
+Создадим фильтр lowerCase, который позволяет приводить строки к нижнему 
+регистру. 
+Фильтры также можем регистрировать как глобально так и локально. 
+
+Создадим локальный фильтр
+В app.vue в <script>
+
+Фильтры представляют из себя функции
+lowercase(){} - функция. 
+Функция должна вернуть строку, которую должны отобразить в шаблоне. 
+
+filters: {
+lowercase(value) {
+ // Преобразуем полученную функцию к нижнему регистру 
+return value.toLowerCase()
+  }
+}
+
+В app.vue в data создаем переменную к которой будем применять фильтр
+title2:'This is page about Cars'
+
+
+В app.vue в <template> применяем фильтр
+    Применяем локальный фильтр для перевода строки title2 в нижний регистр 
+   <p> {{title2 | lowercase}} </p> 
+
+title попадает в функцию lowercase как поле value.
+Преобразуется и возвращается обратно в <template>
+
+Создадим фильтр, преобразующий к верхнему регистру,
+зарегистрируем фильтр глобально. 
+
+
+В main.js: 
+
+// Регистрируем фильтр глобально
+// В ES6:  value => value.toUpperCase()
+Vue.filter('uppercase', (value) => {
+  return value.toUpperCase()
+})
+
+
+В app.vue: 
+
+ Применяем глобальный фильтр для перевода строки title2 в верхний регистр 
+  <p> {{title2 | uppercase}} </p>
+
+Можем воспользоваться фильтрами несколько раз по почереди. 
+
+Переводим строку title2 в верхний регистр, а затем в нижний 
+<p> {{title2 | uppercase | lowercase }} </p>
+
+Фильтры влияют только на отображение, сами данные не меняют
+Стандартных фильтров нет, все фильтры делаем сами.
+
+
+6.2 Фильтрация списков. 
+В app.vue в data создаем массив и поле searchName:
+searchName:'',
+names: ['Vlad','Max','Elena','Igor']
+
+Создаем также computed-свойство для фильтрации:
+  computed: {
+      filteredNames(){
+        // Фильтруем массив с помощью функции filter (перебирает элементы)
+        // и callback-функции (проверяет элементы на условие.
+        // Если результат проверки true- оставляем элемент,
+        // false- удаляем элемент
+        // метод indexOf() позволяет возвратить индекс искомого
+        // элемента в массиве при первом совпадении, или -1 если элемент не найден   
+        //  Проверяем- совпадает ли элемент массива
+        // с введенной строкой. Если совпадает- true- оставляем элемент.  
+
+        // toLowerCase() - приводим при поиске элемента 
+        // его к нижнему регистру и искомую строку-
+        // чтобы поиск не зависел от регистра
+
+          return this.names.filter(name =>{
+            return name.toLowerCase().indexOf(this.searchName.toLowerCase()) !== -1
+          })
+      }
+  }, 
+
+
+
+
+В app.vue в <template>:
+
+<input type="text" v-model="searchName"> 
+  <ul>
+    Перебираем массив names с помощью директивы v-for
+    name- элемент массива, выводим в цикле
+    По примеру angular фильтр(pipe) можно использовать прямо 
+    с элементом массива.
+   <li v-for="name of names |         ">{{name}} </li> 
+
+   Но во vue.js есть собственный метод.
+   Воспользуемся computed-свойством.
+   Это оптимизирует приложение.
+
+  Вызываем вычисленный метод    filteredNames 
+  (вызывается без скобок),
+  который возвращает отфильтрованный массив
+
+
+	<li v-for="name of filteredNames()">{{name}}</li>
+</ul>  
+
+
+6.3  Использование миксинов.
+Создаем новый компонент List.vue, размечаем у него структуру. 
+
+В main.js зарегистрируем глобально новый компонент app-list,
+импортируем его
+
+Vue.component('app-list',List)
+
+Воспользуемся компонентом app-list в app.vue
+сразу после списка:
+
+<app-list> </app-list>
+
+В app vue в главном компоненте задан стиль для h2 
+(и для List применяется поскольку он входит в главный компонент app.vue)
+Получается если стиль задан в главном компоненте даже локально (scope)- 
+он фактически глобальный.
+
+В list.vue в <template> 
+добавляем поле поиска и список и оборачиваем все в <div>:
+	
+	
+<div>
+<h2> List </h2>
+
+<input type="text" v-model="searchName"/> 
+  <ul>
+          <li v-for="name of filteredNames" :key="name.index">{{name}}</li>
+  </ul>  
+
+</div>
+
+В List.vue добавляем также javascript-код:
+
+export default {
+  data () {
+      return{
+      searchName:'',
+     names: ['Vlad','Max','Elena','Igor']
+      }
+  },
+  computed: {
+      filteredNames(){
+           return this.names.filter(name =>{
+            return name.toLowerCase().indexOf(this.searchName.toLowerCase()) !== -1
+          })
+      }
+  }
+
+  Сдеали двое списков с фильтрацией независимо друг
+  от друга. 
+
+Проблема: приходится дублировать код 2 раза. 
+
+Миксин. 
+Вынесем его в отдельный файл. 
+listMixin.js
+
+В этом файле export default{} 
+добавим логику фильтрации, которую использовали ранее. 
+
+export default {
+    data () {
+        return{
+        searchName:'',
+       names: ['Vlad','Max','Elena','Igor']
+        }
+    },
+    computed: {
+        filteredNames(){
+             return this.names.filter(name =>{
+              return name.toLowerCase().indexOf(this.searchName.toLowerCase()) !== -1
+            })
+        }
+    }
+}
+
+В list.vue в <script> закомментируем прежний код
+и импортируем этот код из listMixin.js: 
+
+
+import ListMixin from './ListMixin.js'
+
+export default {
+    mixins: [ListMixin]
+}
+
+Во vue компоненте специальное свойство mixins. 
+ListMixin- объект, в котором описываем все те поля,
+необходимые для работы списка. 
+Теперь из <template> имеем доступ к переменной searchName,
+computed-свойству filteredNames
+
+В app.vue делаем то же самое:
+удаляем свойство searchNames, filteredNames,
+В начале  <script> импортируем миксин, 
+добавляем свойство mixins: [ListMixin]	
+
+vue.js берет свойства из миксина, затем добавляет
+свойства из компонента. Свойства из компонента имеют приоритет 
+если имена одинаковые. 
+
+В миксинах можно также использовать жизннные циклы, например created()
+Два раза выведется сообщение из created() поскольку 2 раза 
+использовали миксин.
+
+created() {
+        console.log('created')
+      }
+
+
+
+Миксин можно зарегистрировать также глобально. 
+Сразу создаем поля 
+
+В main.js 
+
+
+Vue.mixin({
+  beforeCreate() {
+   console.log('beforeCreated')
+  }
+})
+
+Сразу регистрируется миксин. 
+(во все компоненты добавляется)
+
+7. Работа с формами. 
+7.1 Текстовый инпут. 
+
+В app.vue в <template> создаем 
+ 
+  <h2> Form inputs {{name2}}</h2> 
+  <input type="text" v-model.lazy='names'> 
+
+Также создаем переменную name2
+
+Связали данный input с полем vue.js name2 с помощью v-model
+(двухстороннее связывание)
+
+модификатор lazy (фактически меняет событие на change()) -
+событие происходит ()еременная так же меняется) когда курсор (фокус)
+уходит с поля
+
+7.2 Текстарея 
+
+
+  Используем интерполяцию для вывода текста в 
+  текстовом поле 
+  <textarea> {{textarea}} </textarea>
+  Но рекомендуется использовать директиву v-model:
+  Завели переменную textarea и связвли с ней текстовое поле.
+  Выводим переменную ниже.
+  
+   
+  <br> <br>
+  <textarea v-model="textarea"></textarea>
+  <p> {{textarea}}</p>
+ Но переносы строк в текстовом  поле vue.js не видит.
+    textarea {
+   height:100px;
+   width:400px;
+  }
+  Увеличили текстовое поле.
+  
+  В переменной сохраняются переносы, но чтобы их правильно 
+  отобразить нужно для выводимого параграфа задать стиль:
+  p {
+   white-space:pre;
+  }
+ 
+
+7.3 Чекбоксы
+
+В app.vue в <template> зададим чекбоксы 
+(квадратики где ставятся галочки):
+  
+  <label>
+  <input type="checkbox" value="instagram" v-model="social"> Instagram 
+  </label> 
+
+   <label>
+  <input type="checkbox" value="vk"  v-model="social"> vk 
+  </label> 
+
+   <label>
+  <input type="checkbox" value="facebook" v-model="social" > Facebook 
+  </label> 
+
+
+  label- чтобы галочки ставились не только при щелчке на квадратик,
+  но и на надпись Instagram, например. 
+
+  Vue.js заводит для выбранных checkbox-ов специальный массив. 
+  Если значение checkbox находится в массиве - он выбран. 
+  Если нет- он не выбран. 
+  Для этого укажем величины value
+
+  Завели новый массив  social:[] в data
+
+  Связывем input с массивом 
+  (с помощью директивы v-model)
+
+  <hr>
+
+ <ul>
+     <li v-for="s in social" :key="s.index" >{{s}}</li>
+  </ul> 
+
+ Рекомендуем всегда указывать атрибут key с v-for,
+ кроме случаев когда итерируемый контент DOM прост, 
+ или вы сознательно используете стратегию обновления по умолчанию
+ для улучшения производительности.
+
+  Vue.js при выборе складывает значения value в массив связанный 
+  по v-modal: social
+  Если хотим чтобы был по-умолчанию отмечен какой-то checkbox:
+  В социал помещаем какое-то value, например, vk
+
+
+  7.4 Радиокнопки. 
+  
+ <label>
+  <input type="radio" value="instagram" v-model="social2"> Instagram 
+  </label> 
+
+   <label>
+  <input type="radio" value="vk"  v-model="social2"> vk 
+  </label> 
+
+   <label>
+  <input type="radio" value="facebook" v-model="social2" > Facebook 
+  </label> 
+
+  <hr>
+
+  <ul>
+   {{social2}}
+  </ul> 
+
+
+Заводим в data специальную переменную social2 которая является строкой
+(потому что мы можем выбирать только одно значение)
+Связываем кнопки с этой переменной с помощью v-modal
+
+Чтобы по умолчанию была задана какая-то кнопка- надо присвоить 
+её value значение переменной social2:
+social2:'instagram'
+
+7.5 Селекты. 
+
+В app.vue в <template> вставляем тег:
+
+   <select> 
+     <option v-for="s3 in socialsList" :key="s3.index"> {{s3}} </option>
+  </select>
+
+  Он позволяет выбирать из списка какое-либо значение.
+
+В data вставляем переменную:
+socialsList: ['instagram','vk','facebook']
+(По умолчанию будет отображвться 
+0-й элемент из массива)
+
+Но можно и другим способом назначить. 
+создаем переменную defaultSocial:'facebook'
+В options:
+ :selected="s3 === defaultSocial"
+
+ Но можно по другому- с помощью v-model. 
+ Убираем selected 
+
+ Ставим:
+ <select v-model="defaultSocial"> 
+
+ При работе с v-modal если изменим 
+ по select- изменится и  defaultSocial
+ Можно создать еще одну переменную, с ней работать,
+ а при загрузке присваивать ей дефолтное значение.
+ Или назвать её просто social3
+
+ 7.6 
+ Числовой модификатор. 
+ В app.vue
+
+ В data заводим переменную с возрастом:
+ age:20
+
+
+ Input связываем с помощью v-model с age:
+
+ <input type="text" v-model="age">
+  <p> {{age}}</p> 
+
+следим за age:
+
+  watch: {
+  age(value){
+    console.log(value)
+    console.log(typeof(value))
+       }
+}
+
+В консоли выводится при изменении с помощью watch 
+(watch срабатывает при изменении величины age) 
+
+Видим что можно и символы вводить. 
+Перечеркнутый кружок- очистить консоль. 
+
+console.log(typeof(value)) - тип string 
+Т.е. из input вводится строка. 
+есть модификатор у v-model    number 
+Если написать v-model.number - будет ожидаться число. 
+vue.js Символы не даёт вводит в input
+
+7.7  Создание своего контрола. 
+
+                   
+Импортируем компонент из vue файла как объект Onoff:
+В script.js: 
+import Onoff from './Onoff.vue' 
+
+Регистрируем импортированный объект как компонент appOnoff
+В components добавляем: 
+appOnoff:Onoff 
+
+Используем компонент в <template>
+appOnoff - можно записать app-onoff
+<app-onoff></app-onoff>
+
+Напишем компонент таким образом 
+чтобы он мог работать как v-modal
+(см. onoff.vue)
+
+В app.vue в <template>:
+
+  <app-onoff v-model="switched"></app-onoff>
+
+  <div>
+    <h3 v-if="switched">Component is enabled</h3>
+    <h3 v-else>Component is disabled</h3>
+  </div>
+
+
+ switched- переменная в app.vue, например, true. 
+ Если в app.vue в компоненте использовали v-model 
+ то получили в Onoff.vue в props значение value
+ (switched из app.vue передается в onOff и там становится 
+ value)
+
+ В Onoff.vue создаем метод onChange().
+ Передаем методу в одной кнопке true,  в другой false.
+ 
+ 8. Валидация форм с vuelidate. 
+ 8.1 Установка и настройка проекта. 
+ Если нужна валидация- подключаем отдельный пакет для валидации. 
+ https://getbootstrap.com
+ Documentation 
+ Download
+ Bootstrap CDN
+
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+Для javascript: 
+Если вы используете наш скомпилированный JavaScript (методы bootstrap),
+не забудьте включить jQuery и Popper.js, желательно через CDN, перед нашим JS.
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+
+Для нашего проекта- берем только ссылку link
+В index html после title вставляем <link> 
+
+В app.vue в <template> пишем, используя bootstrap:
+<div class="container">
+<h1> Валидация форм с vuelidate </h1>
+</div>
+
+
+vueliadte- пакет который отвечает за валидацию. 
+(в рамках vue.js) 
+
+Сайт разработчика
+https://vuelidate.js.org/#sub-installation
+
+Установка в проекте:
+npm install vuelidate --save
+( Далее в приложении:
+import Vue from 'vue'
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+)
+
+Реализуем это:
+В main.js: 
+// Импортируем пакет валидации 
+import Vuelidate from 'vuelidate'
+
+// Чтобы подключить библиотеку и набор её функциональности к vue.js: 
+Vue.use(Vuelidate)
+
+В app.vue в <template:
+ Создаем форму ввода e-mail, используя bootstrap 
+<div class="container">
+   отступ padding top 3 (добавляет отступ сверху 1 rem)
+  <form class="pt-3">
+     input и переменная email  связаны с помощью директивы v-model 
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        v-model="email"
+      >
+    </div>
+  </form>
+</div>
+
+Также в app.vue создаем переменную email 
+
+8.2 Настройка валидаторов. 
+
+В app.vue:
+
+<template>
+ Создаем форму ввода e-mail, используя bootstrap
+<div class="container">
+  отступ padding top 3 (добавляет отступ сверху 1 rem)
+  <form class="pt-3">
+     input и переменная email  связаны с помощью директивы v-model 
+    <div class="form-group">
+      <label for="email">Email</label>
+     Событие input слушается директивой v-model
+      В него передаем инициализацию нашей валидации 
+      $v -отвечает за все валидации которые есть в компоненте
+      $v.email- валидируем поле email.
+      $touch() - вызываем инициализацию валидации
+
+     // @input="$v.email.$touch()"
+
+     изменяем- делаем валидацию на событие blur
+      
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        @blur="$v.email.$touch()"
+        v-model="email"
+      >
+    </div>
+    Тут есть объект: 
+    значение с ключом e-mail- предоставляет валидацию 
+    для данного input
+    "required": false - это значит в данный момент input пустой.
+    "$invalid": true - это значит что этот control неверный -
+    в нем есть какая-то ошибка. 
+    "$dirty": false - ещё не заводили в input ничего
+     "$error": false - нет пока никакой ошибки в input 
+     (когда запускаем input- он еще пустой, так и должно быть
+     если введем значение но оно не соответствует валидации- будет true)
+     "$pending": false - поле предназначенно для синхронных валидаторов. 
+     "$params" - различные параметры которые поступают в валидацию.
+     Если используем валидатор для длины строки- тут будеи знать 
+     настоящую длину строки. 
+     Далее идут глобальные объекты которые отвечают 
+     за всю форму в данном компоненте. 
+
+     Ввели значение e-mail.
+     Становится  "required": true 
+     это значит что валидация осуществляется.
+     "$invalid": false - данный control правильный 
+     "$dirty": true - ввели значение в input 
+     "$error": false - нет пока никакой ошибки в input 
+
+     Уберем e-mail.
+     Становится  "required": false 
+     это значит что валидация не осуществляется.
+     (нет значащих символов- только пробелы если)
+     "$invalid": true - данный control не правильный 
+     "$dirty": true - ввели значение в input 
+     "$error": true - есть ошибка в input 
+
+
+    {
+"email": {
+  "required": false,
+  "$model": "",
+  "$invalid": true,
+  "$dirty": false,
+  "$anyDirty": false,
+  "$error": false,
+  "$anyError": false,
+  "$pending": false,
+  "$params": {
+    "required": {
+      "type": "required"
+    }
+  }
+},
+"$model": null,
+"$invalid": true,
+"$dirty": false,
+"$anyDirty": false,
+"$error": false,
+"$anyError": false,
+"$pending": false,
+"$params": {
+  "email": null
+}
+} 
+    
+После добавления валидатора email у нас добавляется ключ, относящийся к email. 
+Пишем текст test в input: 
+
+{
+"required": true, // есть текст в input
+"email": false,   // ошибочный e-mail. Если напишем test@mail.ru - будет true
+// Пустое поле- тоже тоже "email": true, поэтому нужно проверить required тоже
+"$model": "test",
+"$invalid": true,
+"$dirty": true,
+"$anyDirty": true,
+"$error": true,
+"$anyError": true,
+"$pending": false,
+"$params": {
+  "required": {
+    "type": "required"
+  },
+  "email": {
+    "type": "email"
+  }
+}
+} 
+
+При каждом вводе буквы проходит валидация. 
+Это потому что мы инициализируем валидацию при событии input. 
+Лучше делать валидацию не на input а на потерю фокуса- событие blur 
+
+
+
+  $v.email - показать валидацию относящуюся только к email  
+  Для правильной валидации  $v.email.email  должен быть true 
+  и $v.email.required должен быть true
+    
+  <pre>  {{$v.email} </pre>
+  </form>
+</div>
+</template>
+
+<script>
+
+import { required, email } from 'vuelidate/lib/validators'
+
+// Экспортируем содержимое этой компоненты (<template> + подключенный javascript код и CSS)
+// Чтобы main.js приняла информацию и вывела её:
+// import App from './App.vue' (в main.js)
+export default {
+ data () {
+  return {
+  email: ''  
+  }
+},
+ // специальное поле теперь есть после подключения
+ // пакета для валидации 
+ // В этом объекте как ключи указываем названия тех 
+ // полей которые хотим отвалидировать. 
+ // Встроенные валидаторы в данную библиотеку:
+ // https://vuelidate.js.org/#sub-builtin-validators
+ 
+ // Валидаторы импортируются так:
+ // import { required, maxLength } from 'vuelidate/lib/validators'
+ // декоспозиция объекта (выбираем определенные нужные значения)
+ // (в app.vue после тега <script> вставляем)
+
+ // Добавим валидатор email 
+ // (импортировали его также)
+ // Принимает действительные адреса электронной почты.
+ // Имейте в виду, что вам все равно придется тщательно проверить его 
+ // на вашем сервере, так как невозможно сказать, является ли адрес реальным, 
+ // не отправив проверочное письмо.
+
+ validations: { 
+  email: {
+   // Передаем валидатор required
+   // можно было написать : 
+   // req:required
+   // В ES6: если ключ и значение в объекте совпадают:
+   required,
+   //  required:required
+   email
+
+  }
+ }
+}
+
+</script>
+
+<style scoped>
+
+</style>
+
+
+8.3 Визуальное отображение ошибок. 
+
+https://getbootstrap.com/docs/4.5/components/forms/#validation
+
+ Копируем оттуда шаблон:
+ <div class="invalid-feedback">
+    Please choose a username.
+  </div>
+
+Добавляем класс: 
+  class="form-control is-invalid"
+
+  Теперь валидируется input (статически)
+
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        Событие input слушается директивой v-model
+        В него передаем инициализацию нашей валидации 
+        $v -отвечает за все валидации которые есть в компоненте
+        $v.email- валидируем поле email.
+        $touch() - вызываем инициализацию валидации
+
+       // @input="$v.email.$touch()"
+
+       изменяем- делаем валидацию на событие blur
+         
+      Добавляем класс bootstrap  is-invalid (сообщает об ошибке) 
+      только если есть ошибка в input   
+      
+      Если есть ошибка- добавляем динамический класс is-invalid
+      к данному input
+      :class="{'is-invalid':$v.email.$error}"
+      Когда вводим e-mail неправильно и убираем фокус- получается цвет ошибки. 
+      Корректный e-mail - input  в синем цвете.
+   
+       
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          :class="{'is-invalid':$v.email.$error}"
+          @blur="$v.email.$touch()"
+          v-model="email"
+        >
+        v-if="!$v.email.requred" - если в поле e-mail введено пустое значение-
+        данное сообщение выводится 
+        Если ничего не введено пока- $v.email.requred=false, но 
+        класс не добавляется.
+        Потому что валидация начинается с добавления и потери фокуса:
+         @blur="$v.email.$touch()".
+
+        Если e-mail некорректный: 
+        v-if="!$v.email.email"
+        
+        <div class="invalid-feedback" v-if="!$v.email.required">Email field is required</div>
+        <div class="invalid-feedback" v-if="!$v.email.email">Email is incorrect</div>
+
+      <pre>  {{$v.email}} </pre> 
+
+      </div>
+
+ 8.4 Валидация пароля. 
+
+ Копируем  <div class="form-group">
+ Добавляем переменную password. 
+ Исправляем в <template>  на password.
+ В validations добавляем новый валидатор password. 
+
+ Импортируем валидатор минимальная длина строки minLength:
+ import { required, email, minLength } from 'vuelidate/lib/validators'
+
+ password: {
+ // minLength(6)- функция-замыкание. В нее передаем 6.
+    minLength:minLength(6)
+     }
+
+
+
+        <div class="form-group">
+        <label for="password">Password</label>
+        
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          :class="{'is-invalid':$v.password.$error}"
+          @blur="$v.password.$touch()"
+          v-model="password"
+        >
+       
+     <div class="invalid-feedback" v-if="!$v.password.minLength">
+       $v.password.$params.minLength.min  - то число, 
+       которое передавали в валидатор. 
+       Первый раз при пустом  пароле е ругается- надо использовать 
+       валидатор requied ещё.
+
+       Min length of password is {{$v.password.$params.minLength.min}}. 
+       Now it is {{password.length}}
+     </div>          
+
+
+      </div>
+
+
+Рассмотрим еще подтверждение пароля. 
+Скопируем опять form-group.
+создадим переменную в data:
+confirmPassword:''
+импортируем валидатор sameAs
+import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+Добавляем валидатор confirmPassword
+
+     confirmPassword: {
+       // передаем строку с названием поля, присутстующее в инстансе для валидации
+       // Данное поле должно быть точно такое же как и поле пароля
+      sameAs:sameAs('password') 
+     }
+
+           <div class="form-group">
+        <label for="confirm">Confirm password</label>
+        
+        <input
+          type="password"
+          id="confirm"
+          class="form-control"
+          :class="{'is-invalid':$v.confirmPassword.$error}"
+          @blur="$v.confirmPassword.$touch()"
+          v-model="confirmPassword"
+        >
+       
+     <div class="invalid-feedback" v-if="!$v.confirmPassword.sameAs">
+        Пароль не подтвержден 
+     </div>          
+
+
+      </div>
+      
+      Можем передавать в password() функцию, определяющую поле. 
+      
+         confirmPassword: {
+       // передаем строку с названием поля, присутстующее в инстансе для валидации
+       // Данное поле должно быть точно такое же как и поле пароля
+      // sameAs:sameAs('password') 
+
+      // можно так: передаем текущий инстанс vue. 
+      // Возвращаем то поле (переменную) по которому надо смотреть идентичность.
+      // Тогда можно использовать любой уровнь вложенности.
+      // Например,   return vue.form.password
+      // (обращаемся к этому же инстансу vue, в поле data- объект form,
+      // у него поле password)
+     // А в нашем случае: return vue.password 
+     sameAs:sameAs( (vue)=>{
+       return vue.password       
+     })     
+
+
+     }
+
+     8.5  Создание своего валидатора.
+    
+     При создании нового e-mail: 
+     делаем для этого валидатор свой- для проверки нового e-mail. 
+     Если есть в базе данных создаваемый e-mail- покажет ошибку
+     валидатор. 
+     Если нет- все нормально. 
+
+     
+   validations: { 
+       uniqEmail: function(newEmail){
+       // Если состояние текущее валидно- функция возвращает true,
+       // если не валидно- false.
+       // Если новый почтовый ящик не test@mail.ru- 
+       // то возвращаем true. Иначе false.
+       return newEmail !=='test@mail.ru'
+     }
+
+   Добавляем сообщение если валидация не пройдена.
+    <div class="invalid-feedback" v-if="!$v.email.uniqEmail">This email is already exists</div> 
+   
+   Модифицируем валидацию:
+      validations: { 
+    email: {
+       uniqEmail: function(newEmail){
+       
+       // Если пустая строка- должен работать валидатор requred
+       if (newEmail==='') return true 
+
+       // Если состояние текущее валидно- функция возвращает true,
+       // если не валидно- false.
+       // Если новый почтовый ящик не test@mail.ru- 
+       // то возвращаем true. Иначе false.
+       // return newEmail !=='test@mail.ru'
+
+       // Если надо сходить на сервер и получить данные:
+       return new Promise((resolve,reject) => {
+        // Выполняем действие через 3 сек. 
+       setTimeout( () => {
+         // Если новый e-mail не 'test@mail.ru'- значение true в value-
+         // валидация пройдена.
+          const value = newEmail !=='test@mail.ru'
+          // возврат значения value после окончания setTimeOut
+          resolve(value)
+       }, 3000)
+       // Это асинхронная валидация (с задержкой)
+
+
+       }) 
+
+
+       // 8.6 Отправка формы. 
+
+      Нужно добавить кнопочку submit, которая отправляет форму.
+      
+     <button type="submit" class="btn btn-success"> Submit </button> 
+
+     Кнопку надо делать открытой только тогда когда 
+     поля валидны.
+
+      Аттрибут disabled- отключает кнопку.
+    Поскольку пишем javascript- делаем bind.
+    В disabled- можно проверять все поля- валидны ли они
+    :disabled="$v.passvord.$error || "
+    Можно написать проще:
+    $v.$invalid 
+    Если не прошла валидация- кнопка выключена.
+ 
+
+    <button type="submit" 
+    class="btn btn-success" 
+     :disabled="$v.$invalid"
+     > Submit </button>
+
+     Отправка формы работает, но страница перезагружается. 
+     Чтобы этого не было- делаем отправку с помощь vue
+
+    В заголовке формы пишем:
+    submit- нативное javascript-событие, которое есть у тега form
+
+     <form class="pt-3" @submit.prevent="onSubmit">
+     
+      С модификатором prevent при отправке формы не перезагружается
+      страница.
+
+
+    Добавляем метод   onSubmit() (вызывается только если форма правильная)
+    methods: {
+    onSubmit(){
+     console.log('Email',this.email);
+     console.log('Password',this.password);
+    }
+  },  
+
+  // Можем в этом методе очистить mail и pasword:
+  this.email="";
+  this.password=""
+
+  9. Роутинг с vue-router. 
+
+  9.1 Установка vue-router. 
+  Устанавливаем дополнительный пакет vue-router. 
+  Он позволяет делать навигацию между различными страницами. 
+  Страницы- это обычные компоненты которые мы уже разобрали. 
+  Нужно изменять страницу в url-адресе и каким-то образом показывать
+  те или иные компоненты. 
+
+  https://router.vuejs.org/
+  vue мы можем использовать на одной странице, 
+  и также создавать spa-приложения. 
+  
+
+Для обычного сайта:
+Скачивание напрямую / CDN
+https://unpkg.com/vue-router/dist/vue-router.js
+
+Unpkg.com предоставляет CDN-ссылки для NPM-пакетов. Ссылка выше всегда указывает 
+на самую последнюю версию Vue-router на NPM.
+ Вы можете также использовать конкретную версию, 
+ используя ссылки вида https://unpkg.com/vue-router@2.0.0/dist/vue-router.js.
+
+Подключите vue-router после Vue, и установка произойдёт автоматически:
+
+<script src="/path/to/vue.js"></script>
+<script src="/path/to/vue-router.js"></script>
+
+Для spa:
+npm install vue-router
+При использовании модульной системы, 
+необходимо явно обозначить использование роутера при помощи Vue.use():
+
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
+Если проект развернут с использованием Vue CLI,
+то можно добавить Vue Router в качестве плагина.
+Это позволит CLI сгенерировать код подключения, приведённый выше,
+а также добавить два маршрута для примера.
+Операция установки перезапишет App.vue в проекте, 
+поэтому убедитесь что сделали резервную копию перед запуском команды:
+
+vue add router
+
+
+
+
+npm install vue-router  --save
+                       (или -S)
+
+
+--save - чтобы сохранить пакет как зависимость в package.json 
+
+В main.js: 
+
+
+
+
+import Vue from 'vue'
+
+// Импортируем из app.vue экспортную функцию, описанную там,
+// с прикрепленным шаблоном и стилем
+import App from './App.vue'
+
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
+new Vue({
+  el: '#app',
+  // рендерим div id="app"
+  // В старом синтаксисе
+  // render: function(h) {
+  // return h(App)	  
+  //}
+  render: h => h(App)
+})
+
+9.2 Настройка роутера. 
+
+В папке src создаем новую папку pages.
+Там будут храниться компоненты (страницы),
+которые будут показываться. 
+
+Создаем файлы home.vue и cars.vue
+Создаем файл routes.js 
+
+
+import VueRouter from 'vue-router'
+
+import Home from './pages/Home'
+import Cars from './pages/Cars'
+
+// Экспортируем по default новый экземпляр класса VueRouter
+
+export default new VueRouter({
+// Набор роутов- их будет содержать наше приложение
+// path- за какой путь отвечает определенный компонент
+// (или определенный роут)
+routes: [
+{
+  path:'', // localhost:8080 или домен связанный с сервером vps
+  component: Home
+
+},
+{
+    path:'/cars', // localhost:8080 или домен связанный с сервером vps
+    component: Cars
+  
+  }
+
+]
+})
+
+В main.js
+
+// импортируем из router.js роутеры
+import router from './routes'
+
+new Vue({
+  el: '#app',
+  // рендерим div id="app"
+  // В старом синтаксисе
+  // render: function(h) {
+  // return h(App)	  
+  //}
+  render: h => h(App),
+  // регистрация роутеров и routes.js
+  // можно написать просто: router
+  router:router
+})
+
+В app.vue: 
+
+ <div class="container">
+    Тут будет рендерится тот компонент, 
+    который соответствует текущему роуту. 
+    По умолчанию page 
+    <router-view>  </router-view>
+
+  </div>	
+
+
+  http://localhost:8080/#/  - home.page
+  http://localhost:8080/#/cars - cars.page
+   
+  Чтобы адрес странички был без # - в routes.js добавить:
+  mode:'history'
+
+  Теперь
+  http://localhost:8080  - home.page
+  http://localhost:8080/cars - cars.page
+
+  9.3 Создание навигации
+
+  В index.html подключен bootstrap. 
+
+  Скопируем меню на bootstrap из:
+  https://getbootstrap.com/docs/4.5/components/navbar/
+  В app.vue: 
+  
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+Дорабатываем меню: 
+
+Меню на bootsatrap
+Дописываем ссылки на страницы: 
+/ 
+/cars
+Только ссылки не должны перезагружать страницу.
+Для этого заменяем тег <a> </a> тег <router-link></router-link>
+из vue.js. 
+Поскольку это уже не ссылка- заменяем href на to
+Если забайндили to- нужны дополнительные кавычки.
+<router-link class="nav-link" :to="'/cars'">Cars</router-link>
+
+Концепция SPA- все должна выполнять одна страничка без перезагрузки 
+(даже если есть несколько сттраничек-вкладок).
+
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse" >
+    <ul class="navbar-nav">
+        <li class="nav-item">
+           <router-link class="nav-link" to="/">Home</router-link>
+        </li>
+        <li class="nav-item">
+           <router-link class="nav-link" :to="'/cars'">Cars</router-link>
+        </li>
+    </ul>
+  </div>
+</nav>
+
+
+9.4 обозначение активной ссылки. 
+Если добавляем класс active для пункта меню- 
+пункт меню подсвечивается по-другому. 
+
+Вместо тега <li> используем тег <router-link> 
+tag="li" - значит используем router-link вместо li. 
+Для определения активной страницы:
+active-class="active" 
+exact- для точного совпадения. 
+Чтобы ссылка была активна только одна.
+(пустой путь не путать с заполненным)
+
+      <router-link tag="li" class="nav-item" exact to="/" active-class="active"> 
+        <a class="nav-link"> Home </a> 
+      </router-link>
+
+      <router-link tag="li" class="nav-item" to="/cars" active-class="active"> 
+        <a class="nav-link"> Cars </a> 
+      </router-link>
+
+9.5 Динамические роуты. 
+
+В страничке cars выводим список всех машин, 
+которые есть в приложении.
+
+В cars.vue: 
+    <div>  
+	 <h2> Cars page </h2>	
+    Создаем элементы с роутингом (router-link)
+    Это будут теги li
+    Для формирования 5-ти тегов v-for="car in 5"
+    :to="'/car/'+car " - на какую страницу ведет ссылка
+    key- динамический атрибут, чтобы vue.js понимал
+    где находится каждый из элементов.
+
+     <a> Car {{car}} </a> - создаем ссылки на страницы. 
+     
+     <router-link
+     tag="li"
+     v-for="car in 5"
+     :to="'/car/'+car "
+     :key="car"
+     
+        >
+  
+  <a>Car {{car}}</a>
+</router-link>
+</div>
+
+В routes.js в массив routes добавляем:
+  {
+    // После слэша будет динамическое свойство id (так назовем)
+    // фактически путь к страничке прописываем при роутинге
+   path:'/car/:id',
+   // Компонент- машины
+   component:Car
+  }
+  
+  Добавляем импорт компонента:
+  import Car from './pages/Car'
+
+  Добавляем файл Car.vue
+
+
+<template>
+    <div>  
+       Выводим машину со значением id 
+      <h2> Car id {{id}} </h2>	
+    </div>
+  </template>
+  
+  <script>
+  
+  
+  export default {
+     data () {
+      return {
+         // Получаем id с помощью системной переменной,
+         // которую предоставляет библиотека vue  router
+         id: this.$router.currentRoute.params['id']
+      }
+    },
+    methods: {
+    
+    }  
+     }
+  </script>
+  
+  <style scoped>
+   
+  </style>
+
+
+   Все работает. Далее рассмотрим еще один момент. 
+
+   В app.vue добавим  еще две строчки:  
+   
+
+   Подключаем вновь созданные динамические страницы  
+      <router-link tag="li" class="nav-item" to="/car/3" active-class="active"> 
+        <a class="nav-link"> Car 3</a> 
+      </router-link>
+
+      <router-link tag="li" class="nav-item" to="/car/4" active-class="active"> 
+        <a class="nav-link"> Car 4</a> 
+      </router-link>
+
+  Чтобы отслеживать переход по динимическим страницам 
+  в car.vue добавляем метод watch, модифицируем метод data: 
+  
+  export default {
+   data () {
+    return {
+       // Получаем id с помощью системной переменной,
+       // которую предоставляет библиотека vue  router
+       // id: this.$router.currentRoute.params['id']
+       // Можно так:
+       id: this.$route.params['id']
+    }
+  },
+  watch: {
+    $route(toR,fromR){
+  // this.is- текущий id. 
+  // toR.params['id'] - туда, куда хотим перейти 
+  // Теперь при выборе в меню другого компонента корректно 
+  // изменяется его id   
+  // Когда что-то отслеживаем- нужно следить за текущим роутом
+     this.id = toR.params['id']
+    }
+  },
+  methods: {
+  
+  }  
+   }
+
+9.6 Программная навигация.
+Сделаем кнопочку возврата на главную страницу. 
+
+В car.vue  
+
+   <div>  
+      <h2> Car id {{id}} </h2>	
+      Настроим возврат на главную страницу. Можно воспользоваться 
+      router-link. Но попробуем по-другому. 
+     Програмная навигация- при клиуе на кнопку вызываем функцию.
+       @click="goBackToCars
+      <button class="btn btn-sm btn-info" @click="goBackToCars">Back</button>
+    </div>
+
+
+     goBackToCars(){
+        // Переходим на родительскую страницу cars
+        // Добавляем в истоию просмотров эту страницу-
+        // при этом переходим на неё
+           this.$router.push('/cars')       
+     }
+
+
+
+ 9.7
+ Вложенные роуты. 
+
+ Сделаем кнопку, показывающую полную информацию по машине. 
+
+  В car.vue создаем кнопочки:
+
+    <button class="btn btn-sm btn-default" @click="goBackToCars">Back</button>
+    <br>
+    <button class="btn btn-info"> Full info </button>
+
+    Создаем файл carFull.vue
+
+
+<template>
+    <div>  
+    <h4> Car name: Ford </h4>
+    <h5> Car year: 2014 </h5>
+
+	</div>
+</template>
+
+<script>
+
+
+export default {
+   data () {
+    return {
+     }
+  },
+  methods: {
+  }  
+   }
+</script>
+
+<style scoped>
+ 
+</style>
+
+В routes.js подключаем данный компонент. 
+import CarFull from './pages/carFull'
+
+   component:Car,
+   // делаем вложенный роут (подстраница)
+   // Добавляем массив с объектами
+   // (дочерними роутами)
+   // У них есть путь
+   // и название компонента
+   children: [     // добавляется еще родительский путь. 10- динамический id
+    {path: 'full', //localhost:8080/car/10/full
+    component:CarFull
+     }
+   ]
+
+
+   В cars.vue
+
+    Используем роутинг с router-link
+    пишем что тэг- это кнопка (для bootstrap),
+    to- путь куда перейти
+  
+    <router-link 
+        class="btn btn-info mt-2"
+        tag="button"
+        :to="'/car/' + id + '/full'"
+        > 
+        Full info
+    </router-link>
+
+    <hr/>
+    Говорим куда будем рендерить (выводить) саброуты 
+    (дополнительные компоненты/странички)
+    Тут будет выводиться содержимое carFull.vue
+  
+    <router-view></router-view>
+  </div>
+  
+
+
+    Улучшим определение подстраничек 
+    Определим свойство name
+    в routes.js 
+   
+    <router-link 
+    class="btn btn-info mt-2"
+    tag="button"
+    :to="{name:'carFull', params:{id:id}}"
+    > 
+    Full info
+    </router-link> 
+
+   Добавляем свойство name в routes.js:
+   children: [     // добавляется еще родительский путь. 10- динамический id
+    {path: 'full', //localhost:8080/car/10/full
+    component:CarFull,
+    name:'carFull'// можно выбрать любое имя
+     }
+
+
+  // 9.8 
+  Передача параметров. 
+  Какие параметры можем передавать в url адресе. 
+  Передадим имя машины и год изготовления в url-адресе. 
+  Для этого есть query-параметры. 
+  (специальные параметры, которые идут после знака "?" в адресной строке)
+   В car.vue в to: 
+   Передаем дополнительное свойство query. 
+
+   В car.vue: 
+    
+   Улучшим определение подстраничек 
+    Определим свойство name (путь url к компоненту)
+    в routes.js 
+    Передаем query- параметры (параметры передаются компоненту
+    в адресной строке)
+     
+    <router-link 
+       class="btn btn-info mt-2"
+       tag="button"
+      :to="{name:'carFull', params:{id:id},query:{name:'mazda',year:2000}}"
+       > 
+      Full info
+   </router-link> 
+
+   Передали параметры в адресную строку. 
+   Как получить параметры. 
+   Переходим к компоненту, который отвечает за отображение подробной информации- 
+   carFull.vue. 
+   Этот компонент будет обращаться к роутеру, 
+   получать эти параметры. 
+
+    <h4> Car name: {{ $route.query.name }} </h4>
+
+    Можем также воспользоваться computed-свойством. 
+
+  computed: {
+     year(){
+      return this.$route.query.year
+     }
+   }
+
+  <h5> Car year: {{ year }} </h5>
+
+  9.9  Хэш и скролл. 
+  В адресной строке можем также передавать хэш.  
+  Хэш- это строковое значение, которое пишется через #. 
+  Он служит для того чтобы переходить к определенным id. 
+
+  В carfull.vue: 
+
+  
+<template>
+    <div>  
+    <h4> Car name: {{ $route.query.name }} </h4>
+    <h5> Car year: {{ year }} </h5>
+
+    <div class="scroll"></div> 
+
+Если хэш совпадает с id элемента- браузер до него скроллит
+(прокручивает)       
+http://localhost:8080/car/4/full?name=mazda&year=2000#scroll1
+
+<h6 id="scroll1"> Заголовок </h6>
+</div>
+</template>
+
+<script>
+
+
+export default {
+ data () {
+  return {
+   }
+},
+methods: {
+},
+computed: {
+   year(){
+    return this.$route.query.year
+   }
+ }
+ }
+</script>
+
+<style scoped>
+.scroll{
+width:100px;
+height:1000px;
+background: #ccc;
+}
+
+</style>
+
+  
+Теперь сделаем то же средствами vue.js
+В car.vue, в to
+Описываем параметр hash
+Пишем название того id, которое дали:
+
+     :to="{name:'carFull', params:{id:id},query:{name:'mazda',year:2000},
+        hash:'#scroll1'}"
+
+В routes.js: 
+scrollBehavior(to,from,savedPosition){
+
+ // Если были на какой-то позиции,
+ // потом перешли на другую страницу-
+ // вернемся на запомненную позицию.
+  if (savedPosition) {
+   return savedPosition;
+ }
+
+// Чтобы перейти по хэшу
+// Если задана хэш-метка- переходим по её координатам
+  if (to.hash) {
+    return {selector:to.hash}
+  }
+ // иначе- переходим по таким координатам:
+  return {
+   x:0,
+   y:200
+  }
+
+При переходе между разными страницами (компонентами) -
+находимся на той же странице, просто javascript рендерит 
+(выводит) новые блоки.
+
+
+9.10  Редирект. 
+
+В routes.js:
+
+{  // создаем роут с несуществующим путем
+  // если попадаем на этот роут (страничку)- перенаправляем - делаем редирект
+  // на страницу машин cars
+  // '/' - редирект на домашнюю страничку
+  // http://localhost:8080/none - попадаем на http://localhost:8080/cars
+path:'/none',
+redirect: '/cars'
+}
+
+Создадим страничку, которая будет вызываться при ошибке. 
+error.vue. 
+
+<template>
+    <div>  
+	 <h1 style="color:red;"> 404 Error </h1>	
+	</div>
+</template>
+
+<script>
+
+
+export default {
+   data () {
+    return {
+       }
+  },
+  methods: {
+  }  
+   }   
+</script>
+
+
+<style scoped>
+ 
+</style>
+
+Подключаем эту страничку в routes.js
+
+import ErrorCmp from './pages/Error'
+
+
+
+{
+// Обрабатываем страницу 404 (несуществующий роут)
+// для любых незарегистрированных роутов (подстраничек) будем вызывать 
+// данный роут
+// Показываем компонент (страницу) ErrorCmp (error.vue)
+// Например, 
+// http://localhost:8080/45576 -
+// выводится страница с ошибкой
+path:'*',
+component: ErrorCmp
+}
+
+В редиректе можем делать навигацию по именованным роутам. 
+
+{  // Указываем имя другого роута (странички) - попадаем на нее
+path:'/none',
+redirect: 'cars'
+}
+
+9.11  Защита роутов. 
+
+Используем гварды. 
+Проверяем- можно ли нажать на Full info.
+Если можно- показываем информацию. 
+И кнопочку Back так же обработаем. 
+
+За отображение полной информации 
+отвечает роут carFull- 
+дочерний роут от Car. 
+
+У каждого роута есть метод 
+beforeEnter
+Добавим его роуту carFull
+
+  В routes.js
+
+  // Данный метод вызывается перед тем как зайти 
+    // на текущий роут. 
+
+    beforeEnter(to,from,next){
+         console.log('beforeEnter');
+    // выполняется всегда     
+    if (true) {
+    // разрешаем выполнять переход на страничку.
+    // Если этого не написать- нельзя будет перейти на страничку  
+    // Можно просто вызвать next()
+      next(true)
+    } else {
+      next(false)
+    }
+
+В carFul.exe Тоже можно написать:
+
+       beforeRouteEnter (to, fromR, next) {
+       console.log('beforeRouteEnter');
+       // Если next вызываем- навигация происходит
+
+
+Сначала выводится beforeEnter
+а потом beforeRouteEnter
+
+Можно это использовать для того чтобы спросить- 
+точно ли вы хотите покинуть эту страницу? 
+(например, когда данные заполнены)
+
+В компоненте Car есть кнопочка Baxk- 
+возврат на стрничку Cars. 
+Сделаем подтверждение возврата. 
+
+В car.vue: 
+
+  }, 
+  beforeRouteLeave (to, fromR, next) {
+     console.log('beforeRouteLeave');
+    // Если на вопрос- хотите ли уйти со странички ответили 
+    // утвердительно- вызываем метод next() 
+     if (window.confirm('Are you sure you want to leave?')) {
+        next();
+     }  else {
+    // Иначе не уходим со странички    
+      next(false);
+     }
+  }
+
+  9.12  Ленивая загрузка.
+  (lazy)
+  
+  js, vue файлы при каждом изменении собираются в один файл
+  build.js 
+
+  туда попадают файлы, шапки webpack, модули vue
+  При переходе на определенный роут- он загружается
+  по требованию. 
+  Это позволит приложению загружаться быстрее. 
+  
+  В router.js можно настроить 
+  лениво подгружать какую-то страничку. 
+
+
+  import Home from './pages/Home'
+// import Cars from './pages/Cars'
+// import Car from './pages/Car'
+import ErrorCmp from './pages/Error'
+import CarFull from './pages/carFull'
+
+// загрузка компонентов Cars, Car только по требованию
+// используется стрелочная функция, затем callback функция
+// передаем пути для webpack
+
+const Cars = resolve => {
+   require.ensure(['./pages/Cars.vue'], () => {
+        resolve(
+          require('./pages/Cars.vue')
+        ) 
+   }
+   )
+}
+
+const Car = resolve => {
+  require.ensure(['./pages/Car.vue'], () => {
+       resolve(
+         require('./pages/Car.vue')
+       ) 
+  }
+  )
+}
+
+10. Работа с сервером с vue-resource 
+
+10.1 Настройка приложения.
+
+Для работы с сервером можно пользоваться обычными методами 
+javascript.
+Например, подключить его jquery и использовать ajax. 
+
+Или подключить библиотеку axios для работы с akax-запросами
+и использовать её. 
+
+В данном примере используем специальный инструмент, 
+разработанный под фреймворк vue.js 
+Он позволяет удобно работать с асинхронными запросами. 
+
+Специальная библиотека vue-resource
+Устанавливается командой 
+npm install vue-resource
+
+Для простых сайтов: 
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+
+npm install vue-resource --save
+
+--save - используем утилиту не только для разработки,
+но и для production. 
+
+Как настроить сервер для разработки. 
+Можно написать свой сервер используя php или java. 
+Можно использоваться firebase. 
+А можно локальным сервером для разработки- json server. 
+
+В поиске ввести: json server. 
+Установка: 
+
+Сначала устанавливаем глобально
+npm install -g json-server 
+
+Устанавливаем пакет также и локально:
+npm install --save-dev json-server 
+
+В финальную сборку не войдет. 
+
+Стартовать json-server:  
+
+json-server --watch db.json 
+(сервер будет постоянно следить за изменениями 
+в базе данных db.json)
+Далее на порту 3000 будет доступна база данных. 
+
+
+https://github.com/typicode/json-server
+
+Install JSON Server
+
+npm install -g json-server
+Create a db.json file with some data
+
+{
+  "posts": [
+    { "id": 1, "title": "json-server", "author": "typicode" }
+  ],
+  "comments": [
+    { "id": 1, "body": "some comment", "postId": 1 }
+  ],
+  "profile": { "name": "typicode" }
+}
+Start JSON Server
+
+json-server --watch db.json
+Now if you go to http://localhost:3000/posts/1, you'll get
+
+{ "id": 1, "title": "json-server", "author": "typicode" }
+
+
+В package.json в scipts добавляем:
+
+"server":"json-server --watch db.json"
+
+Т.е при запуске в консоли команды
+npm run server 
+выполняется json-server --watch db.json
+
+В package.json json-сервер прописан
+локально в devDependencies
+
+В каталоге проекта создаем файл db.json. 
+Тут надо написать какой-то валидный json. 
+
+{
+"cars": [
+   {
+    "name":"Ford"
+   }
+        ]   
+}
+
+Запуск. 
+Сначала запускаем npm run server в 1-м терминале.
+
+На http://localhost:3000/ запускается база данных. 
+
+Можно посмотреть базу данных:
+http://localhost:3000/cars
+
+Во втором терминале запускаем 
+npm run dev
+
+Запустится приложение на http://localhost:8080/
+
+Добавляем возможности vue-resource.
+
+Исправляем main.js: 
+
+import Vue from 'vue'
+
+import VueResource from 'vue-resource'
+
+// Импортируем из app.vue экспортную функцию, описанную там,
+// с прикрепленным шаблоном и стилем
+import App from './App.vue'
+
+Vue.use(VueResource)
+
+
+10.2
+Создание объектов POST.
+
+В app.vue: 
+
+
+<template>
+<div class="container pt-2">
+ 
+
+ Модификатор trim- чтобы удалялись пробелы 
+ справа и слева. 
+ Модификатор number- число.
+
+ <div class="form-group">
+  <label for="name"> Car name </label>
+  <input type="text" id="name" class="form-control" v-model.trim="carName">
+ </div>
+
+ <div class="form-group">
+  <label for="year"> Car year </label>
+  <input type="text" id="year" class="form-control" v-model.number="carYear">
+ </div>
+
+При нажатии на эту кнопку создаем новую машину в базе 
+ <button class="btn btn-success" @click="createCar" >Create car</button>
+
+
+</div> 
+</template>
+
+<script>
+
+
+// import App from './App.vue' (в main.js)
+export default {
+  data () {
+   return {
+     carName:"Ford",
+     carYear:2018
+   }
+ },
+ methods: {
+   createCar(){
+     // создадим новую машину
+     const car = {
+       name:this.carName,
+       year:this.carYear
+     }     
+
+
+      console.log('create Car');
+     // Делаем асинхронный запрос на сервер 
+     // Для того чтобы что-то создать и сохранить на сервере-
+     // пользуемся методом post
+     // 1 параметр- алрес куда надо сделать запрос
+     // cars- должно совпадать с названием объекта,
+     // который определяли в db.json
+     // вторым параметром передаем объект, который нужно
+     // добавить в базу
+     this.$http.post('http://localhost:3000/cars',car) 
+       .then( response => {
+         console.log(response)
+         return response.json()
+            })
+       .then( newCar => {
+           console.log(newCar) 
+       })
+
+         // response- сообщает как завершился запрос (response.status)
+         // body - те данные которые с сервера получили
+         // (response.body.name, например)
+         // Сервер также возвращает поле id:
+         // (response.body.id)
+         // В db.json записались данные из car плюс добавилось id.
+         // В response много дополнительных данных. 
+         // Если хотим получить чистые данные которые с сервера пришли-
+         // распарсим promise с  json, 
+         // в следующем promise получаем объект 
+         // созданная машина + id ее:
+         //{name: "Ford", year: 2018, id: 24}
+
+
+    
+
+     // метод post возвращает promise, который надо обработать. 
+     // обрабатываем с момощью метода then, вызываем объект response 
+
+         
+   }
+ }
+
+ }
+</script>
+
+<style scoped>
+
+</style>
+
+
+
+10.3 
+Получение объектов get
+
+Научимся забирать данные с сервера,
+используя библиотеку vue.resourse 
+Метод get получает данные с сервера.
+
+
+при нажатии на кнопку получаем данные с сервера 
+<button class="btn btn-primary" @click="loadCars">Load cars</button>
+ 
+<hr>
+ ctrl / - комментарий
+ul.list-group>li*5.list-group-item - быстрый набор тут. 
+Используются классы bootstrap 
+(подсмотренно на сайте bootstrap) 
+Атрибут key, нужный для vue.js- 
+присваиваемый ему полученный id в цикле
+(для каждого элемента).
+Тут идет цикл по полученным элементам.
+
+
+<ul class="list-group">
+  <li
+   class="list-group-item"
+   v-for="car of cars"
+   :key="car.id"
+   >
+ <strong> {{car.name}} - {{car.year}}  </strong>   
+
+   </li>
+
+</ul>
+
+
+   data () {
+    return {
+      carName:"Ford",
+      carYear:2018,
+      cars:[]
+    }
+  }
+
+  loadCars(){
+        this.$http.get('http://localhost:3000/cars')
+       .then( response => {
+        //  console.log(response)
+          return response.json()
+             })
+        .then( cars => {
+          // локальный массив cars будет равен тому cars, 
+          // который приходит с сервера
+             this.cars=cars
+          //  console.log(cars) 
+        })
+
+
+
+10.4  Использование resource. 
+
+Предположим, вы заменяете ушедший на пенсию Vue Resource.
+ Но вам очень понравился доступ к методам запросов через this.$http 
+ и вы хотите получить аналогичное с axios.
+
+Всё, что вам нужно сделать — это добавить axios в ваш проект:
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.2/axios.js">
+</script>
+
+<div id="app">
+  <ul>
+    <li v-for="user in users">{{ user.name }}</li>
+  </ul>
+</div>
+И связать axios со свойством Vue.prototype.$http:
+
+Vue.prototype.$http = axios;
+Теперь вы можете использовать такие методы как this.$http.get
+ в любом экземпляре Vue:
+
+new Vue({
+  el: '#app',
+  data: {
+    users: []
+  },
+  created() {
+    var vm = this;
+    this.$http
+      .get('https://jsonplaceholder.typicode.com/users')
+      .then(function (response) {
+        vm.users = response.data;
+      });
+  }
+});
+
+
+
+
+У http методы:
+  post - добавляет в базу данных информацию 
+  get - получает из базы данных информацию.
+  poot- изменяет данные в базе
+  delete - удаляет данные из базы
+  
+  Изучаем библиотеку подключенную vue.resource
+
+     data () {
+    return {
+      carName:"Ford",
+      carYear:2018,
+      cars:[],
+      resource:null
+    }
+  }
+
+Документация к библиотеке:
+https://github.com/pagekit/vue-resource/blob/develop/docs/resource.md
+
+get: {method: 'GET'},
+save: {method: 'POST'},
+query: {method: 'GET'},
+update: {method: 'PUT'},
+remove: {method: 'DELETE'},
+delete: {method: 'DELETE'}
+
+Создание новой машины. 
+Вместо метода post можно использовать
+метод save:
+
+     /*
+      this.$http.post('http://localhost:3000/cars',car) 
+        .then( response => {
+          console.log(response)
+          return response.json()
+             })
+        .then( newCar => {
+           console.log(newCar) 
+        })*/
+
+     this.resource.save({},car)
+
+        // когда в created ниже написали:
+        // this.resource = this.$resource('http://localhost:3000/cars')
+        // это значит что resource работает с данным url
+
+
+     // Для получения данных вместо get можем использовать 
+     // resource:
+     
+     /*  this.$http.get('http://localhost:3000/cars')
+       .then( response => {
+       console.log(response)
+          return response.json()
+             })
+        .then( cars => {
+          // локальный массив cars будет равен тому cars, 
+          // который приходит с сервера
+             this.cars=cars
+           console.log(cars) 
+        })*/
+      
+  
+     // Получаем с сервера общий объект respons и 
+     // массив cars
+     // присваиваем нашему массиву cars пришедший  сервера
+     // массив из объектов: cars
+     this.resource.get().then(response => response.json()).
+     then(cars => this.cars = cars)
+
+     10.5
+     Глобальная настройка. 
+
+     Как глобально можем настраивать параметры
+     библиотеки vue-resource: 
+
+     В проекте:
+     Несколько объектов:
+     пользователи, машины. 
+     Каждый из них доступен по своему адресу:
+     
+     http://localhost:3000/cars,
+     http://localhost:3000/users
+
+
+     Обычно база данных лежит на одном адресе. 
+     Нужно определить базовый url. 
+
+     В нашем случае базовый url:
+     http://localhost:3000
+
+
+      Документация по конфигурации библиотеки vue-resource:
+
+      https://github.com/pagekit/vue-resource/blob/develop/docs/config.md
+         
+      Настраиваем root-объект: 
+       
+      Vue.http.options.root = '/root';
+      Vue.http.headers.common['Authorization'] = 'Basic YXBpOnBhc3N3b3Jk';
+
+      
+// Определяем корневой каталог (хостинг)
+Vue.http.options.root = 'http://localhost:3000/'
+// Теперь в app.vue можем ссылаться на ресурсы:
+//this.resource = this.$resource('cars')
+// vue сам добавит путь и сделает 
+// http://localhost:3000/cars
+
+   10.6 Интерсепторы. 
+
+   Библиотека vue.resource 
+   поддерживает интерсепторы. 
+
+  https://github.com/pagekit/vue-resource/blob/develop/docs/http.md#interceptors
+  
+  Интерсепторы обрабатывают запросы, 
+  отправляемые на сервер. 
+  В функции, которая определяет интерсептор, 
+  можно модифицировать данный запрос. 
+
+  Например, в приложении надо сделать аутоинтификацию, 
+  защиту каких-то запросов. 
+
+  В main.js: 
+
+  // interseptors- массив всех интерсепторов.
+// метод push добавляет интерсепторы.
+// request- объект конфигурации того запроса,
+// который отправляем на сервер.
+// В случае сохранения машины- это метод post
+// и какие-то данные, которые отправляем на сервер.
+
+// Если надо добавить данные к отправляемым:
+// headers.set
+
+// К каждому запросу, отправляемому на сервер, 
+// добавляется такой header
+Vue.http.interceptors.push(request => {
+  request.headers.set('Auth','Rand token ' + Math.random() )
+})
+// В Networks в запросе втором в поле request headers
+// появилось поле Auth
+
+Блок 11.
+Теория. Работа с данными с vuex.
+
+11.1 Установка vuex.
+
+11.2 Использование state.
+state- объект, который описывает все состояние нашего приложения. 
+
+11.3 Использование getters. 
+
+Создаем второй counter и файл secondCounter.vue. 
+копируем туда все из counter.vue. 
+
+Регистрируем secondCounter в app.vue и выводим в шаблоне.
+
+Нужно посчитать что-то в зависимости от counter. 
+
+11.4 Использование mutations
+(в классическом названии- сеттеры. 
+Во vue.js они называются mutation
+Делает противоположное действие геттерам.
+Они позволяют изменять state
+Это также функции.
+Они работают синхронно
+)
+
+11.5 Использование Actions.
+Для асинхронных действий (например, работе с сервером)
+используют actions. 
+
+В index.js в Vuex.Store создаем actions, 
+это также объект.
+В данном объекте создаем функцию, которая должна быть вызванна чтобы
+выполнить какое-либо действие.
+
+В action- работа с сервером, обращение к базе данных и т.д. 
+
+11.6  Оптимизация с помощью модулей 
+Если большой проект- много getters, mutations, actions и т.д. 
+Можно декомпозировать store в отдельные модули. 
+Переносим логику store из index.js в counter.js
+
+export default {
+    // state- объект, который описывает все состояние нашего приложения. 
+    // задаем counter, который затем можем использовать в разных
+    // компонентах.
+   state: {
+     counter: 0
+   },
+   // Если хотим каким-то образом изменить counter:
+   // В параметрах: 
+   // сам state, который нужно изменить. 
+   // val
+   mutations: {
+     changeCounter (state, payload) {
+      // увеличиваем counter на 1
+      // state.counter+=1 
+      // payload- в changeCounter переданный параметр val 
+      //
+       state.counter += payload
+     }
+   },
+   actions: {
+     //  параметры: context - тут много полезной информации
+     // payload- те данные (объект), с которыми будем работать.
+     //     asyncChangeCounter ({commit}, payload) {
+     // Из context получаем commit с помощью деструтуризации:
+     // {commit}
+     asyncChangeCounter ({commit}, payload) {
+       // можем вызывать асинхронные методы 
+       // Вызываем с задержкой payload.timeoutDelay сек.
+       setTimeout(() => {
+         // через промежуток времени вызывается функция (mutation) 
+         // changeCounter. Передаем в неё параметр  payload.counterValue-
+         // ту величину, на которую будем изменять counter.
+         commit('changeCounter', payload.counterValue)
+       }, payload.timeoutDelay)
+     }
+   },
+   // getters- объект, где каждое значение является функцией.
+   // вычисляем свойства прежде чем передать их в компоненты
+   getters: {
+     // определяем функцию, которая преобразует хранящийся в state counter
+     // эту функцию можно использовать в компонентах
+     computedCounter (state) {
+       return state.counter * 10
+     }
+   }
+ }
+
+
+ В index.js:
+
+import counter from './counter'
+
+ export default new Vuex.Store({
+   modules: {
+     // Если хотим зарегистрировать функционал store для counter
+     // из counter.js:
+      counter: counter
+   }
+})
+
+
+Можем в index.js помимо импортированного store добавить
+еще что-то.
+Например, новый state.
+
+Часть 2.
+Практика. Создание SPA приложения на material design и firebase
+
+2.1  Создание проекта.
+
+Будем использовать: 
+
+1) Vue.js - freimwork
+2) Vuetify - библиотека- набор ui-компонентов, 
+которые создают material design.
+3) vuex - для state- менеджмента
+4) firebase- база данных
+
+Развернем проект, использую vue cli.
+
+Freimwork vuetify:
+https://vuetifyjs.com/en/
+
+
+Чтобы приложение работало правильно,
+его надо обернуть в компонент v-app
+Этот компонент используется для динамического
+управления областью содержимого 
+и является точкой монтирования
+для многих компонентов. 
+
+1) Устанавливаем vue-cli глобально
+  npm install -g vue-cli
+  
+vuetify предлагает много шаблонов готовых. 
+(в теоретической части использовали webpack sipmle,
+а сейчас используем более серьезный webpack.
+)
+
+
+Раньше:
+vue init vuetifyjs/webpack project1
+
+Шаблон Webpack ранее находился в репозитории Vuetify's GitHub.
+Однако они недавно обновили свои шаблоны для использования Vue CLI 3, 
+и в результате шаблон, на который вы ссылаетесь, был удален.
+Перед началом проекта рекомендуется обновить его до новой версии Vue CLI:
+
+**************************************************************************************************
+Сейчас:
+npm uninstall vue-cli -g
+npm install -g @vue/cli
+Затем можно создать новый проект Vuetify с помощью:
+
+vue create my-app
+cd my-app
+vue add vuetify
+
+Можно скачать node.js и установить в windows
+
+Для выбора- какую версию node.js установить:
+https://github.com/coreybutler/nvm-windows/releases
+
+ nvm list available - список доступных версий node.js
+
+
+
+
+nvm install v14.14.0  - установка версии
+
+nvm use 14.14.0 - для windows 8.1 и старше. 
+
+Для windows 7: версия 13.14.0
+nvm use v13.14.0 
+
+стабильная (рекомендованная) версия 12.19.0
+
+
+Удаление версии:
+nvm uninstall 14.14.0 
+
+Какая версия vuetify установленна глобально:
+npm ls -g --depth 0 vuetify
+
+Какая версия vuetify установленна локально:
+npm ls --depth 0 vuetify
+
+Если vuetify не установлен, вы увидите следующее:
+
+└── (empty)
+
+**************************************************************************************************
+Сейчас:
+npm uninstall vue-cli -g
+npm install -g @vue/cli
+Затем можно создать новый проект Vuetify с помощью:
+
+vue create my-app (только с node.js версии 13.14.0 можно использовать команду vue)
+cd my-app
+vue add vuetify (только с node.js версии 13.14.0 можно использовать команду vue)
+
+Реккомендации по созданию проектов:
+
+https://cli.vuejs.org/ru/guide/creating-a-project.html#vue-create
+
+
+Для создания нового проекта запустите команду:
+
+vue create hello-world
+
+Вам будет предложено выбрать пресет настроек.
+ Можно выбрать пресет по умолчанию (default), 
+ который добавляет Babel + ESLint, или настройку вручную
+  («Manually select features») для выбора требуемых возможностей
+   в новом проекте.
+
+   Настройки по умолчанию отлично подходят для быстрого
+    прототипирования нового проекта, в то время как настройка
+     вручную предоставляет больше опций, которые могут потребоваться.
+
+   При выборе настройки вручную, в самом конце будет также предложено
+    сохранить ваш выбор в качестве нового пресета настроек, 
+    чтобы воспользоваться им в будущем  
+
+    Создаваемые пресеты сохраняются в JSON-файле .vuerc 
+    в домашнем каталоге вашего пользователя. 
+    Если вы захотите изменить сохранённые пресеты /
+     настройки, можете это сделать отредактировав этот файл.
+
+     Команда vue create предоставляет множество опций — вы можете изучить их все выполнив:
+
+vue create --help
+Использование: create [options] <app-name>
+
+создание нового проекта с помощью vue-cli-service
+
+
+Опции:
+
+  -p, --preset <presetName>       Пропустить подсказки и использовать сохранённый или сторонний пресет настроек
+  -d, --default                   Пропустить подсказки и использовать пресет настроек по умолчанию
+  -i, --inlinePreset <json>       Пропустить подсказки и использовать вставленную строку JSON в качестве пресета настроек
+  -m, --packageManager <command>  Использовать указанный npm клиент при установке зависимостей
+  -r, --registry <url>            Использовать указанный npm регистр при установке зависимостей
+  -g, --git [message|false]       Форсировать / пропустить инициализацию git, опционально указать сообщение к первому коммиту
+  -n, --no-git                    Пропустить инициализацию git
+  -f, --force                     Перезаписать целевой каталог, если такой уже есть
+  -c, --clone                     Использовать git clone при загрузке стороннего пресета настроек
+  -x, --proxy                     Использовать указанный прокси при создании проекта
+  -b, --bare                      Развернуть проект не показывая инструкции для новичков
+  -h, --help                      Вывод информации об использовании команды
+
+  Вы можете создавать и управлять проектами через графический интерфейс командой vue ui:
+
+vue ui
+Команда выше откроет окно браузера с графическим интерфейсом, в котором можно 
+пройти те же шаги создания проекта.
+
+Шаблоны для версии 2.x (старое поведение)
+Vue CLI >= 3 использует команду vue, поэтому он перезаписывает Vue CLI 2
+ (vue-cli). Если вам по-прежнему необходимо старое поведение
+  и функциональность команды vue init, нужно лишь установить
+   глобально дополнительный плагин @vue/cli-init:
+
+npm install -g @vue/cli-init
+# vue init теперь работает точно также, как и в vue-cli@2.x
+vue init webpack my-project
+
+
+***********************
+Приступаем к созданию проекта. 
+vue create project1
+
+
+Vue CLI v4.5.7
+? Please pick a preset:
+  Default ([Vue 2] babel, eslint)
+  Default (Vue 3 Preview) ([Vue 3] babel, eslint)
+> Manually select features
+
+Выбираем  Manually select features
+щелкнуть по пункту мышкой, Enter. 
+
+>(*) Choose Vue version
+ (*) Babel
+ ( ) TypeScript
+ ( ) Progressive Web App (PWA) Support
+ (*) Router
+ (*) Vuex
+ ( ) CSS Pre-processors
+ (*) Linter / Formatter
+ ( ) Unit Testing
+ ( ) E2E Testing
+
+
+ Выбираем стрелочками, Enter-
+ добавляем Router
+ Библиотеку vuex (если нужно)
+
+ Выбираем версию vue, идем дальше по Enter
+
+ Прогрессивное web-приложение (англ. progressive web app, PWA) — 
+ технология в web-разработке, которая визуально и функционально
+  трансформирует сайт в приложение (мобильное приложение в браузере)
+(N- стандартно)
+
+
+ По умолчанию vue-router работает в режиме хэша — 
+ он использует хэш URL для симуляции полного URL-адреса,
+  что позволяет избежать перезагрузки страницы при изменении URL.
+   Мы можем обойтись без хэша, используя режим history,
+    который работает с API history.pushState для достижения 
+    той же цели: const router = new VueRouter({ mode: 'history', routes: [...] })
+     При использовании этого URL выглядит естественно,
+      например: http://oursite.com/user/id. 
+
+  Use history mode for router?  N
+  (если стандартно)
+  
+Eslint+Standart config
+
+
+Lint on save
+
+ Where do you prefer placing config for Babel, ESLint, etc.?
+ In dedicated config files
+
+Save this as a preset for future projects? (y/N) Y
+
+Save preset as: cli1
+
+Устанавливается проект в папку project1.
+
+Только vuetify не устанавливается в этом случае.
+
+
+There are uncommitted changes in the current repository, 
+it's recommended to commit or stash them first.
+? Still proceed? Y
+
+
+ Choose a preset: Default (recommended)
+
+Создастся проект. 
+Папки:
+build- там хранятся разные конфигурации для webpack
+config- конфигурации для сборки
+static- статические файлы 
+
+В папке проекта запустим npm i - для перепроверки зависимостей
+npm init - для задания автора
+
+
+
+Перенесем данные из project1 в каталог vue 
+(git настроен сохранять файлы из каталога vue на удаленном хостинге,
+при этом игнорируя папку node_modules большую в этом каталоге).
+
+***************************************
+Get started with the following commands:
+npm run serve
+***************************************
+
+ctrl J- открыть/свернуть терминал. 
+
+
+npm run build- для создания production mode
+(готовый проект. Можно загрузить его на VPS-сервер хостинга
+(предварительно создать на хостинге новый vps-сервер), 
+а потом связать доменное имя с данным vps-сервером).
+
+О загрузке приложения на vps-сервер: 
+Часть 3. Бонусы.
+
+Бонус 6. Деплой vue приложения
+
+6.2 Запуск приложения на VPS хостинге 
+
+
+**********************************************
+
+
+2.2 Обзор приложения. 
+В package.json- можно прописать скрипты для взаимодействия
+с приложением. 
+
+ "serve": "vue-cli-service serve" (в прошлой версии Vue 2.0 
+ dev,start) - запуск приложения в режиме разработки
+ "build" - создание модулей для выгрузки на сервер в 
+ каталоге dist
+ lint - проверка кода проекта.
+
+
+****************
+Попробуем создать проект по-старому,
+с vue.2.0 и cli.2.0, шаблон webpack
+
+Vue CLI >= 3 использует команду vue, поэтому он перезаписывает Vue CLI 2
+ (vue-cli). Если вам по-прежнему необходимо старое поведение
+  и функциональность команды vue init, нужно лишь установить
+   глобально дополнительный плагин @vue/cli-init:
+
+npm install -g @vue/cli-init
+# vue init теперь работает точно также, как и в vue-cli@2.x
+vue init webpack my-project
+
+? Project name 1 (можно: Project1)
+? Project description 1 (можно: a Vue.js project)
+? Author Alexandr <sasha-is-permi@mail.ru>
+? Vue build standalone
+? Install vue-router? Yes
+? Use ESLint to lint your code? Yes
+? Pick an ESLint preset Standard
+? Set up unit tests No
+? Setup e2e tests with Nightwatch? No
+? Should we run `npm install` for you after the project has been created?
+ (recommended)
+  (Use arrow k? Should we run `npm install`
+   for you after the project has been created? (recommended) npm
+
+
+Далее после установки проекта:
+cd my-project 
+
+ npm init vuetify
+
+✔  Successfully installed plugin: vue-cli-plugin-vuetify
+
+? Choose a preset: (Use arrow keys)
+> Default (recommended)
+  Prototype (rapid development)
+  Configure (advanced)
+
+
+Перекидываем проект в папку vue для копирования 
+с помощью git.
+
+npm i
+
+Восстановление информации: 
+
+git log --oneline
+
+git checkout be9055b
+
+ git add -A
+ git commit -m "Revert commit: be9055b"
+
+ git push
+
+
+
+ *********************************************
+
+Правильно без ошибок сработало:
+
+ vue ui -установка процесса с графическим интерфейсом. 
+(vue 2.0, vuex, vue.router)
+
+ http://localhost:8000/dependencies - меню графическое 
+ 
+ http://localhost:8080/ - программа 
+
+ http://192.168.0.65:8080/
+
+npm install -g @vue/cli-init
+
+ vue add vuetify
+
+npm run serve - вызов
+ 
+
+Если восстанавливали раньше и сбился git:
+при посылке на сервер:
+git push origin HEAD:master
+
+
+Переделали комманду
+npm run dev (в package.json)
+localhost:8080
+
+Практика. Создание SPA приложения на material design 
+и firebase.
+2.3 
+Создание тулбара
+https://vuetifyjs.com/en/getting-started/wireframes/
+
+Справочник:
+https://vuetifyjs.com/en/getting-started/wireframes/#examples
+
+Компоненты от vuetify: 
+начинаются теги с префикса "v"
+Директива app - говорит оо том как следить за поведением элементов. 
+Она важна при ресайзе приложения. 
+
+Описание на русском
+https://v2.vuetifyjs.com/ru/components/navigation-drawers/
+
+Toolbar 
+<>  - исходный код. 
+
+Можно при установке vue ui зайти в plugins, 
+в поиске найти vutify
+
+2.4 Добавление ссылок и адаптация. 
+
+Иконки:
+https://v2.vuetifyjs.com/ru/components/icons/
+
+Сайт с иконками:
+https://materialdesignicons.com/
+
+В строке поиска можно искать иконку по тематике. 
+
+Щелкаем по иконке, выбираем. 
+
+
+  <v-btn flat dark color="primary">
+         <v-icon>mdi-magnify</v-icon>
+  </v-btn>
+  
+mdi-magnify- название иконки
+
+v-btn flat dark color="primary" - кнопка
+
+v-btn icon - иконка
+
+bug report -надо писать во vue bug_report. 
+
+Иконки с сайта 
+https://material.io/resources/icons
+для установленной библиотеки:
+<link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
+
+Новая большая библиотека иконок:
+https://materialdesignicons.com/
+
+Инструкция:
+https://dev.materialdesignicons.com/getting-started/vuejs
+
+В терминале:
+npm install @mdi/js --save @jamescoyle/vue-icon
+
+
+В app.vue:
+
+<template>
+  <svg-icon type="mdi" :path="path"></svg-icon>
+</template>
+
+
+<script>
+import SvgIcon from '@jamescoyle/vue-icon'
+import { mdiAccount } from '@mdi/js'
+
+export default {
+    name: "my-cool-component",
+
+    components: {
+        SvgIcon
+    },
+
+    data() {
+        return {
+            path: mdiAccount,
+        }
+    }
+}
+</script>
+
+https://v2.vuetifyjs.com/ru/components/icons/
+Иконки, api- свойства иконок.
+директива left- чтобы иконка отъехала слева 
+от текста
+
+Создание бокового меню:
+
+
+export default{
+  data () {
+    return {
+      drawer:false
+    }
+  }
+}
+
+<template>
+  <v-navigation-drawer 
+  app
+  temmporary
+  v-model="drawer"
+  >
+
+  </v-navigation-drawer> 
+    <v-content>
+  <v-toolbar dense app dark color="primary">
+      
+
+      <v-app-bar-nav-icon
+      @click="drawer=!drawer"      
+      >
+      
+      </v-app-bar-nav-icon>
+    </template>
+   
+    Вставим список в левое боковое меню:
+    https://v2.vuetifyjs.com/ru/components/lists/
+
+    Делаем адаптацию к различным экранам. 
+    В тегах с vuetify добавили класс hidden-sm-and-down
+
+    https://v2.vuetifyjs.com/en/styles/display/#display
+
+hidden-{breakpoint}-{condition} for sm, md, lg and xl
+
+
+Material Design Viewport Breakpoints
+Extra small	xs	small to large handset	< 600px
+Small	sm	small to medium tablet	600px > < 960px
+Medium	md	large tablet to laptop	960px > < 1264px*
+Large	lg	desktop	1264px* > < 1904px*
+Extra large	xl	4k and ultra-wides	> 1904px*
+
+hidden- название класса
+затем brackpoint идет
+condition - условие для него
+
+
+The condition applies the class base on:
+
+only - hide the element only on xs through xl breakpoints
+and-down - hide the element on the specified breakpoint and down sm through lg breakpoints
+and-up - hide the element on the specified breakpoint and up sm through lg breakpoints
+
+
+only- скрыть элемент только на этом брекпоинте
+and-down- скрыть элемент на этом брекпоинте и ниже
+and-up - скрыть элемент на этом брекпоинте и выше. 
+
+2.5
+Регистрация роутов. 
+В папке components создаем различные компоненты
+(файлы *.vue, которые будут представлять наши страницы).
+
+По правилам стиля vue.js называем компоненты м большой буквы. 
+
+В template элемент оборачевается в  тег <v-container>
+Задаем разметку: 
+
+<template>
+любой элемент с такого тега начинаться будет 
+ <v-container>
+   row- Выравниваем layout по строке
+  аттрибут vuetify создает свойство 
+  flex-direction:row 
+  xs12 - размер div, адаптация  
+   <v-layout row xs12>
+       <v-flex>
+           <h1>Home</h1>
+       </v-flex>
+   </v-layout>
+ </v-container>
+</template>
+
+<script>
+
+export default {
+
+data () {
+return {}
+} 
+}
+
+
+</script>
+
+В src\components создаем папку 
+auth для компонентов авторизации. 
+
+В ней будут компоненты 
+login.vue, regisration.vue
+
+В index.js:
+mode:'history'
+чтобы работать с обычной адресной строкой,
+без "#"
+
+
+Зададим высоту toolbar: 
+  <v-toolbar dense app dark color="primary" max-height="48px">
+
+Всевозможные свойства:
+https://vuetifyjs.com/en/api/v-toolbar/
+
+2.6 Создание страницы логина. 
+
+Пример создания формы:
+https://v2.vuetifyjs.com/en/getting-started/pre-made-layouts/
+Нажимаем на "<>":
+
+У vuetify есть свои инструменты для валидации элементов. 
+
+
+https://v2.vuetifyjs.com/en/components/forms/
+
+Добавляем:
+<v-form v-model="valid" ref="form" validation>
+
+Также устанавливаем valif:false  
+
+Атрибуты- тут в API, в пункте меню text fiels
+
+:counter="6" валидация до 6-ти символов
+
+правило валидации: 
+   passwordRules: [
+        v => !!v || 'Password is required',
+        v =>( v.length >=6) || 'Name must be more 6 characters',
+      ]
+
+      <v-text-field
+                      id="password"
+                      label="Password"
+                      name="password"
+                      prepend-icon="mdi-lock"
+                      type="password"
+                      :counter="6"
+                      v-modal="password"
+                      :rules="passwordRules">
+
+
+
+Сделаем также так, чтобы   нажать на кнопку отправить 
+можно было только для валидной формы. 
+ <v-btn
+                  @click="onSubmit"
+                  color="primary"
+                  :disabled="!valid"
+                  >Login</v-btn>
+
+Только для валидной формы совершаем какие-то действия: 
+
+if (this.$refs.form.validate()) {
+    const user= {
+        email:this.email,
+        password:this.password
+    }
+    console.log(user)
+    }
+}
+
+Правильное написание: 
+ v-model="email"
+
+ 'v-content' устарел, use 'v-main' лучше использовать
+
+flat- устарел, уже не используется
+
+v-toolbar-items надо использовать вместо v-list-tile
+
+Вы можете получить весь свой репозиторий в состояние первого коммита
+ с помощью:
+
+git log --oneline
+
+git checkout <commit SHA1>
+После того, как вы закончите работу, вы можете сделать
+ git checkout master, чтобы вернуться туда, где вы были.
+
+И вы можете получить отдельные файлы в их состояние с первого коммита с помощью:
+
+git checkout <commit SHA1> <file or directory> ...
+Снова, после того, как вы закончите, вы можете сделать 
+git checkout master <file or directory>, чтобы вернуться туда, где вы были.
+
+Иконка с мобильным меню появляется только для разрешений < md !!!
+
+2.7 Создание формы регистрации. 
+
+Копируем все из login.vue в registration.vue. 
+
+
+lazy-validation- для смягчения валидации. 
+
+2.8 Создание главной страницы. 
+
+  Вставляем элемент vue.js router-link  (чтобы сделать ссылку-переход на главную страницу Home
+  при нажатии Add application):
+
+  tag="span" - для красивого оформления
+
+  class="pointer" - для красивого курсора (ниже опишем).
+
+
+
+  <router-link to="/" tag="span" class="pointer">
+             Add application
+  </router-link>
+
+tag="span"
+
+
+Страницы описываются в index.js: 
+ routes: [
+      { path:'',
+    name:'home'}]
+ 
+страница по умолчанию- то, что содержится в     
+
+Оглавление библиотеки vuetify:
+https://v2.vuetifyjs.com/en/getting-started/quick-start/
+
+Компонент "карусель":
+https://v2.vuetifyjs.com/en/components/carousels/
+
+Копируем код карусели на страницу home.
+На этой страниуе 2 контейнера:
+1) Тип fluid без отступов
+2) С отступами. 
+
+Надо их оба  обернуть в один корневой элемент <div>
+
+row xs12 при любом разрешении растягивается на полную строку. 
+
+Картинки в карусели. 
+Правая кнопка мыши- посмотреть код. 
+
+Скопируем ссылки на картинки:
+
+https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg
+
+https://cdn.vuetifyjs.com/images/carousel/sky.jpg
+
+В home.vue создаем массив с картинками.
+
+Параметр в массиве ads promo: 
+Можно по нему отфильтровать- выводить картинки или нет. 
+
+Компонет vuetify cards- помогает вывести список товаров. 
+
+
+https://v2.vuetifyjs.com/en/components/cards/
+
+
+Разметка grid: 
+
+https://v2.vuetifyjs.com/en/components/grids/#grid-system
+
+2.9 Создание страницы заказов. 
+
+
+Создаем список всех заказов.
+Подойдет UI компонент lists:
+https://v2.vuetifyjs.com/en/components/lists/
+
+Отступы spacing:
+https://v2.vuetifyjs.com/en/styles/spacing/#spacing
+
+Пишем в файл orders.vue
+
+UI компоненты /selection cintrols- 
+цвета для checkbox
+
+https://v2.vuetifyjs.com/en/components/selection-controls/
+
+2.10 Создание страницы формы.
+
+Заполняем файл NewAd.vue
+
+Свойство multi-line: превращает input в textarea:
+
+https://v2.vuetifyjs.com/en/components/text-fields/
+
+(не нашел такое свойство в vue 2.0)
+
+Есть тег v-textarea
+
+Дизайн для кнопки Upload можно взять тут:
+
+https://v2.vuetifyjs.com/en/components/buttons/
+
+Чтобы картинка не сьезжала- добавляем ей собственный v-layout
+
+2.11
+
+Создание страницы списка 
+В меню: myAds
+Редактируем файл AdList.vue. 
+
+Добавляем тени:
+https://v2.vuetifyjs.com/en/styles/elevation/#elevation
+
+Добавим массив в data.
+
+Потом будет единая шина где хранятся все данные. 
+
+Пример:
+
+ <v-container>
+ <v-row justify="center">
+
+2.12
+
+Создание страницы объявления. 
+Редактируем страницу объявления Ad.vue.
+Эта страница карточки, которая открывается при нажатии на 
+кнопочки- например, "Open"
+
+Кнопочка flat- не rise, а немного приплюснутая, 
+плоская.
+Хотя flat это устаревший атрибут.
+
+2.13 Подключение vuex 
+
+Создадим общую шину (store) для приложения,
+используя vuex
+
+(-S - устанавливаем как зависимость для production разработки.
+Включится в общий проект. Иногда пишут --save)
+Установка vuex :
+npm i vuex -S
+(у нас уже установлен)
+
+vuex- прослойка vue.js для обработки данных. 
+
+Файл store/index.js - настройки vuex
+
+В каталоге store создаем файл ads.js
+
+Массив данных копируем из home в ads.js
+
+В карусели выводится 2 элемента (у которых promo=true), а ниже - карточки всех элементов (3)
+
+adList.vue тоже переписываем, чтобы брать данные из store. 
+
+2.14 Добавление объявлений. 
+
+Ad.vue - работает с общей шиной. 
+
+MyAds, список элементов- у них есть id. 
+Id прописывается в url-адресе. 
+В router\index.js где задается путь с id добавть свойство props: true
+Чтобы vue.js передал данный id параметром в компонент. 
+
+В Ad.vue чтобы получить id пишем:
+props:['id']
+
+Store:   в store/ads.js 
+(может быть также в store/index.js)
+
+Метод createAd
+Исправляем newAd.vue и ads.js
+
+
+2.15 
+Настройка firebase
+
+В store создаем user.js
+
+Firebase:
+
+https://firebase.google.com 
+
+Нужен google-аккаунт для входа. 
+Базовый функционал- безплатный для firebase. 
+
+Перейти к консоли
+Создать проект.
+ids-ads
+Создать проект. 
+
+Тарифные планы:
+spark- бесплатно
+blaze- по мере использования. 
+
+В visual studio code в терминале: 
+Устанавливаем firebase-плагин (для связи с сервером firebase)
+как зависимость для production:
+npm install --save firebase
+Установится библиотека, отправляющая ajax-запросы. 
+
+На сервере firebase:
+Authefication
+Добавление firebase в web-приложение. 
+Настроим firebase-хостинг для этого приложения:
+
+Регистрируем приложение:
+bashin-perm-vue-js
+
+без настройки firebase-хостинга. 
+
+
+Скопируйте и вставьте эти скрипты в конец тега <body> перед сервисами Firebase:
+
+
+
+<script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBDqoN9eh3atwLcYFpRjj-5HeN_UWxQARo",
+    authDomain: "itc-ads-9fe8e.firebaseapp.com",
+    databaseURL: "https://itc-ads-9fe8e.firebaseio.com",
+    projectId: "itc-ads-9fe8e",
+    storageBucket: "itc-ads-9fe8e.appspot.com",
+    messagingSenderId: "474540697157",
+    appId: "1:474540697157:web:26b494af5749f7240d252c"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+
+Можно в main.js вставить этот кусок. 
+
+new Vue({
+  router,
+ store,
+  vuetify,
+  render: h => h(App),
+  created(){
+    var firebaseConfig = {
+      apiKey: 'AIzaSyBDqoN9eh3atwLcYFpRjj-5HeN_UWxQARo',
+      authDomain: 'itc-ads-9fe8e.firebaseapp.com',
+      databaseURL: 'https://itc-ads-9fe8e.firebaseio.com',
+      projectId: 'itc-ads-9fe8e',
+      storageBucket: 'itc-ads-9fe8e.appspot.com',
+      messagingSenderId: '474540697157',
+      appId: '1:474540697157:web:26b494af5749f7240d252c'
+    };
+  }
+}).$mount('#app')
+
+Это можно посмотреть в настройках girebase:
+Firebase SDK snippet/Конфигурация
+(там же- если сразу не настроили- можно выбрать пунк меню:
+"Установить связь с сайтом Firebase Hosting"
+(редактирование хостингов:
+Develop/hostings)
+)
+
+
+
+Если же хотим использовать firebase хостинг:
+
+устанавливаем панель:
+npm install -g firebase-tools
+
+
+Вы можете развернуть сайт прямо сейчас или сделать это позже.
+ Чтобы развернуть сайт сейчас, откройте окно терминала и перейдите в корневой каталог вашего веб-приложения.
+
+Войдите в аккаунт Google
+
+firebase login
+Инициируйте проект
+Выполните эту команду в корневом каталоге приложения:
+
+
+firebase init
+Укажите свой сайт в файле firebase.json
+Добавьте название сайта в файл конфигурации firebase.json.
+ После того как вы закончите настройку, прочитайте рекомендации по развертыванию нескольких сайтов.
+
+
+{
+  "hosting": {
+    "site": "bashin-perm-vue-js",
+    "public": "public",
+    ...
+  }
+}
+Разверните приложение
+Поместите статические файлы (например, HTML, CSS, JS) в каталог
+ развертывания приложения (по умолчанию используется каталог public).
+  Затем выполните следующую команду в корневом каталоге приложения:
+
+
+firebase deploy --only hosting:bashin-perm-vue-js
+Развернутое приложение будет доступно по адресу bashin-perm-vue-js.app.
+
+Нужна помощь? Ознакомьтесь с документацией по Hosting.
+
+В main.js:
+Получим функционал firebase в переменной fb:
+import * as fb from 'firebase'
+
+Инициализируем базу firebase:
+fb.initializeApp(firebaseConfig);
+
+На сайте firebase: настроим способ входа. 
+
+Authentication/ способ входа:
+
+Адрес электронной почты и пароль. 
+
+
+2.16  
+Регистрация пользователей. 
+В store/index.js добавляем модуль ser и импортируем его. 
+
+Создаем с помощью приложения пользователя 
+(Registration)
+и проверяем в базе firebase: 
+https://console.firebase.google.com/project/itc-ads-9fe8e/authentication/users
+
+Ошибка- не работает firebase.auth
+Установка firebase:
+
+npm install firebase --save
+npm install firebase-admin --save
+
+// Подключаем firebase:
+import fb from 'firebase/app';
+require('firebase/auth');
+
+**************************************
+использование * as вызывает ошибку
+
+Если предполагается подключить 
+функцию fb.auth():
+обязательно надо подключить:
+require('firebase/auth');
+
+**************************************
+
+Создаем специальный store, который выводит либо ошибки
+либо то, что происходит с сервером.
+
+В store создаем новый файл shared.js
+Регистрируем его в store/index.js
+
+Пишем actions в share.js => используем их в 
+actions user.js => используем их чтобы показать 
+загрузку или ошибку в regisration.vue
+
+Обратить внимание:
+в множемтвенном числе пишутся компоненты store
+Например, actions.
+
+По завершению работы с сервером сделаем
+переход на новую страницу. 
+
+В user.js используем методы async...await 
+
+Меняем также registration.vue
+
+2.17 
+Логин пользователей
+
+В user.js создаем action:
+loginUser
+
+Копируем логику из registerUser
+Логинимся с помощью метода
+signInWithEmailAndPassword()
+
+Затем изменяем login.vue- 
+вызываем метод  loginUser()
+
+Если залогинились- переходим 
+на главную страницу.
+
+В login.vue 
+добавляем computed-свойство 
+чтобы показать процесс лоадинга
+
+Добавляем также для кнопки:
+:loading="loading"
+:disabled="!valid || loading"
+
+
+2.18
+Вывод ошибок.
+
+Создаем компонент, который обрабатывает ошибки в приложении. 
+
+Элемент vutify snackbars
+(окошечко с сообщением об ошибке)
+
+https://v2.vuetifyjs.com/en/components/snackbars/
+
+<v-snackbar
+      v-model="snackbar"
+      :bottom="y === 'bottom'"
+      :color="color"
+      :left="x === 'left'"
+      :multi-line="mode === 'multi-line'"
+      :right="x === 'right'"
+      :timeout="timeout"
+      :top="y === 'top'"
+      :vertical="mode === 'vertical'"
+    >
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          dark
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+
+    Вставляем этот кусочек в app.vue после v-main. 
+
+   19. Поддержание сессии пользователя. 
+   Показываем меню в соответствии- залогинен пользователь или нет. 
+
+   В user.js в store создаем новый метод в getters: 
+       isUserLoggedIn (state) {
+      // Проверяем- зарегистрирован ли пользователь
+      return state.user !== null 
+    }
+
+   В app.vue создаем новое computed-свойство:
+
+   isUserLoggedIn () {
+    return this.$store.getters.isUserLoggedIn
+   }
+ 
+    Задаем еще одно computed-свойство links:
+
+    links() {
+      // title- название ссылки, 
+      // icon- название иконки
+      // url- ссылка, ведет на страницу 
+      // или элемент
+      // orders- заказы
+      // New ad - добавить рекламу
+      // My ads- показать список реклам
+
+    // Если пользователь вошел в систему- у него
+    // 3 ссылки в меню
+
+      if (this.isUserLoggedIn){
+        return [
+         {title:'Orders',icon:'bookmark_border', url:'/orders'},
+        {title:'New ad',icon:'note_add', url:'/new'},
+        {title:'My ads',icon:'list', url:'/list'} 
+        ]
+      }
+      // если пока не в системе- у него 2 ссылки в меню
+      return [
+      {title:'Login',icon:'lock', url:'/login'},
+        {title:'Registration',icon:'face', url:'/registration'},
+      ]
+
+    }
+  }
+
+   2 проблемы остается:
+   
+   1) При перезагрузке страницы пользователь теряет авторизацию. 
+   2) Нужно предусмотреть возможность разлогиниться. 
+
+   1) В main.js: 
+
+       // Решаем проблему потери авторизации при перезагрузке страницы
+    fb.auth().onAuthStateChanged( user => {
+    // Если в user что-то храниться- разрешаем пользоваиелю быть 
+    // залогиненым 
+      if(user) {
+       this.$store.dispatch('autoLoginUser',user)
+     }
+
+    })
+
+ Создадим action autoLoginUser в user.js
+
+     autoLoginUser({commit},payload) {       
+    // Вызываем setUser
+    commit('setUser', new User(payload.uid))
+    }
+  }
+
+  2. Реализуем Log out 
+   
+  В app.vue: 
+  В главное меню кнопку добавляем:
+
+  Для кнопки Logout 
+   Показываем только если пользователь залогинен:
+   <v-list-item
+   @click="onLogout"
+   v-if="isUserLoggedIn"
+   >
+        <v-icon left>  exit_to_app </v-icon>
+        Logout
+  </v-btn>
+  
+  В боковое меню drawer кнопку добавляем:
+
+   <v-list-item
+   @click="onLogout"
+   v-if="isUserLoggedIn" 
+   >
+     <v-list-item-action>
+          <v-icon left> exit_to_app </v-icon>
+     </v-list-item-action>
+     <v-list-item-content>
+          <v-list-item-title v-text="'Logout'"></v-list-item-title>
+     </v-list-item-content>
+   </v-list-item>
+
+
+
+   Метод onLogout:
+     onLogout() {
+     this.$store.dispatch('logoutUser')
+     // переходим на главную страницу раз разлогинились
+     this.$router.push('/')
+
+    }
+   В user.js: 
+   Создаем метод logoutUser
+
+       logoutUser({commit}){
+      // Разлогинимся
+      fb.auth().signOut()
+      // Вызываем mutation setUser со значением null
+      // (очищаем User)
+      commit('setUser',null)
+
+
+    }
+
+    2.20 Защита роутов
+    (чтобы не мог неавторизованный пользователь попасть на внутреннюю 
+    страницу сайта с помощью ссылки в url-адресе).
+    
+    В папке router создаем файл:
+    auth-guard.js 
+    это javascript-функция, которая защищает определенные роуты
+    Передаем ей get-параметр об ошибке. 
+
+
+      // импортируем store чтобы понять-
+// какое состояние у user (включает файл store/index.js)
+import store from '../store'
+
+export default function(to, from, next) {
+  // Если залогинены
+    if(store.getters.user) {
+        next() //переходим на запрашиваемую страницу
+} else {
+    // переходим на страницу логина
+    // Передаем get-параметр loginError=true
+    // (сработает сообщение об ошибке)
+    next('/login?loginError=true')
+}
+
+
+}
+
+
+    В routes/index.js применяем данную защиту роутов.
+    
+    import Router from 'vue-router'
+
+    
+// AuthGuard- обычная функция.
+// Описываем beforeEnter, передаем как значение AuthGuard
+// для странички list
+export default new Router ({
+   routes: [
+      { path:'',
+    name:'home',
+    component: Home},
+      { path:'/ad/:id',
+      props:true,
+    name:'ad',
+    component:Ad},
+    { path:'/list',
+    name:'list',
+    component:AdList,
+    beforeEnter:AuthGuard
+    },
+    { path:'/new',
+    name:'newAd',
+    component:NewAd,
+    beforeEnter:AuthGuard
+    },
+    { path:'/login',
+    name:'login',
+    component:Login},
+    { path:'/registration',
+    name:'reg',
+    component:Registration},
+    { path:'/orders',
+    name:'orders',
+    component:Orders,
+    beforeEnter:AuthGuard
+  }   
+   ],mode:'history'
+})
+
+    В случае ошибки переадресуем на страницу логина-
+    там и обработаем ошибку (login.vue). 
+     
+    created(){
+// обращаемся к текущему роуту 
+// (текущей странице)
+// Если в запросе передался параметр  loginError
+if (this.$route.query['loginError']){
+  // вызываем action setError() из store
+  this.$store.dispatch('setError','Please log in to access this page')
+}
+
+}
+
+2.21
+Создание объявления в firebase
+  
+Нужно связать добавляемые обьявления с базой данных,
+которая уже есть.
+
+Пока данные содержатся  коде, а не в базе данных. 
+
+Для создания базы данных на firebase:
+https://console.firebase.google.com/project/itc-ads-9fe8e/database
+
+В дальнейшем
+Upload в нашей программе будет паботать с хранилищем storage в firebase. 
+
+NewAd.vue вызывает (dispatch()) actions  createAd() из store/ads.js
+В ads.js подключим firebase для работы с базой данных. 
+
+В newAd.vue добавляем computed-свойство loading. 
+
+Добавляем для кнопочки "createAd" условие: 
+:loading = "loading"
+:disabled="!valid || loading"
+
+
+Еще добавляем:
+   // После того как создаем элемент переходим на страницу 
+     // "list", где можем видеть этот элемент
+     this.$store.dispatch('createAd', ad)
+     .then( () => {
+        this.$router.push('/list')
+     })
+     .catch( () => {} ) // Если ошибка- она выведется визуально (это ранее предусмотрено), 
+     // а на новую страницу переходить не будем
+
+Новое обьявление добавляется на страницу и в базу данных. 
+Но, после перезагрузки страницы остается только в базе данных- 
+со страницы исчезает.
+Сделаем так, чтобы подгружалась информация с базы данных на страницу-
+в следующем уроке.  
+
+Чтобы обращаться к объекту firebase database в ads.js
+нужно подключить его
+
+// Подключаем firebase
+import fb from 'firebase/app';
+require('firebase/auth');
+require('firebase/database');
+
+2.22
+Загрузка обьявлений по умолчанию. 
+В store/ads удаляем объекты из массива ads.
+Будем хранить информацию не в программе а в базе данных. 
+
+В main.js вызываем action fetchAds
+
+В ads.js создаем async action:
+
+fetchAds
+
+В базе данных firebase есть правила. 
+До какого-то числа есть разрешение
+{
+  "rules": {
+    ".read": "now < 1608231600000",  // 2020-12-18
+    ".write": "now < 1608231600000",  // 2020-12-18
+  }
+}
+
+"auth!=null" - можем что-то делать только авторизованным пользователям. 
+"true" - можно в любом случае выполнять операции. 
+
+
+Создаем mutation loadAds
+
+home.vue: 
+метод loading, метод loading(), 
+Проверяем состояние загрузки приложения. 
+
+В template описываем loader:
+На сайте vuitify / ui components/ progress
+
+2.23  Загрузка изображений в firebase. 
+1) Сделаем действующей кнопку Upload. Грузим локально картинки.
+2) Загрузим файл в storage firebase на удаленный хостинг
+
+1) NewAd.vue
+Кнопка Upload. 
+
+2) Редактируем NewAd.vue. 
+Затем редактируем store/ads.js. 
+
+Надо подключить storage на сервере.
+
+У него есть правила:
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+
+
+
+
+
+
+
+**************************************
+https://habr.com/ru/post/322354/
+
+
+
+Для того, чтобы начать использовать Vuex нам нужно подключить его 
+в наш проект — это можно сделать через npm, или просто подключить
+ библиотеку с cdnjs. 
+
+
+создание базового хранилища:
+
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+    state: {},
+    actions: {},
+    mutations: {},
+    getters: {},  
+    modules: {}
+})
+
+
+
+
+
+
+State
+
+Здесь мы определяем структуру данных нашего приложения,
+ а также можем указать значения по умолчанию. 
+
+state: {
+    notes: []
+}
+
+Actions
+
+В данной части объявляются методы, которые будут вызывать 
+какие-либо изменения в хранилище. 
+десь мы можем сделать запрос к серверу, и после получения ответа
+ вызвать изменение состояния.
+  Actions могут быть вызваны из компонентов с помощью метода dispatch. 
+
+actions: {
+    addNote({commit}, note) {
+        commit('ADD_NOTE', note)
+    }
+}
+commit — это способ вызвать мутацию, изменение состояния.
+ Именование мутаций с помощью заглавных букв не является
+  обязательным, но имеет свой смысл — если в коде встретилось
+   такое название метода, мы можем быть уверены в его предназначении 
+   (он изменяет состояние).
+commit('ADD_NOTE', note)
+
+
+
+Mutations
+
+В мутациях изменяется состояние.
+ Здесь не может быть асинхронных вызовов функций,
+  вычислений и.т.д. — только изменение состояния.
+   В нашем примере с добавлением заметки это будет выглядеть примерно так:
+
+mutations: {
+    ADD_NOTE(state, note) {
+        state.notes.push(note)
+    }
+}
+
+Getters
+
+Для того, чтобы использовать данные, положенные в хранилище, 
+их нужно оттуда достать. Причем часто нам нужны не просто данные,
+ а только часть из них — мы хотим применить к ним какие-то фильтры. 
+ Геттеры дают нам такую возможность. В базовом варианте мы можем просто
+  вернуть заметки в том виде, в котором они есть:
+
+getters: {
+    notes(state) {
+        return state.notes
+    }
+}
+
+
+
+Modules
+
+По мере роста приложения хранилище увеличивается и 
+возможность разбить его на части становится все более востребованной. 
+Модули позволяют разделить одно хранилище на несколько хранилищ, 
+но при этом хранить их в виде единого дерева хранилищ.
+
+const moduleA = { state: {}, mutations: {}, actions: {}, getters: {} }
+const moduleB = { state: {}, mutations: {}, actions: {}, getters: {} }
+
+const store = new Vuex.Store({
+    modules: {
+        a: moduleA,
+        b: moduleB
+    }
+})
+
+store.state.a // -> состояние модуля moduleA
+store.state.b // -> состояние модуля moduleB
+
+Разобравшись с тем, из чего состоит Vuex,
+ соберем наше мини-приложение.
+  Для начала объединим рассмотренные выше пять частей
+   в хранилище и передадим его в качестве аргумента в 
+   объект Vue, для того, чтобы его использовать. 
+   Хранилище будет доступно через this.$store 
+   и в дочерних компонентах. Также понадобится метод addNew 
+   для добавления новой заметки. Обратите внимание на использование
+    геттера и метода dispatch для работы с хранилищем.
+
+const store = new Vuex.Store({
+    state: {
+        notes: []
+    },
+    actions: {
+        addNote({commit}, note) {
+            commit('ADD_NOTE', note)
+        }
+    },
+    mutations: {
+        ADD_NOTE(state, note) {
+            state.notes.push(note)
+        }
+    },
+    getters: {
+        notes(state) {
+            return state.notes
+        }
+    }
+})
+
+new Vue({
+    el: '#app',
+    store,
+    computed: {
+      // Получаем массив из state. notes()
+      // Возвращает этот массив.
+      // Если преобразовывать данные не надо-
+      // можно было бы без геттеров написать
+      // this.$store.notes
+        notes() {
+            return this.$store.getters.notes;
+        }
+    },
+    methods: {
+      // Вызываем action addNote- он добавляет 
+      //  { text: 'новая заметка' } в массив notes из store
+        addNew() {
+            this.$store.dispatch('addNote', { text: 'новая заметка' })
+        }
+    }
+})
+
+
+Параметр flat лучше не использовать.
+Или использовать вместо него "текст"
+
+
+2.24
+Создание модального окна редактирования. 
+Нужно доделать страницу orders. 
+Еще кнопочки Edit и Buy.
+Начнем с задействования кнопочки Edit. 
+Используем для этого Vutify\Dilogs. 
+
+https://v2.vuetifyjs.com/en/components/dialogs/ 
+
+Редактируем обьявление на страничке ad.vue. 
+
+В каталоге Ads создаем файл 
+EditAdModal.vue. 
+
+В ad.vue  его регистрируем. 
+(import, components)
+и вместо кнопочки Edit его помещаем. 
+
+Из компонента addEdidAdModal вставляется вместо кнопочки Edit
+его содержимое из <template>, подключается javascript и style. 
+
+Edit: содержимое заключается в <v-dilog>
+Внутри:
+        <template v-slot:activator="{ on }">
+        <v-btn
+          class="warning mr10"
+          v-on="on"
+        >
+         Edit
+        </v-btn>
+      </template>
+Само содержимое всплывающего диалогового окна: 
+в <v-card> 
+
+
+
+  
+
+Вносимые измения в базу данных:
+ссылаются на store/ads
+action: updateAd
+
+Еще допишем данный action. 
+
+
+*******************
+Для создания многострокого поля редактирования: 
+
+В v-text-field атрибут multi-line больше не работает,
+надо пользоваться 
+
+v-textarea. 
+
+
+*******************
+Для устранения ошибок: 
+в ad.vue добавляем computed-свойство:
+
+    loading () {
+      return this.$store.getters.loading
+    }
+
+Добавляем в v-card для loading:
+v-if, v-else. 
+
+Также в v-else добавляем progress loader: 
+
+<v-progress-circular
+indeterminate
+:size="100"
+:width="4"
+color="purple"
+></v-progress-circular>
+
+2.25 Редактирование обьявления. 
+
+Добавляем в store/ ads.js новый action: 
+
+    async updateAd ({commit}, {title, description, id}) {
+      commit('clearError')
+      commit('setLoading', true)
+
+      try {
+        await fb.database().ref('ads').child(id).update({
+          title, description
+        })
+        commit('updateAd', {
+          title, description, id
+        })
+        commit('setLoading', false)
+      } catch (error) {
+        commit('setError', error.message)
+        commit('setLoading', false)
+        throw error
+      }
+    }
+
+    (записываем в базу данных сделанные изменения)
+
+    и mutation: 
+    
+    // изменяем информацию по объявлению в базе данных
+    updateAd (state, {title, description, id}) {
+      const ad = state.ads.find(a => {
+        return a.id === id
+      })
+
+      ad.title = title
+      ad.description = description
+    }
+
+
+    Обьявление привязанно к конкретному пользователю.
+    Если это не наше обьявление- не должны его показывать. 
+    
+    ads.js геттер myAds. 
+    Нужно сделать фильтр обьявлений по id пользователя. 
+
+    myAds (state, getters) {
+      return state.ads.filter(ad => {
+        return ad.ownerId === getters.user.id
+      })
+    }
+
+
+
+
+    ads.js: не работает getters.user.id 
+     
+    Добавили в state id: 
+
+        state: {  
+                ads: [],
+            id:"" 
+    },
+    Добавим новый actions: 
+
+          AfterAuth({state}){
+      fb.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          const id0 = user.uid;
+          state.id = id0;
+        
+        }  });
+      }
+
+      Из login.vue вызываем его 
+      чтобы занести в state id залогиненого пользователя 
+      после авторизации:
+
+            this.$store.dispatch('loginUser',user)
+         .then(()=>{
+            this.$store.dispatch('AfterAuth',user)
+            // Переходим на главную страницу
+            this.$router.push('/')
+          })
+        .catch(()=>{})
+        //  .catch(err=>console.log(err))
+    }
+
+    А в ads.js используем state.id в 2 местах: 
+      
+    // Фильтруем- оставляем только наши объявления. 
+           myAds (state,getters) {
+        
+            return state.ads.filter(ad => {
+                 console.log('getters.user',getters.user)            
+                return ad.ownerId === state.id
+               
+             }
+             
+             );
+         
+           }
+
+       и в async createAd({commit,getters,state},payload) 
+       
+        const newAd = new Ad(
+                payload.title,
+                payload.description,
+                state.id,
+                '',
+                payload.promo)
+
+
+   Если перейдем на страничку- все ещё можем её редактировать.
+   Заведем в ad.vue computed-свойство:              
+   
+    isOwner () {
+      // Если id пользователя в обьявлении совпадаеи с 
+      // id текущего пользователя в store
+      // Тогда этот метод возвращает true.
+      console.log('this.ad.ownerId',this.ad.ownerId)
+      console.log('this.$store.getters.userId',this.$store.getters.userId)
+      return this.ad.ownerId === this.$store.getters.userId
+    }
+    
+   Показывать кнопку Edit только в данном случае:   
+   <addEditAdModal :ad="ad" v-if="isOwner"></addEditAdModal>
+
+   В ad.vue из store получить данные лучше с помощью геттера: 
+   this.$store.getters.userId
+
+   В store/ads.js: 
+     
+   userId(state){
+              console.log('state.id',state.id)
+              return state.id}
+
+  (если пишем в user.js геттер-  будет недоступен state Из ads.js
+  Видимо, если все таки потребуется- надо провести импорт
+  
+  Редактируем шапку списка. 
+  AdList.vue: 
+  пока грузится информация- делаем loading: 
+
+  loading () {
+
+  return this.$store.getters.loading
+}
+
+В adList.vue показываем разные тексты в зависимости от того-
+есть обьявления или нет.
+База данных firebase:
+https://console.firebase.google.com/project/itc-ads-9fe8e/database
+
+Если выкидывает со страницы при загрузке- проверить есть ли защита на роут
+(страницу).
+Возможно, не успеваем авторизавться, а уже доступ к странице- ошибка. 
+
+2.26
+Создание окна покупки. 
+
+При клике на кнопочку Buy- вылезает модальное окно, 
+позволяющее пользователю оставить контакт и свое имя. 
+
+Потом обработаем заказы и выведем на страничке orders. 
+
+Папку Shared создаем, там новый компонент BuyModal.vue
+
+Будем использовать данное модальное окно в компоненте Home,
+при нажатии на кнопку Buy, а также в компоненте Ad. 
+
+Переносим всю информацию из EditAdModal.vue 
+в BuyAdModal.vue. 
+
+Для использования данного компонента в нескольких других-
+зарегистрируем его глобально в main.js. 
+
+import BuyModalComponent from '@/components/Shared/BuyModal'
+Vue.component('app-buy-modal',BuyModalComponent) 
+
+<app-buy-modal> можем использовать всместо кнопки Buy- 
+  вставится содержимое BuyModal.vue. 
+
+В home.vue и ad.vue вместо кнопки buy: 
+
+<app-buy-modal> Buy </app-buy-modal>
+
+ центрирование: добавить класс  text-sm-center
+
+
+ Создаем в store файл orders.js
+
+ Регистрируем orders.js в store/index.js
+
+ 2.27
+
+ Создание и обработка заказов. 
+
+ Проект тестовый. 
+
+
+Создание проекта vue ui
+Установить nvm, затем с помощью него  npm 13.14.0 и vue.cli 3.0 
+(удалить и установить заново vue-cli 3.0)
+
+При установке- чтобы настроить scss - выбрать установку по выбору. 
+Или подключить потом с помощью плагина 
+ "node-sass", "sass-loader"
+
+ Импорт scss-файлов:
+
+<style lang="scss">
+  @import "./styles/_variables.scss";
+</style>
+
+gitHub pages:
+
+deploy приложения на github pages
+в проекте 
+Settings/GitHub Pages 
+
+
+gitignore: 
+Закоментируем папочку dist
+(т.е. будем посылать её в репозиторий)
+# /dist
+
+Создаем проект на github, отправляем туда с локального компьютера проект
+(git push), master ветка. 
+
+На сайте github:
+About- информация о проекте. 
+
+Visual studio code 
+Вид/ внешний вид/ показать строку состояния. 
+
+Внизу- название ветки- "master". 
+
+Создание новой ветки:  
+gh-pages. 
+
+Переходим на ветку gh-pages.
+Переключаться между ветками: 
+либо в нижнем левом углу, либо 
+git checkout gh-pages 
+
+publicPath:'/vue-project/' 
+(путь- имя репозитория)
+
+npm run build
+
+git add dist && git commit -m "Initial dist subtree commit"
+
+Перекидываем дистрибутив из добавленной ветки папки dist в репозиторий git- в новую ветку
+git subtree push --prefix dist origin gh-pages
+
+Заходим в проект на github. 
+Settings/ github pages/ 
+выбираем ветку gh-pages, save. 
+
+Проект опубликован по адресу:
+https://sasha-is-permi.github.io/vue-project/
+
+Исходник:
+https://github.com/sasha-is-permi/vue-project
+
+
+Можно также для обычных сайтов - загрузить их на github, сделать 
+git pages- можно просмотреть сайт. 
+
+
+Сейчас с двумя ветками:
+обновление главной ветки:
+git push origin master
+
+
+При восстановлении по git clone: 
+две ветки восстановятся, 2 ветка- git-page с каталогом dist (только он)
+
+При изменении главной ветки- можно из главной ветки обновить ветку git-pages,
+или проще- удалить ветку gut-pages и заново выполнить вышеописанное.
+
+
+
+После изменений в главной ветке
+1) Делаем git add и it commit ля главной ветки.
+
+2) Переходим на побочную ветку git checkout gh-pages 
+
+3) Переносим последний commit из master ветки в эту ветку git cherry-pick master
+
+
+Ошибки при слиянии- проще создать новую ветку и выбрать её в настройках на сервере.
+Затем когда ветки накопятся- сделать git add, git commit, 
+затем удалить ветки на сервере и сделать git pull .
+
+
+В master ветке строки 
+publicPath:'/vue-project/'
+быть не должно - иначе приложение не будет работать!
+
+Дома восстановить с сервера:
+
+Зайти в папку freimworks
+git clone https://github.com/sasha-is-permi/vue-project vue-project 
+
+Затем выйти из общей папки, зайти в папку vue-project
+
+**************
+npm install
+**************
+
+(для восстанлвления каталога node_modules)
+
+Для запуска программы 
+npm run serve
+
+localstorage
+// Два варианта добавления данных
+localStorage.userName = "Петя";
+localStorage.setItem("favoriteColor", "чёрный");
+
+// После добавления в localStorage, они будут там
+// до тех пор, пока их явно не удалить
+alert(`${localStorage.userName} предпочитает ${localStorage.favoriteColor} цвет.`);
+
+// А теперь удалим данные из хранилища
+localStorage.removeItem("userName");
+localStorage.removeItem("favoriteColor");
+
+
+
+-->
+
+ <script src="index.js"> </script> 
+</body>
+</html>
+
+

@@ -415,10 +415,11 @@ export default{
 
     // Если пользователь вошел в систему- у него
     // 3 ссылки в меню
-
+    // {title:'Orders',icon:'bookmark_border', url:'/orders'},
+    
       if (this.isUserLoggedIn){
         return [
-         {title:'Orders',icon:'bookmark_border', url:'/orders'},
+   
         {title:'New ad',icon:'note_add', url:'/new'},
         {title:'My ads',icon:'list', url:'/list'} 
         ]
